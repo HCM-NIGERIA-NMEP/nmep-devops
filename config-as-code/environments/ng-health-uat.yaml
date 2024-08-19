@@ -43,6 +43,7 @@ cluster-configs:
         timezone: "UTC"
         tracer-errors-provideexceptionindetails: "true"
         egov-env: "DEMO"
+        tenant-id: "ng"
 
     egov-service-host:
       namespace: [egov, monitoring]
@@ -228,7 +229,7 @@ egov-user:
   citizen-registration-withlogin: "true"
   citizen-otp-fixed: "123456"
   citizen-otp-fixed-enabled: "true"
-  egov-state-level-tenant-id: "sn"
+  egov-state-level-tenant-id: "ng"
   decryption-abac-enabled: "false"
 
 audit-service:
