@@ -62,7 +62,7 @@ modules:
       - egovio/product:master-impel-9e32e9c097-22
       - egovio/individual:master-impel-a6b7c7203c-213
       - egovio/transformer:kebbi-changes-040300465c-248
-      - egovio/stock:master-impel-stock-changes-4ca35f56c1-101
+      - egovio/stock:master-impel-stock-changes-3ce0a13f52-102
       - egovio/household:master-impel-fc78a997ef-132
       - egovio/project:master-impel-3f2ec6d74f-203
       - egovio/hcm-moz-impl:develop-senegal-e976a86c-384
