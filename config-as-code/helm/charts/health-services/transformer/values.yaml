@@ -221,10 +221,14 @@ env: |
     value: update-hfreferral-topic
   - name: TRANSFORMER_PRODUCER_HFREFERRAL_INDEX_V1_TOPIC
     value: transformer-producer-hfreferral-index-v1-topic
-  - name: TRANSFORMER_PRODUCER_HFREFERRAL_SERVICE_INDEX_TOPIC
-    value: transformer-producer-hfreferral-service-index-topic
+  - name: TRANSFORMER_PRODUCER_HFREFERRAL_FEVER_SERVICE_INDEX_TOPIC
+    value: transformer-producer-hfreferral-fever-index-topic
+  - name: TRANSFORMER_PRODUCER_HFREFERRAL_DRUG_REACTION_SERVICE_INDEX_TOPIC
+    value: transformer-producer-hfreferral-drug-reaction-index-topic
   - name: HFREFERRAL_FEVER_SERVICE_CHECKLIST_NAME
-    value: SMCMozambique.HF_RF_FEVER.HEALTH_FACILITY_SUPERVISOR
+    value: SMCKebbi.HF_RF_FEVER.HEALTH_FACILITY_SUPERVISOR
+  - name: HFREFERRAL_DRUG_REACTION_SERVICE_CHECKLIST_NAME
+    value: SMCKebbi.HF_RF_DRUG_SE.HEALTH_FACILITY_SUPERVISOR
   - name: EGOV_HOUSEHOLD_HOST
     valueFrom:
       configMapKeyRef:
