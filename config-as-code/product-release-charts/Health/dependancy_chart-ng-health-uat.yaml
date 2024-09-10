@@ -61,7 +61,7 @@ modules:
       - egovio/facility:master-impel-82abd11612-46
       - egovio/product:master-impel-9e32e9c097-22
       - egovio/individual:master-impel-a6b7c7203c-213
-      - egovio/transformer:kebbi-changes-d1887faaee-250
+      - egovio/transformer:kebbi-changes-d0a7d5fe46-253
       - egovio/stock:master-impel-stock-changes-3ce0a13f52-102
       - egovio/household:master-impel-fc78a997ef-132
       - egovio/project:master-impel-3f2ec6d74f-203
