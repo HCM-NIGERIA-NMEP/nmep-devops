@@ -441,12 +441,12 @@ elasticsearch-data:
       - volumeId: "vol-0947a3cb236643376" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
-  esJavaOpts: "-Xmx3500M -Xms3500M"
+  esJavaOpts: "-Xmx5000M -Xms5000M"
   resources:
     requests:
-      memory: "4Gi"
+      memory: "6Gi"
     limits:
-      memory: "4Gi"
+      memory: "6Gi"
 
 elasticsearch-master:
   namespace: es-cluster-v8
