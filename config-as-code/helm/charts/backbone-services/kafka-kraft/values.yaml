@@ -81,7 +81,7 @@ diagnosticMode:
 image:
   registry: docker.io
   repository: bitnami/kafka
-  tag: 3.6.1-debian-11-r0
+  tag: 3.6.0-debian-11-r0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -768,7 +768,7 @@ controller:
       - ReadWriteOnce
     ## @param controller.persistence.size PVC Storage Request for Kafka data volume
     ##
-    size: 8Gi
+    size: 30Gi
     ## @param controller.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -808,7 +808,7 @@ controller:
       - ReadWriteOnce
     ## @param controller.logPersistence.size PVC Storage Request for Kafka logs volume
     ##
-    size: 8Gi
+    size: 30Gi
     ## @param controller.logPersistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -1147,7 +1147,7 @@ broker:
       - ReadWriteOnce
     ## @param broker.persistence.size PVC Storage Request for Kafka data volume
     ##
-    size: 8Gi
+    size: 30Gi
     ## @param broker.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
