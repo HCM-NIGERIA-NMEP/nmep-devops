@@ -203,9 +203,9 @@ env: |
   - name: EGOV_DHIS2_ORGANISATION_UNIT_PROVINCES
     value: "SOFALA,NAMPULA"
   - name: EGOV_PROJECT_TYPE_ID
-    value: 644c4356-5214-11ee-be56-0242ac120004
+    value: 644c4356-5214-11ee-be56-0242ac120002
   - name: EGOV_PROJECT_TYPE
-    value: SMC
+    value: MR-DN
   - name: EGOV_FACILITY_HOST
     valueFrom:
       configMapKeyRef:
@@ -259,7 +259,7 @@ env: |
   - name: EGOV_PROJECT_RESOURCE_UPDATE_PATH
     value: /project/resource/v1/bulk/_update
   - name: EGOV_SERVICE_REQUEST_PROJECTCODE
-    value: SMCSenegal
+    value: SMCKebbi
   - name: EGOV_HOUSEHOLD_HOST
     valueFrom:
       configMapKeyRef:
@@ -340,9 +340,9 @@ env: |
   - name: EGOV_STOCK_UPDATE_PATH
     value: /stock/v1/bulk/_update
   - name: EGOV_BOUNDARY_NAME
-    value: SENEGAL
+    value: NIGERIA
   - name: EGOV_BOUNDARY_CODE
-    value: sn
+    value: ng
   - name: EGOV_MDMS_CREATE_HOST
     valueFrom:
       configMapKeyRef:
@@ -359,9 +359,9 @@ env: |
   - name: EGOV_BOUNDARY_ROOT_LABEL
     value: Country
   - name: EGOV_BOUNDARY_ROOT_PATH
-    value: sn
+    value: ng
   - name: EGOV_MDMS_RESTART_TIME
-    value: "5"
+    value: "3"
   - name: EGOV_BOUNDARY_MASTER_NAME
     value: TenantBoundary
   - name: EGOV_BOUNDARY_MODULE_NAME
