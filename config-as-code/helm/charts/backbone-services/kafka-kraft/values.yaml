@@ -2065,10 +2065,10 @@ provisioning:
   enabled: false
   ## @param provisioning.numPartitions Default number of partitions for topics when unspecified
   ##
-  numPartitions: 1
+  numPartitions: 15
   ## @param provisioning.replicationFactor Default replication factor for topics when unspecified
   ##
-  replicationFactor: 1
+  replicationFactor: 3
   ## @param provisioning.topics Kafka topics to provision
   ## - name: topic-name
   ##   partitions: 1
