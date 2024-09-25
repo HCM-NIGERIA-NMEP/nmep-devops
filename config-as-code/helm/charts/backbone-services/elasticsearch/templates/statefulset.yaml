@@ -115,9 +115,9 @@ spec:
             name: {{ template "name" . }}-config
         {{- end }}
         {{- if .Values.createCert }}
-        - name: elasticsearch-certs
+        - name: elasticsearch-infra-certs
           secret:
-            secretName: elasticsearch-master-certs
+            secretName: elasticsearch-master-infra-certs
 {{/*            secretName: {{ template "name" . }}-certs TODO: changed for security issue*/}}
         {{- end }}
 {{- if .Values.keystore }}
@@ -309,7 +309,7 @@ spec:
           - name: ELASTIC_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ template "name" . }}-credentials
+                name: {{ template "name" . }}-infra-credentials
                 key: password
           {{- end }}
           - name: ES_JAVA_OPTS
@@ -351,7 +351,7 @@ spec:
             mountPath: /usr/share/elasticsearch/data
           {{- end }}
           {{- if .Values.createCert }}
-          - name: elasticsearch-certs
+          - name: elasticsearch-infra-certs
             mountPath: /usr/share/elasticsearch/config/certs
             readOnly: true
           {{- end }}

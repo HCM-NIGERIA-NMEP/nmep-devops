@@ -2,9 +2,9 @@ kind: Service
 apiVersion: v1
 metadata:
 {{- if eq .Values.nodeGroup "master" }}
-  name: {{ template "name" . }}-headless
+  name: {{ template "name" . }}-infra-headless
 {{- else }}
-  name: {{ template "name" . }}-headless
+  name: {{ template "name" . }}-infra-headless
 {{- end }}
   namespace: {{ .Values.namespace }}
   labels:

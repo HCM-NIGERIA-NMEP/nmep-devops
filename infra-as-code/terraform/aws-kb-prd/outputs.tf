@@ -30,6 +30,14 @@ output "es_data_volume_ids" {
   value = "${module.es-data.volume_ids}"
 }
 
+output "es_master_infra_volume_ids" {
+  value = "${module.es-master-infra.volume_ids}"
+}
+
+output "es_data_infra_volume_ids" {
+  value = "${module.es-data-infra.volume_ids}"
+}
+
 
 output "kafka_vol_ids" {
   value = "${module.kafka-kraft.volume_ids}"

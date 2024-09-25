@@ -23,11 +23,12 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/kebbi-prd"
         egov-state-level-tenant-id: "ng"
         redis-host: "redis.backbone"
-        redis-downsync-host: ""
+        redis-downsync-host: "" ## Using this as managed redis host for services
         s3-assets-bucket: "(pg-health-egov-assets|egov-health-playground-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
-        es-infra-host: "elasticsearch-data-infra-v1.es-cluster"
+        es-infra-host: "elasticsearch-data-infra.es-cluster"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
+        es-indexer-infra-host: "https://elasticsearch-data-infra.es-cluste:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
         kafka-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         kafka-infra-brokers: "kafka-v2-infra.kafka-cluster:9092"
@@ -461,6 +462,50 @@ elasticsearch-master:
       - volumeId: "vol-019b9783aed55cd6a" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
       - volumeId: "vol-087d2e9cf64694d05" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+
+  esJavaOpts: "-Xmx448m -Xms448m"
+  resources:
+    requests:
+      memory: "896Mi"
+    limits:
+      memory: "896Mi"
+
+
+elasticsearch-data-infra:
+  namespace: es-cluster
+  image:
+    tag: 8.11.3
+  persistence:
+    enabled: true
+    aws:
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+
+  esJavaOpts: "-Xmx5000M -Xms5000M"
+  resources:
+    requests:
+      memory: "6Gi"
+    limits:
+      memory: "6Gi"
+
+elasticsearch-master-infra:
+  namespace: es-cluster
+  replicas: 3
+  image:
+    tag: 8.11.3
+  persistence:
+    enabled: true
+    aws:
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
+        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
+      - volumeId: "" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
   esJavaOpts: "-Xmx448m -Xms448m"

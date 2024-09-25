@@ -5,9 +5,6 @@ labels:
   app: "kafka-connect"
   group: "infra"
 
-# Init Containers Configs
-initContainers: {}
-
 # Container Configs
 image:
   repository: cp-kafka-connect
@@ -19,12 +16,41 @@ heap: "-Xms512M -Xmx512M"
 config-storage-replication-factor: "3"
 offset-storage-replication-factor: "3"
 status-storage-replication-factor: "3"
-memory_limits: 768Mi
+memory_limits: 1Gi
 resources: |
   requests:
     memory: {{ .Values.memory_limits | quote }}
   limits:
     memory: {{ .Values.memory_limits | quote }}
+
+# Init Containers Configs
+initContainers:
+  extraInitContainers: |
+    - name: init-keystore
+      image: adoptopenjdk:11-jre-hotspot
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          set -e;
+          openssl pkcs12 -export -in /etc/kafka-connect/secrets/tls.crt -inkey /etc/kafka-connect/secrets/tls.key -out /tmp/keystore/keystore.p12 -name elasticsearch-master-infra -passout pass:changeit;
+          keytool -importkeystore -deststorepass changeit -destkeypass changeit -destkeystore /tmp/keystore/es.keystore.jks -srckeystore /tmp/keystore/keystore.p12 -srcstoretype PKCS12 -srcstorepass changeit -alias elasticsearch-master-infra;
+          keytool -import -file /etc/kafka-connect/secrets/ca.crt -alias elasticsearch-master-infra -keystore /tmp/keystore/es.truststore.jks -storepass changeit -noprompt;
+      volumeMounts:
+        - mountPath: /etc/kafka-connect/secrets
+          name: elasticsearch-infra-certs
+        - mountPath: /tmp/keystore
+          name: keystore
+extraVolumes: |
+  - name: elasticsearch-infra-certs
+    secret:
+      defaultMode: 420
+      secretName: elasticsearch-infra-certs
+  - name: keystore
+    emptyDir: {}
+extraVolumeMounts: |
+  - name: keystore
+    mountPath: /tmp/keystore
+
 
 # Additional Container Envs
 env: |
