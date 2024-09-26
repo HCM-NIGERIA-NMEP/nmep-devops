@@ -29,7 +29,7 @@ cluster-configs:
         es-infra-host: "elasticsearch-data-infra-v1.es-cluster"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
-        kafka-brokers: "b-1.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092"
+        kafka-brokers: "b-1.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092"
         kafka-infra-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         logging-level-jdbc: "DEBUG"
         mobile-validation-workaround: "true"
