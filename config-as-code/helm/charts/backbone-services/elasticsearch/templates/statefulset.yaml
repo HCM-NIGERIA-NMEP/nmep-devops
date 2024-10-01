@@ -309,7 +309,7 @@ spec:
           - name: ELASTIC_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ template "name" . }}-infra-credentials
+                name: {{ template "name" . }}-credentials
                 key: password
           {{- end }}
           - name: ES_JAVA_OPTS

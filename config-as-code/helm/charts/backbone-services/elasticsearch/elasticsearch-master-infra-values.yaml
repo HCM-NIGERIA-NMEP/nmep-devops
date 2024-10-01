@@ -52,8 +52,8 @@ extraEnvs:
 #    value: "2"
   - name: gateway.recover_after_data_nodes
     value: "1"
-#  - name: xpack.security.enabled
-#    value: "false"
+  - name: xpack.security.enabled
+    value: "false"
 #  - name: xpack.security.audit.enabled
 #    value: "false"
 

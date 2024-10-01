@@ -1,5 +1,5 @@
 ---
-elasticsearchHosts: "https://elasticsearch-data:9200"
+elasticsearchHosts: "https://elasticsearch-data-infra.es-cluster:9200"
 elasticsearchCertificateSecret: elasticsearch-master-infra-certs
 elasticsearchCertificateAuthoritiesFile: ca.crt
 elasticsearchCredentialSecret: elasticsearch-data-infra-credentials
@@ -39,7 +39,7 @@ hostAliases: []
 #  - "bar.local"
 
 image: "docker.elastic.co/kibana/kibana"
-imageTag: "8.11.1"
+imageTag: "8.11.3"
 imagePullPolicy: "IfNotPresent"
 
 # additionals labels
@@ -160,13 +160,13 @@ ingress:
     nginx.ingress.kubernetes.io/lua-resty-waf-score-threshold: "10"
     nginx.ingress.kubernetes.io/use-regex: "true"
   hosts:
-    - host: kebbi-hcm.digit.org
+    - host: kebbi-hcm-training.digit.org
       paths:
         - path: /kibana-infra
   tls: 
-   - secretName: kebbi-hcm.digit.org-tls-certs
+   - secretName: kebbi-hcm-training.digit.org-tls-certs
      hosts:
-       - kebbi-hcm.digit.org
+       - kebbi-hcm-training.digit.org
 
 readinessProbe:
   failureThreshold: 3
