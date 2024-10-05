@@ -34,7 +34,7 @@ modules:
       - egovio/egov-user:health-digit-master-c7e4f3147b-7
       - egovio/user-otp:health-digit-master-dca3efde85-7
       - egovio/egov-workflow-v2:v1.2.1-df98ec3c35-2
-      - egovio/service-request:master-impel-198c6d78f8-11
+      - egovio/service-request:kebbi-serReq-changes-f4f51f6e59-21
       - egovio/pgr-services:master-impel-afa361c92a-13
       - egovio/playground:1.0
       - egovio/audit-service:audit-heatlh-40b1a4018a-1
@@ -50,7 +50,7 @@ modules:
       - "business"
     services:
       - egovio/employee:v1.8.0-2ac8314b2f-116
-      - egovio/digit-ui:master-impel-senegal-c49fadc12c-177
+      - egovio/digit-ui:impel-kebbi-b790ba4950-197
   - name: m_health
     dependencies:
       - "backbone"
@@ -62,10 +62,10 @@ modules:
       - egovio/product:master-impel-9e32e9c097-22
       - egovio/individual:master-impel-a6b7c7203c-213
       - egovio/transformer:kebbi-changes-afe261c8b5-258
-      - egovio/stock:master-impel-stock-changes-3ce0a13f52-102
+      - egovio/stock:master-impel-stock-changes-3ce0a13f52-103
       - egovio/household:master-impel-fc78a997ef-132
       - egovio/project:master-impel-3f2ec6d74f-203
-      - egovio/hcm-moz-impl:develop-senegal-e976a86c-384
+      - egovio/hcm-moz-impl:develop-kebbi-9d2d00a0-387
       - egovio/egov-mdms-create:develop-3a53c3b-3
       - egovio/referralmanagement:redis-cache-inc-downsync-nohouseholdbeneficiary-433e191842-142
       - egovio/attendance:master-impel-ea8682f3-55
