@@ -13,14 +13,14 @@ cluster-configs:
     egov-config:
       namespace: [egov, monitoring]
       data:
-        db-host: "kebbi-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
-        db-name: "kebbiuatdb" ## Add db-name
-        db-url: "jdbc:postgresql://kebbi-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiuatdb" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+        db-host: "ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
+        db-name: "ngupgradeuat" ## Add db-name
+        db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
         domain: "kebbi-hcm-training.digit.org" ## Add your Domain Name
         egov-services-fqdn-name: "https://kebbi-hcm-training.digit.org/" ## Add your Domain Name
-        aws-cluster-ip: "https://D550FB4BF80260BAC35B1421B4D38B62.gr7.af-south-1.eks.amazonaws.com"
+        aws-cluster-ip: "https://F0E97DA6D373EA719BCDECD45CBD7782.sk1.af-south-1.eks.amazonaws.com"
         aws-region: "af-south-1"
-        aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/kebbi-uat"
+        aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
         egov-state-level-tenant-id: "ng"
         redis-host: "redis.backbone"
         redis-downsync-host: ""
@@ -35,7 +35,7 @@ cluster-configs:
         mobile-validation-workaround: "true"
         serializers-timezone-in-ist: "true"
         server-tomcat-max-connections: "500"
-        server-tomcat-max-threads: "10"
+        server-tkebbiuatdbomcat-max-threads: "10"
         sms-enabled: "true"
         spring-datasource-tomcat-initialSize: "1"
         spring-datasource-tomcat-max-active: "2"
@@ -368,11 +368,11 @@ kafka-v2:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-07a1ae7ea85754309" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-01768c0181084ed4f" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-07036d278e19f22f8" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-092874e2e91704a3e" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0c6e673777c88e6a3" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-04fa6023100bebbfb" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
   zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
 
@@ -422,11 +422,11 @@ elasticsearch-data:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-0e814dcaa749bf826" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0a9f376324f6774ec" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0ac5f6fa1e9ba1c4c" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-09f1c6b7b42012861" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0fa2b0dfb495d272d" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0cca5d0f549d981f3" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
   esJavaOpts: "-Xmx3500M -Xms3500M"
@@ -444,11 +444,11 @@ elasticsearch-master:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-0c71dc63941ed6279" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0200ebb3fdea76ec7" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0ba03d749e537f65d" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-052264e53ba050689" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-02dce2f4744eac6ae" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-02f0a2560812d4b1d" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
   esJavaOpts: "-Xmx448m -Xms448m"
