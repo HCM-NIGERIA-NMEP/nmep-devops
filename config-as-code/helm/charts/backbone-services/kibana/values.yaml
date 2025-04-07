@@ -160,13 +160,21 @@ ingress:
     nginx.ingress.kubernetes.io/lua-resty-waf-score-threshold: "10"
     nginx.ingress.kubernetes.io/use-regex: "true"
   hosts:
-    - host: kebbi-hcm.digit.org
+    - host: tsindamalariya.bi
       paths:
         - path: /kibana-upgrade
   tls: 
-   - secretName: kebbi-hcm.digit.org-tls-certs
+   - secretName: tsindamalariya.bi-tls-certs
      hosts:
-       - kebbi-hcm.digit.org
+       - tsindamalariya.bi
+#  hosts:
+#    - host: salama.digit.org
+#      paths:
+#        - path: /de3c60e0-47a4-46b3-94a5-bb15b8608bfa
+#  tls:
+#   - secretName: salama.digit.org-tls-certs
+#     hosts:
+#       - salama.digit.org
 
 readinessProbe:
   failureThreshold: 3
