@@ -45,7 +45,7 @@ modules:
       - egovio/audit-service:audit-heatlh-40b1a4018a-11
       - egovio/error-handler:master-impel-dump-5022b7acff-1
       - egovio/boundary-service:boundary-hierarchy-def-modified-2.9-lts-629baf086b-15
-      - egovio/pdf-service:v1.1.6-96b24b0d72-22
+      - egovio/pdf-service:pdf-2.9-lts-a17e8ebea8-48
   - name: business
     dependencies:
       - "core"
