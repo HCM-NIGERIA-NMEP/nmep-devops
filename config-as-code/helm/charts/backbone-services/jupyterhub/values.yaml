@@ -75,9 +75,9 @@ hub:
       selector: {}
       accessModes:
         - ReadWriteOnce
-      storage: 10Gi
+      storage: 25Gi
       subPath:
-      storageClassName:
+      storageClassName: "gp2"
     url:
     password:
   labels: {}
@@ -396,10 +396,10 @@ singleuser:
     static:
       pvcName:
       subPath: "{username}"
-    capacity: 20Gi
+    capacity: 25Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass:
+      storageClass: "gp2"
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
@@ -652,11 +652,11 @@ prePuller:
 ingress:
   enabled: true
   hosts:
-    - kebbi-hcm.digit.org
+    - mc-nigeria-uat.digit.org
   tls:
     - hosts:
-        - kebbi-hcm.digit.org
-      secretName: kebbi-hcm.digit.org-tls-certs
+        - mc-nigeria-uat.digit.org
+      secretName: mc-nigeria-uat.digit.org-tls-certs
   annotations: {}
   ingressClassName: nginx
   pathSuffix: hub
