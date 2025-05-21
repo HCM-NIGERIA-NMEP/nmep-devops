@@ -4,3 +4,5 @@ creation_rules:
     kms: 'arn:aws:kms:af-south-1:022499048165:key/0dca14ee-35cd-4ca6-b2e7-f5577d345f03'
   - path: environments/ng-health-prd-secrets.yaml
     kms: 'arn:aws:kms:af-south-1:022499048165:key/0dca14ee-35cd-4ca6-b2e7-f5577d345f03'
+  - path: environments/kd-health-prd-secrets.yaml
+    kms: 'arn:aws:kms:af-south-1:022499048165:key/0dca14ee-35cd-4ca6-b2e7-f5577d345f03'
