@@ -62,7 +62,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-config
-        key: redis-host
+        key: redis-downsync-host
   - name: SPRING_REDIS_PORT
     value: "6379"
   - name: SPRING_CACHE_TYPE
@@ -122,18 +122,18 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: household
+        key: household-referral
   - name: EGOV_SEARCH_HOUSEHOLD_URL
-    value: "/household/v1/_search"
+    value: "/household-referral/v1/_search"
   - name: EGOV_SEARCH_HOUSEHOLD_MEMBER_URL
-    value: "/household/member/v1/_search"
+    value: "/household-referral/member/v1/_search"
   - name: EGOV_INDIVIDUAL_HOST
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: individual
+        key: individual-referral
   - name: EGOV_SEARCH_INDIVIDUAL_URL
-    value: "/individual/v1/_search"
+    value: "/individual-referral/v1/_search"
   - name: EGOV_PRODUCT_HOST
     valueFrom:
       configMapKeyRef:
@@ -145,17 +145,17 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: project
+        key: project-referral
   - name: EGOV_SEARCH_PROJECT_TASK_URL
-    value: "/project/task/v1/_search"
+    value: "/project-referral/task/v1/_search"
   - name: EGOV_SEARCH_PROJECT_BENEFICIARY_URL
-    value: "/project/beneficiary/v1/_search"
+    value: "/project-referral/beneficiary/v1/_search"
   - name: EGOV_SEARCH_PROJECT_URL
-    value: "/project/v1/_search"
+    value: "/project-referral/v1/_search"
   - name: EGOV_SEARCH_PROJECT_STAFF_URL
-    value: "/project/staff/v1/_search"
+    value: "/project-referral/staff/v1/_search"
   - name: EGOV_SEARCH_PROJECT_FACILITY_URL
-    value: "/project/facility/v1/_search"
+    value: "/project-referral/facility/v1/_search"
   - name: REFERRALMANAGEMENT.SIDEEFFECT.KAFKA.CREATE.TOPIC
     value: "save-side-effect-topic"
   - name: REFERRALMANAGEMENT.SIDEEFFECT.KAFKA.UPDATE.TOPIC

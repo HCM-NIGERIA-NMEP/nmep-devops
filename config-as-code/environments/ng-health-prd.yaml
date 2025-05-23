@@ -15,21 +15,22 @@ cluster-configs:
       data:
         db-host: "kebbi-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
         db-name: "kebbiprd" ## Add db-name
-        db-url: "jdbc:postgresql://kebbi-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiprd" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+        db-url: "jdbc:postgresql://kebbi-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiprd"
+        db-read-url: "jdbc:postgresql://kebbi-read-replica-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiprd"
         domain: "kebbi-hcm.digit.org" ## Add your Domain Name
         egov-services-fqdn-name: "https://kebbi-hcm.digit.org/" ## Add your Domain Name
         aws-cluster-ip: "https://09A5A298FCA67A10CE4CF551F80FFE67.sk1.af-south-1.eks.amazonaws.com"
         aws-region: "af-south-1"
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/kebbi-prd"
         egov-state-level-tenant-id: "ng"
-        redis-host: "kebbi-prd-redis-001.nolaw2.0001.afs1.cache.amazonaws.com"
-        redis-downsync-host: ""
+        redis-host: "redis.backbone"
+        redis-downsync-host: "kebbi-prd-redis-001.nolaw2.0001.afs1.cache.amazonaws.com"
         s3-assets-bucket: "(pg-health-egov-assets|egov-health-playground-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-infra-host: "elasticsearch-data-infra-v1.es-cluster"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
-        kafka-brokers: "b-1.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdmsk.bfau7m.c2.kafka.af-south-1.amazonaws.com:9092"
+        kafka-brokers: "b-1.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092"
         kafka-infra-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         logging-level-jdbc: "DEBUG"
         mobile-validation-workaround: "true"
@@ -487,6 +488,38 @@ project:
       memory: "2Gi"
     limits:
       memory: "2Gi"
+
+
+project-referral:
+  replicas: 1
+  heap: "-Xmx2g -Xms2g"
+  memory_limits: "2Gi"
+  resources:
+    requests:
+      memory: "2Gi"
+    limits:
+      memory: "2Gi"
+
+individual-referral:
+  replicas: 1
+  heap: "-Xmx1g -Xms1g"
+  memory_limits: "1Gi"
+  resources:
+    requests:
+      memory: "1Gi"
+    limits:
+      memory: "1Gi"
+
+household-referral:
+  replicas: 1
+  heap: "-Xmx1g -Xms1g"
+  memory_limits: "1Gi"
+  resources:
+    requests:
+      memory: "1Gi"
+    limits:
+      memory: "1Gi"
+      
 egov-location:
   replicas: 1
   heap: "-Xmx1g -Xms1g"

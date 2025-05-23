@@ -60,7 +60,7 @@ modules:
       # - egovio/facility:v1.0.0-a51bee1435-19
       - egovio/facility:master-impel-82abd11612-46
       - egovio/product:master-impel-9e32e9c097-22
-      - egovio/individual:master-impel-a6b7c7203c-213
+      - egovio/individual:azm-downsync-individual-349373f93e-225
       - egovio/transformer:azt-changes-7aeef34ae3-330
       - egovio/stock:master-impel-stock-changes-3ce0a13f52-103
       - egovio/household:master-impel-fc78a997ef-132
