@@ -652,11 +652,11 @@ prePuller:
 ingress:
   enabled: true
   hosts:
-    - kebbi-hcm.digit.org
+    - kaduna-hcm.digit.org
   tls:
     - hosts:
-        - kebbi-hcm.digit.org
-      secretName: kebbi-hcm.digit.org-tls-certs
+        - kaduna-hcm.digit.org
+      secretName: kaduna-hcm.digit.org-tls-certs
   annotations: {}
   ingressClassName: nginx
   pathSuffix: hub
