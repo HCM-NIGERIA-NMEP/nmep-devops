@@ -1,0 +1,62 @@
+version: v1.0
+modules:
+  - name: m_backbone
+    services:
+      - kafka-kraft
+      - elasticsearch-master
+      - elasticsearch-data
+      - kibana
+  - name: authn-authz
+    services:
+      - redis
+      - ingress-nginx
+      - cert-manager
+      - zuul:master-moz-impel-ratelimiter-1760f3be7b-1
+  - name: core
+    dependencies:
+      - "backbone"
+      # - "authn-authz"
+      # - "frontend"
+    services:
+      - egovio/egov-accesscontrol:v1.1.3-72f8a8f87b-24
+      - egovio/egov-enc-service:v1.1.2-72f8a8f87b-9
+      - egovio/egov-localization:v1.1.3-72f8a8f87b-6
+      - egovio/egov-idgen:v1.2.3-72f8a8f87b-7
+      - egovio/egov-indexer:master-impel-4e1c6763cf-45
+      - egovio/egov-location:master-impel-60bd931a97-6
+      - egovio/egov-mdms-service:v1.3.2-72f8a8f87b-12
+      - egovio/egov-persister:v1.1.5-3371bc2-5
+      - egovio/egov-user:health-digit-master-c7e4f3147b-7
+      - egovio/egov-workflow-v2:v1.2.1-df98ec3c35-2
+      - egovio/service-request:kebbi-serReq-changes-f4f51f6e59-21
+      - egovio/pgr-services:master-impel-afa361c92a-13
+      - egovio/audit-service:audit-heatlh-40b1a4018a-1
+      - egovio/error-handler:master-impel-dump-5022b7acff-1
+      - zuul:master-moz-impel-ratelimiter-1760f3be7b-1
+  - name: business
+    dependencies:
+      - "core"
+    services:
+      - egovio/egov-hrms:health-kebbi-dev-9379a6e6b3-86
+  - name: "m_frontend"
+    dependencies:
+      - "business"
+    services:
+      - egovio/digit-ui:impel-kebbi-b790ba4950-197
+  - name: m_health
+    # dependencies:
+    #   - "backbone"
+    #   - "authn-authz"
+    #   - "core"
+    services:
+      - egovio/facility:master-impel-82abd11612-46
+      - egovio/product:master-impel-9e32e9c097-22
+      - egovio/individual:master-impel-a6b7c7203c-213
+      - egovio/transformer:azt-changes-7aeef34ae3-330
+      - egovio/stock:master-impel-stock-changes-3ce0a13f52-103
+      - egovio/household:master-impel-fc78a997ef-132
+      - egovio/project:master-impel-3f2ec6d74f-203
+      - egovio/hcm-moz-impl:develop-kebbi-61b49c57-429
+      - egovio/egov-mdms-create:develop-3a53c3b-3
+      - egovio/referralmanagement:azm-downsync-changes-f198b27527-147
+      - egovio/attendance:master-impel-ea8682f3-55
