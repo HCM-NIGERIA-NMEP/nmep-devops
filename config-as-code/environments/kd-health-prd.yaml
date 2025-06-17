@@ -1,5 +1,5 @@
 global:
-  domain: kebbi-hcm.digit.org
+  domain: kaduna-hcm.digit.org
   setup: fullsetup
 
 cluster-configs:
@@ -13,24 +13,23 @@ cluster-configs:
     egov-config:
       namespace: [egov, monitoring]
       data:
-        db-host: "kebbi-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
-        db-name: "kebbiprd" ## Add db-name
-        db-url: "jdbc:postgresql://kebbi-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiprd"
-        db-read-url: "jdbc:postgresql://kebbi-read-replica-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiprd"
-        domain: "kebbi-hcm.digit.org" ## Add your Domain Name
-        egov-services-fqdn-name: "https://kebbi-hcm.digit.org/" ## Add your Domain Name
-        aws-cluster-ip: "https://09A5A298FCA67A10CE4CF551F80FFE67.sk1.af-south-1.eks.amazonaws.com"
+        db-host: "kaduna-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
+        db-name: "kadunaprd" ## Add db-name
+        db-url: "jdbc:postgresql://kaduna-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kadunaprd" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+        domain: "kaduna-hcm.digit.org" ## Add your Domain Name
+        egov-services-fqdn-name: "https://kaduna-hcm.digit.org/" ## Add your Domain Name
+        aws-cluster-ip: "https://B2043E5B51F1D46F80A5FCD8D8A1C985.sk1.af-south-1.eks.amazonaws.com"
         aws-region: "af-south-1"
-        aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/kebbi-prd"
-        egov-state-level-tenant-id: "ng"
+        aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/kaduna-prd"
+        egov-state-level-tenant-id: "kd"
         redis-host: "redis.backbone"
-        redis-downsync-host: "kebbi-prd-redis-001.nolaw2.0001.afs1.cache.amazonaws.com"
-        s3-assets-bucket: "(pg-health-egov-assets|egov-health-playground-assets)"
+        redis-downsync-host: "redis.backbone"
+        s3-assets-bucket: ""
         es-host: "elasticsearch-data.es-cluster-v8"
         es-infra-host: "elasticsearch-data-infra-v1.es-cluster"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
-        kafka-brokers: "b-1.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdkafka.vc3wfy.c2.kafka.af-south-1.amazonaws.com:9092"
+        kafka-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         kafka-infra-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         logging-level-jdbc: "DEBUG"
         mobile-validation-workaround: "true"
@@ -169,19 +168,19 @@ cluster-configs:
 
 #>>>>>> Frontend Servies >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 employee:
-  dashboard-url: "https://dashboard-pbuat.egovernments.org/s/w---s/app/kibana#/dashboard/4e687470-f3c7-11e8-8d09-b151e2b1cf8e?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A300000)%2Ctime%3A(from%3Anow-15m%2Cmode%3Aquick%2Cto%3Anow))"
+  dashboard-url: "https://kaduna-hcm.digit.org/app/kibana"
   custom-js-injection: |
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
       <script src=https://unpkg.com/@egovernments/telemetry@0.0.2/dist/egov-telemetry-1557467338.js type=text/javascript></script>
-      <script src=https://kebbi-static-assets.s3.af-south-1.amazonaws.com/globalConfig.js type=text/javascript></script>
+      <script src=https://kaduna-static-assets.s3.af-south-1.amazonaws.com/globalConfig.js type=text/javascript></script>
       ';"
 
 digit-ui:
   custom-js-injection: |
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
-      <script src=https://kebbi-static-assets.s3.af-south-1.amazonaws.com/globalConfig.js type=text/javascript></script>
+      <script src=https://kaduna-static-assets.s3.af-south-1.amazonaws.com/globalConfig.js type=text/javascript></script>
       ';"
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -217,8 +216,8 @@ egov-idgen:
   autocreate-new-seq: "true"
 
 egov-user:
-  heap: "-Xmx256m -Xms256m"
-  memory_limits: 512Mi
+  heap: "-Xmx768m -Xms768m"
+  memory_limits: 1024Mi
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
@@ -234,7 +233,7 @@ egov-user:
   decryption-abac-enabled: "false"
 
 audit-service:
-  persist-yml-path: "https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/egov-workflow-v2-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/facility-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/hcm-moz-impl-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/household-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/hrms-employee-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/individual-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/stock-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/service-request-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/project-task-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/project-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/DEMO/egov-persister/product-persister.yml"
+  persist-yml-path: "https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/egov-workflow-v2-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/facility-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/hcm-moz-impl-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/household-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/hrms-employee-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/individual-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/stock-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/service-request-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/project-task-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/project-persister.yml,https://raw.githubusercontent.com/HCM-KEBBI/health-campaign-config/KADUNA-PROD/egov-persister/product-persister.yml"
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
@@ -351,18 +350,18 @@ egov-workflow-v2:
   java-args: -Dspring.profiles.active=monitoring
   heap: "-Xmx192m -Xms192m"
   workflow-statelevel: "false"
-  host-link: "https://kebbi-hcm.digit.org/citizen/"
+  host-link: "https://kaduna-hcm.digit.org/citizen/"
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
 
 egov-hrms:
   java-args: -Dspring.profiles.active=monitoring
   heap: "-Xmx512m -Xms512m"
-  employee-applink: "https://kebbi-hcm.digit.org/digit-ui/employee/user/login"
+  employee-applink: "https://kaduna-hcm.digit.org/digit-ui/employee/user/login"
 
 kafka-config:
   topics: "egov.pgr.validated:1:1,egov.pgr.locationupdated:1:1,egov.pgr.workflowupdated:1:1,egov.pgr.saved:1:1,egov.pgr.indexing:1:1,egov.core.notification.email:1:1,egov.core.notification.sms:1:1,attendance-save-db:1:1,egov.employee:1:1,save-asset-db:1:1,update-asset-db:1:1,save-assetcategory-db:1:1,agreement-save-db:1:1,agreement-update-db:1:1,lams-workflow-start:1:1,lams-workflow-update:1:1,egov-common-holiday:1:1,egov.leaveopeningbalance-create:1:1,egov.leaveopeningbalance-update:1:1,egov-hr-leavetype:1:1,egov.leaveallotment-create:1:1,egov.leaveallotment-update:1:1,egov.designation-create:1:1,egov.designation-update:1:1,egov.position-create:1:1,egov.position-update:1:1,egov.egf.masters.validated.topic:1:1,egov.egf.masters.completed:1:1,egov.wcms.category-create:1:1,property-create-validated:1:1,property-create-tax-calculated:1:1,property-create-user-validated:1:1,property-create-workflow-started:1:1,property-create-workflow-updated:1:1,save-bill-db:1:1,update-bill-db:1:1,save-bill:1:1,update-bill:1:1,save-demand:1:1,update-demand:1:1,egov.collection.receipt-create:1:1,save-taxHeadMaster-db:1:1,update-taxHeadMaster:1:1,save-glCodeMaster-db:1:1,save-glCodeMaster:1:1,update-glCodeMaster-db:1:1,update-glCodeMaster:1:1,save-taxperiod-db:1:1,save-taxperiod:1:1,update-taxperiod-db:1:1,update-taxperiod:1:1,save-businessservicedetail-db:1:1,save-businessservicedetail:1:1,update-businessservicedetail-db:1:1,update-businessservicedetail:1:1,property-update-workflow-approved:1:1,property-update-user-validated:1:1,property-update-workflow-started:1:1,property-titletransfer-create-user-validated:1:1,property-titletransfer-update-user-validated:1:1,property-titletransfer-create-workflow-started:1:1,property-titletransfer-approved:1:1,property-titletransfer-workflow-updated:1:1,property-update-tax-calculated:1:1,property-update-validated:1:1,property-titletransfer-cretae-validated:1:1,property-titletransfer-update-validated:1:1,property-create-tax-generated:1:1,create-legacy-tradelicense-validated:1:1,egov.pgr.servicedefinition-create:1:1,demand-bill-update:1:1,egov.pgr.servicedefinition-update:1:1,egov-common-department-create:1:1,egov-common-department-update:1:1,egov.services.tl-services.create.legacy.tradelicense.validated:1:1,save-service-db:1:1,update-service-db:1:1,update-legacy-tradelicense-validated:1:1,tradelicense-validated:1:1,tradelicense-persisted:1:1,tradelicense-workflow-populated:1:1,demand-bill-update:1:1,egov.wcms.newconnection-create:1:1,egov.wcms.newconnection-update:1:1,update-newconn-workflow:1:1,initiated-newconn-workflow:1:1,works-offlinestatus-create-validated:1:1,works-offlinestatus-update-validated:1:1,works-contractor-create-validated:1:1,works-contractor-update-validated:1:1,works-letterofacceptance-create-validated:1:1,works-letterofacceptance-update-validated:1:1,works-measurementbook-create-update:1:1,works-revision-detailed-estimate-create-update:1:1,works-workorder-createupdate-validated:1:1,lcms-create-summon-validated:1:1,lcms-create-case:1:1,lcms-create-vakalatnama:1:1,lcms-parawisecomment-create:1:1,lcms-parawisecomment-update:1:1,lcms-assign-advocate:1:1,lcms-update-assign-advocate:1:1,lcms-advocate-create:1:1,lcms-advocate-update:1:1,advocate-payment-create:1:1,advocate-payment-update:1:1,lcms-opinion-create:1:1,lcms-opinion-update:1:1,legacy-case-create:1:1,legacy-hearing-create:1:1,legacy-case-voucher-create:1:1,legacy-case-advocate-create:1:1,lcms-hearingdetails-create:1:1,lcms-hearingdetails-update:1:1,lcms-notice-create:1:1,lcms-notice-update:1:1,lcms-register-create:1:1,lcms-register-update:1:1,lcms-evidence-create:1:1,lcms-evidence-update:1:1,lcms-agency-create:1:1,lcms-agency-update:1:1,lcms-personal-details-create:1:1,Lcms-event-create:1:1,lcms-create-summon-indexer:1:1,lcms-legacy-casecreate-indexer:1:1,works-abstract-estimate-createandupdate:1:1,works-detailed-estimate-createandupdate:1:1,works-revision-loa-create-update:1:1,works-sorrate-saveorupdate-validated:1:1,works-estimatetemplate-saveorupdate-validated:1:1,lcms-update-summon-validated:1:1,mdms.create.gitpushprocess:1:1,works-contractoradvance-saveorupdate-validated:1:1,works-qualitytesting-createandupdate:1:1,works-abstract-estimate-backupdate:1:1,works-detailedestimate-backupdate:1:1,works-abstract-estimate-backupdate-oncreate-detailedestimate:1:1,works-abstract-estimate-backupdate-oncancel-detailedestimate:1:1,works-detailedestimate-backupdate-oncreate-loa:1:1,works-detailedestimate-backupdate-oncancel-loa:1:1,swm-vehicleschedule-save-topic:1:1,works-projectcode-create:1:1,works-projectcode-update:1:1,works-masters-remarks-createandupdate:1:1,works-milestonetemplate-saveorupdate-validated:1:1,works-contractorbill-create-update:1:1,works-measurementbook-backupdate-for-billstatus:1:1,works-notice-createupdate-validated:1:1,works-milestone-saveorupdate-validated:1:1,works-trackmilestone-saveorupdate-validated:1:1,swm-shift-save-topic:1:1,swm-shift-update-topic:1:1,swm-shift-indexer-topic:1:1,works-letterofacceptance-backupdate-oncreate-workorder:1:1,works-letterofacceptance-backupdate-oncancel-workorder:1:1,works-loa-backupdate-oncreate-milestone:1:1,works-loa-backupdate-oncancel-milestone:1:1,works-loa-backupdate-oncreate-contractoradvance:1:1,works-loa-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-withallofflinestatusandworkorder:1:1,works-workorder-backupdate-oncreate-milestone:1:1,works-workorder-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-offlinestatus:1:1,works-workorder-backupdate-onupdate-offlinestatus:1:1,works-loa-backupdate-onupdate-withallofflinestatus:1:1,works-workorder-backupdate-onupdate-withallofflinestatus:1:1,works-loa-backupdate-oncreate-bill:1:1,works-loa-backupdate-oncancel-bill:1:1,works-loa-backupdate-oncreatemb:1:1,works-loa-backupdate-oncancelmb:1:1,works-loa-backupdate-oncreatembandnobill:1:1,works-loa-backupdate-oncreatembandbill:1:1,works-workorder-backupdate-oncreate-bill:1:1,works-workorder-backupdate-oncancel-bill:1:1,works-workorder-backupdate-oncreatembandnobill:1:1,works-workorder-backupdate-oncreatembandbill:1:1,egov.error:1:1,save-pt-property:1:1,update-pt-property:1:1,save-pt-billingslab:1:1,update-pt-billingslab:1:1,save-pg-txns:1:1,update-pg-txns:1:1,save-pg-txns-dump:1:1,update-pg-txns-dump:1:1,save-pt-drafts:1:1,update-pt-drafts:1:1,egov.collectionmasters.bankaccountservicemapping-create:1:1,bankaccountservicemapping-create:1:1,update-pt-property-index:1:1"
 #  zookeeper-connect: "zookeeper-v2.zookeeper-cluster:2181"
-  kafka-brokers: "b-1.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092,b-2.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092,b-3.kebbiprdmsk.qvhonx.c2.kafka.af-south-1.amazonaws.com:9092"
+  kafka-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
 
 # redis >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 redis:
@@ -376,58 +375,6 @@ playground:
   images:
     - egovio/playground:1.0
 
-# kafka-kraft AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-kafka-kraft:
-  persistence:
-    enabled: true
-    aws:
-      - volumeId: "vol-01f16bd262b0d29fe" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0cbec2371755ed810" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-02abbf788d0bc052b" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-#  zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
-
-  heapOptions: "-Xms704M -Xmx704M"
-  memory_limits: 1408Mi
-  lingerMs: "250"
-  numberPartitions: "3"
-  replicationFactor: "2"
-  minInsyncReplicas: "1"
-  offsetsReplicationFactor: "3"
-  maxRequestSize: "20000000"
-  maxMessageBytes: "20000000"
-  maxReplicaFetchMaxBytes: "20000000"
-  maxPartitionFetchBytes: "20000000"
-  requestTimeoutMs: "600000"
-  heartbeatIntervalMs: "1000"
-  maxPollIntervalMs: "900000"
-  maxPollRecords: "100"
-  sessionTimeoutMs: "300000"
-
-# zookeeper-v2 AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#zookeeper-v2:
-#  persistence:
-#    enabled: true
-#    aws:
-#      - volumeId: "vol-0d21eb43e18b6b70a" ## add your respective volume id eg. vol-0085073c65f76dre5
-#        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-#      - volumeId: "vol-0d42b85f4112d98a7" ## add your respective volume id eg. vol-0085073c65f76dre5
-#        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-#      - volumeId: "vol-06ac443eaa6a3abdf" ## add your respective volume id eg. vol-0085073c65f76dre5
-#        zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-#
-#  ## Zookeeper JVM Heap Option
-#  heapOptions: "-Xms256M -Xmx256M"
-#  resources:
-#    limits:
-#      cpu: 300m
-#      memory: 384Mi
-#    requests:
-#      cpu: 300m
-#      memory: 384Mi
-
 elasticsearch-data:
   namespace: es-cluster-v8
   image:
@@ -435,11 +382,11 @@ elasticsearch-data:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-09adacfbf6ea9d4d7" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-09a4e2dcc54fea27a" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0465c40cde77c7cd3" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0a6d36fe6915b8b59" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-0947a3cb236643376" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-049c26c1e9356acb9" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
   esJavaOpts: "-Xmx5000M -Xms5000M"
@@ -457,11 +404,11 @@ elasticsearch-master:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-0fcdaab2e2d6fd0b8" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0a9d14413ee91493b" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-019b9783aed55cd6a" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-08adf9b798a0f1ea3" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
-      - volumeId: "vol-087d2e9cf64694d05" ## add your respective volume id eg. vol-0085073c65f76dre5
+      - volumeId: "vol-0e59af8ac5a95b8a3" ## add your respective volume id eg. vol-0085073c65f76dre5
         zone: af-south-1b            ## add your respective zone eg. ap-south-1b
 
   esJavaOpts: "-Xmx448m -Xms448m"
@@ -488,38 +435,6 @@ project:
       memory: "2Gi"
     limits:
       memory: "2Gi"
-
-
-project-referral:
-  replicas: 1
-  heap: "-Xmx2g -Xms2g"
-  memory_limits: "2Gi"
-  resources:
-    requests:
-      memory: "2Gi"
-    limits:
-      memory: "2Gi"
-
-individual-referral:
-  replicas: 1
-  heap: "-Xmx1g -Xms1g"
-  memory_limits: "1Gi"
-  resources:
-    requests:
-      memory: "1Gi"
-    limits:
-      memory: "1Gi"
-
-household-referral:
-  replicas: 1
-  heap: "-Xmx1g -Xms1g"
-  memory_limits: "1Gi"
-  resources:
-    requests:
-      memory: "1Gi"
-    limits:
-      memory: "1Gi"
-      
 egov-location:
   replicas: 1
   heap: "-Xmx1g -Xms1g"
@@ -542,8 +457,8 @@ hcm-moz-impl:
   replicas: 1
   heap: "-Xmx2048m -Xms2048m"
   memory_limits: "3Gi"
-  startDate: "26/07/2024"
-  endDate: "30/07/2024"
+  startDate: "22/05/2025"
+  endDate: "25/05/2025"
   resources:
     requests:
       memory: "3Gi"
