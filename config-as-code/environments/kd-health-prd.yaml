@@ -16,6 +16,7 @@ cluster-configs:
         db-host: "kaduna-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
         db-name: "kadunaprd" ## Add db-name
         db-url: "jdbc:postgresql://kaduna-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kadunaprd" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+        db-read-url: "jdbc:postgresql://kaduna-replica-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kadunaprd" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
         domain: "kaduna-hcm.digit.org" ## Add your Domain Name
         egov-services-fqdn-name: "https://kaduna-hcm.digit.org/" ## Add your Domain Name
         aws-cluster-ip: "https://B2043E5B51F1D46F80A5FCD8D8A1C985.sk1.af-south-1.eks.amazonaws.com"
@@ -43,7 +44,7 @@ cluster-configs:
         timezone: "UTC"
         tracer-errors-provideexceptionindetails: "true"
         egov-env: "PROD"
-        tenant-id: "ng"
+        tenant-id: "kd"
 
     egov-service-host:
       namespace: [egov, monitoring]

@@ -110,7 +110,7 @@ lifecycle:
             - -c
             - "sleep 10"
 
-memory_limits: "512Mi"
+memory_limits: "1024Mi"
 cpu_limits: "200m"
 resources: |
   {{- if eq .Values.appType "java-spring" -}}
@@ -128,7 +128,7 @@ extraEnv:
         valueFrom:
           configMapKeyRef:
             name: egov-config
-            key: db-url
+            key: db-read-url
       - name: FLYWAY_ENABLED
         value: "false"      
       - name: SPRING_FLYWAY_ENABLED
