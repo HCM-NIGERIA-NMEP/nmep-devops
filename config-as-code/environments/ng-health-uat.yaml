@@ -13,9 +13,9 @@ cluster-configs:
     egov-config:
       namespace: [egov, monitoring]
       data:
-        db-host: "kebbi-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
+        db-host: "kebbi-new-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com"
         db-name: "kebbiuatdb" ## Add db-name
-        db-url: "jdbc:postgresql://kebbi-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiuatdb" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+        db-url: "jdbc:postgresql://kebbi-new-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/kebbiuatdb" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
         domain: "kebbi-hcm-training.digit.org" ## Add your Domain Name
         egov-services-fqdn-name: "https://kebbi-hcm-training.digit.org/" ## Add your Domain Name
         aws-cluster-ip: "https://D550FB4BF80260BAC35B1421B4D38B62.gr7.af-south-1.eks.amazonaws.com"
@@ -297,27 +297,16 @@ egov-persister:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"      ##### Change repo url with Your fork Repo url
       branch: "DEMO"                                    ##### Change repo branch with Your fork Repo branch
 
-nginx-ingress:
-  images:
-    - quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1
+ingress-nginx:
   replicas: 1
   default-backend-service: "egov/nginx"
-  namespace: egov
   cert-issuer: "letsencrypt-prod"
   ssl-protocols: "TLSv1.2 TLSv1.3"
   ssl-ciphers: "EECDH+CHACHA20:EECDH+AES"
   ssl-ecdh-curve: "X25519:prime256v1:secp521r1:secp384r1"
-  controller:
-    image:
-      repository: egovio/nginx-ingress-controller
-      tag: "0.26.1"     
+  controller:     
     metrics:            #To collect the matrics data from nginx-ingress.
-      enabled: true
-    serviceMonitor:   #To enable the service monitoring of nginx-ingress
-      enabled: true
-    service:
-      prometheusRule:
-        enabled: true
+      enabled: false
 
 cert-manager:
   email: "devops@egovernments.org"     ### Add email-id which used by cert-manager for certificates validation.
