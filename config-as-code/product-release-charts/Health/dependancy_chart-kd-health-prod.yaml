@@ -41,7 +41,7 @@ modules:
     dependencies:
       - "business"
     services:
-      - egovio/digit-ui:impel-kebbi-b790ba4950-197
+      - egovio/digit-ui:impel-kebbi-1623a5dcb2-340
   - name: m_health
     dependencies:
       - "backbone"
