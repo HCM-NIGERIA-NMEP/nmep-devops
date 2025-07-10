@@ -24,9 +24,9 @@ module "db" {
   vpc_security_group_ids        = ["${module.network.rds_db_sg_id}"]
   availability_zone             = "${element(var.availability_zones, 0)}"
   instance_class                = "db.m6g.large"  ## postgres db instance type
-  engine_version                = "12.19"   ## postgres version
+  engine_version                = "12.22"   ## postgres version
   storage_type                  = "gp3"
-  storage_gb                    = "70"     ## postgres disk size
+  storage_gb                    = "170"     ## postgres disk size
   backup_retention_days         = "7"
   administrator_login           = "${var.db_username}"
   administrator_login_password  = "${var.db_password}"
@@ -127,7 +127,7 @@ module "eks" {
 }
 
 module "eks_managed_node_group" {
-  depends_on = [module.eks]
+  # depends_on = [module.eks]
   source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   name            = "${var.cluster_name}"
   cluster_name    = var.cluster_name

@@ -16,6 +16,7 @@ resource "aws_db_instance" "rds_postgres" {
   engine                  = "postgres"
   db_name                 = "${var.db_name}"
   engine_version          = "${var.engine_version}"
+  auto_minor_version_upgrade = false
   instance_class          = "${var.instance_class}"
   identifier              = "${var.identifier}"
   availability_zone       = "${var.availability_zone}"
