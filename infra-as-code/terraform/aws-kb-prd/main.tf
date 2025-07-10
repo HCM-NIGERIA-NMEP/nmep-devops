@@ -154,7 +154,7 @@ module "eks_managed_node_group" {
   capacity_type  = "ON_DEMAND"
   ebs_optimized  = "true"
   enable_monitoring = "true"
-  user_data_template_path = "user-data.yaml"
+  # user_data_template_path = "user-data.yaml"
   iam_role_additional_policies = {
     CSI_DRIVER_POLICY = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
