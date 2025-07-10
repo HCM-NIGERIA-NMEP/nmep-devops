@@ -65,7 +65,7 @@ module "eks" {
 }
 
 module "eks_managed_node_group" {
-  depends_on = [module.eks]
+  # depends_on = [module.eks]
   source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   name            = "${var.cluster_name}-ng"
   cluster_name    = var.cluster_name
@@ -198,7 +198,7 @@ module "es-data" {
   disk_prefix = "es-data"
   availability_zones = "${var.availability_zones}"
   storage_sku = "gp3"
-  disk_size_gb = "30"
+  disk_size_gb = "150"
 }
 module "zookeeper" {
   source = "../modules/storage/aws"
