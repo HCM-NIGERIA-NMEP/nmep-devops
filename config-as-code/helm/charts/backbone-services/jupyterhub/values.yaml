@@ -652,16 +652,16 @@ prePuller:
 ingress:
   enabled: true
   hosts:
-    - kaduna-hcm.digit.org
+    - jigawa-hcm.digit.org
   tls:
     - hosts:
-        - kaduna-hcm.digit.org
-      secretName: kaduna-hcm.digit.org-tls-certs
+        - jigawa-hcm.digit.org
+      secretName: jigawa-hcm.digit.org-tls-certs
   annotations: {}
   ingressClassName: nginx
   pathSuffix: hub
   userPathSuffix: user(/|$)(.*)
-  pathType: Prefix
+  pathType: ImplementationSpecific
 
 # cull relates to the jupyterhub-idle-culler service, responsible for evicting
 # inactive singleuser pods.
