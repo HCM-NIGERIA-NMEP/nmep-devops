@@ -32,7 +32,6 @@ modules:
       - egovio/pgr-services:master-impel-afa361c92a-13
       - egovio/audit-service:audit-heatlh-40b1a4018a-1
       - egovio/error-handler:master-impel-dump-5022b7acff-1
-      - zuul:master-moz-impel-ratelimiter-1760f3be7b-1
   - name: business
     dependencies:
       - "core"
@@ -42,7 +41,8 @@ modules:
     dependencies:
       - "business"
     services:
-      - egovio/digit-ui:impel-kebbi-b790ba4950-197
+    services:
+      - egovio/digit-ui:impel-solina-1dd0e94aa4-373
   - name: m_health
     # dependencies:
     #   - "backbone"
@@ -51,7 +51,7 @@ modules:
     services:
       - egovio/facility:master-impel-82abd11612-46
       - egovio/product:master-impel-9e32e9c097-22
-      - egovio/individual:master-impel-a6b7c7203c-213
+      - egovio/individual:azm-downsync-individual-349373f93e-225
       - egovio/transformer:azt-changes-7aeef34ae3-330
       - egovio/stock:master-impel-stock-changes-3ce0a13f52-103
       - egovio/household:master-impel-fc78a997ef-132
@@ -59,4 +59,4 @@ modules:
       - egovio/hcm-moz-impl:develop-kebbi-61b49c57-429
       - egovio/egov-mdms-create:develop-3a53c3b-3
       - egovio/referralmanagement:azm-downsync-changes-f198b27527-147
-      - egovio/attendance:master-impel-ea8682f3-55
+      # - egovio/attendance:master-impel-ea8682f3-55
