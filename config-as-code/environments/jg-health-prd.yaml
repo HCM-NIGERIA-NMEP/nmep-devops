@@ -408,8 +408,8 @@ oauth2-proxy:
   config:
     configFile: |-
       email_domains = [ "*" ]
-      github_org = "HCM-JIGAWA"
-      github_team = "HCM-JIGAWA-impl"
+      github_org = "HCM-JIGAWA" 
+      github_team = "oauth-access"
       upstreams = [ "file:///dev/null" ]
 
 project:

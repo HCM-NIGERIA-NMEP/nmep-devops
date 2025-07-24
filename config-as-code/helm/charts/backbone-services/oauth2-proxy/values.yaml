@@ -84,8 +84,8 @@ resources: |
 config:
   configFile: |-
     email_domains = [ "*" ]
-    github_org = "HCM-KEBBI" 
-    github_team = "hcm-kebbi-impl"
+    github_org = "HCM-JIGAWA" 
+    github_team = "oauth-access"
     upstreams = [ "file:///dev/null" ]
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-
