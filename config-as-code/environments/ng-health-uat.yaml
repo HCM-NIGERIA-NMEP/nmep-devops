@@ -601,3 +601,6 @@ project-factory:
     mdmsV1SearchEndpoint: "mdms-v2/v1/_search"
     mdmsV2CreateEndpoint: "mdms-v2/v2/_create"
     mdmsV2UpdateEndpoint: "mdms-v2/v2/_update"
+    central-instance-name: health
+    central-instance-build: true
+    central-instance-enabled: false
