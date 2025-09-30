@@ -9,6 +9,9 @@ replicas: 1
 httpPort: 8080
 appType: ""
 
+hpa:
+  enabled: true
+
 ingress:
   enabled: false
   zuul: false
@@ -115,8 +118,8 @@ cpu_limits: "200m"
 resources: |
   {{- if eq .Values.appType "java-spring" -}}
   requests:
-    cpu: {{ .Values.cpu_limits | quote }}
-    memory: {{ .Values.memory_limits | quote }}
+    cpu: {{ .Values.cpu_requests | quote }}
+    memory: {{ .Values.memory_requests | quote }}
   limits:
     cpu: {{ .Values.cpu_limits | quote }}
     memory: {{ .Values.memory_limits | quote }}

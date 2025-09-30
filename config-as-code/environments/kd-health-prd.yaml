@@ -213,12 +213,27 @@ attendance-service:
 egov-idgen:
   idformat-from-mdms: "true"
   java-args: -Dspring.profiles.active=monitoring
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   autocreate-new-seq: "true"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 300m
+  memory_requests: 1Gi
+  cpu_limits: 400m
+  memory_limits: 1.5Gi  
 
 egov-user:
   heap: "-Xmx768m -Xms768m"
-  memory_limits: 1024Mi
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 500m
+  memory_requests: 1.5Gi
+  cpu_limits: 600m
+  memory_limits: 2Gi 
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
@@ -243,12 +258,14 @@ audit-service:
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 egov-mdms-service:
   heap: "-Xmx1024m -Xms1024m"
-  memory_limits: "1Gi"
-  resources:
-    requests:
-      memory: "1Gi"
-    limits:
-      memory: "1Gi"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 300m
+  memory_requests: 1.5Gi
+  cpu_limits: 400m
+  memory_limits: 2Gi
   replicas: 1
   branch: "PROD"
   images:
@@ -296,6 +313,14 @@ egov-indexer:
 
 egov-persister:
   replicas: 1
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 300m
+  memory_requests: 1Gi
+  cpu_limits: 400m
+  memory_limits: 1.5Gi
   images:
     - egovio/egov-persister
   persist-yml-path: "file:///work-dir/health-campaign-config/egov-persister/audit-service-persister.yml,file:///work-dir/health-campaign-config/egov-persister/egov-user-event-persister.yml,file:///work-dir/health-campaign-config/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/health-campaign-config/egov-persister/hrms-employee-persister.yml,file:///work-dir/health-campaign-config/egov-persister/pdf-generator.yml,file:///work-dir/health-campaign-config/egov-persister/product-persister.yml,file:///work-dir/health-campaign-config/egov-persister/project-persister.yml,file:///work-dir/health-campaign-config/egov-persister/individual-persister.yml,file:///work-dir/health-campaign-config/egov-persister/household-persister.yml,file:///work-dir/health-campaign-config/egov-persister/project-task-persister.yml,file:///work-dir/health-campaign-config/egov-persister/stock-persister.yml,file:///work-dir/health-campaign-config/egov-persister/facility-persister.yml,file:///work-dir/health-campaign-config/egov-persister/service-request-persister.yml,file:///work-dir/health-campaign-config/egov-persister/pgr-services-persister.yml,file:///work-dir/health-campaign-config/egov-persister/hcm-moz-impl-persister.yml,file:///work-dir/health-campaign-config/egov-persister/mdms-persister.yml,file:///work-dir/health-campaign-config/egov-persister/referral-management-persister.yml,file:///work-dir/health-campaign-config/egov-persister/attendance-service-persister.yml"
@@ -430,12 +455,14 @@ oauth2-proxy:
 project:
   replicas: 1
   heap: "-Xmx2g -Xms2g"
-  memory_limits: "2Gi"
-  resources:
-    requests:
-      memory: "2Gi"
-    limits:
-      memory: "2Gi"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 250m
+  memory_requests: 2Gi
+  cpu_limits: 400m
+  memory_limits: 2.5Gi 
 egov-location:
   replicas: 1
   heap: "-Xmx1g -Xms1g"
@@ -559,3 +586,23 @@ egov-enc-service:
   memory_requests: 1Gi
   cpu_limits: 400m
   memory_limits: 1.5Gi
+
+egov-accesscontrol:
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi  
+
+egov-localization:
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 1Gi
+  cpu_limits: 300m
+  memory_limits: 1.5Gi  
