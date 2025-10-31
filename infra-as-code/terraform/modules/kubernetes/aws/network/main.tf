@@ -12,6 +12,7 @@ resource "aws_vpc" "vpc" {
 
   tags = "${
     tomap({
+      "KubernetesCluster" = "kaduna-prd"
       Name = "${var.cluster_name}"
       "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     })

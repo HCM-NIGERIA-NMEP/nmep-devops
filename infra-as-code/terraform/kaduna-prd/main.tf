@@ -10,8 +10,8 @@ terraform {
   }
   required_providers {
     kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = "~> 1.14.0"
+      source  = "alekc/kubectl"
+      version = ">= 2.0.2"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
@@ -257,13 +257,11 @@ provider "helm" {
 provider "kubectl" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-  load_config_file       = false
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
     command     = "aws"
-  }
-
+  }              
 }
 
 resource "aws_iam_role_policy" "karpenter_policy" {
@@ -375,6 +373,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
             karpenter.sh/discovery: ${module.eks.cluster_name}
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
+        KubernetesCluster: ${var.cluster_name}
     status:
   amis:
   - id: var.ami_id.id
@@ -413,13 +412,13 @@ resource "kubectl_manifest" "karpenter_node_pool" {
               values: ["r"]
             - key: "karpenter.k8s.aws/instance-cpu"
               operator: In
-              values: ["4"]
+              values: ["2"]
             - key: "karpenter.k8s.aws/instance-family"
               operator: In
-              values: ["r5"]
+              values: ["r6i"]
             - key: "node.kubernetes.io/instance-type"
               operator: In
-              values: ["r5.xlarge"]
+              values: ["r6i.large"]
             - key: "kubernetes.io/arch"
               operator: In
               values: ["amd64"]
