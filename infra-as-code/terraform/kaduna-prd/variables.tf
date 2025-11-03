@@ -46,7 +46,7 @@ variable "desired_worker_nodes" {
 
 variable "max_worker_nodes" {
   description = "eGov recommended below worker node counts as default for max nodes"
-  default = "1" #REPLACE IF NEEDED
+  default = "2" #REPLACE IF NEEDED
 }
 
 variable "ssh_key_name" {

@@ -152,6 +152,24 @@ module "eks_managed_node_group" {
   }
 }
 
+module "ebs_csi_driver_irsa" {
+  depends_on = [module.eks]
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.20"
+  role_name_prefix = "ebs-csi-driver-"
+  attach_ebs_csi_policy = true
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+    }
+  }
+  tags = {
+    "KubernetesCluster" = var.cluster_name
+    "Name"              = var.cluster_name
+  }
+}
+
 resource "aws_security_group_rule" "rds_db_ingress_workers" {
   description              = "Allow node groups to communicate with RDS database"
   from_port                = 5432
@@ -164,13 +182,18 @@ resource "aws_security_group_rule" "rds_db_ingress_workers" {
 
 # Fetching EKS Cluster Data after its creation
 data "aws_eks_cluster" "cluster" {
-  # depends_on = [module.eks_managed_node_group]
+  depends_on = [module.eks_managed_node_group]
   name = var.cluster_name
 }
 
 data "aws_eks_cluster_auth" "cluster" {
-  # depends_on = [module.eks_managed_node_group]
+  depends_on = [module.eks_managed_node_group]
   name = var.cluster_name
+}
+
+data "aws_iam_openid_connect_provider" "oidc_arn" {
+  depends_on = [module.eks_managed_node_group]
+  url = data.aws_eks_cluster.cluster.identity.0.oidc.0.issuer
 }
 
 resource "aws_eks_addon" "kube_proxy" {
@@ -189,6 +212,7 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
   depends_on = [module.eks_managed_node_group]
   cluster_name      = var.cluster_name
   addon_name        = "aws-ebs-csi-driver"
+  service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
   resolve_conflicts_on_create = "OVERWRITE"
 }
 
