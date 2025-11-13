@@ -26,27 +26,53 @@ variable "availability_zones" {
 
 variable "kubernetes_version" {
   description = "kubernetes version"
-  default = "1.31"
+  default = "1.32"
+}
+variable "architecture" {
+  description = "Architecture for worker nodes (x86_64 or arm64)"
+  type        = string
+  default     = "x86_64"
+  validation {
+    condition     = contains(["x86_64", "arm64"], var.architecture)
+    error_message = "Architecture must be either x86_64 or arm64."
+  }
+}
+
+# Map of architecture → instance types
+variable "instance_types_map" {
+  description = "Map of instance types per architecture"
+  type = map(list(string))
+  default = {
+    x86_64 = ["r6i.large"]
+  }
 }
 
 variable "instance_types" {
   description = "eGov recommended below instance type as a default"
-  default = ["t3.xlarge"]
+  default = []
 }
 
 variable "min_worker_nodes" {
   description = "eGov recommended below worker node counts as default for min nodes"
-  default = "1" #REPLACE IF NEEDED
+  default = "2" #REPLACE IF NEEDED
 }
 
 variable "desired_worker_nodes" {
   description = "eGov recommended below worker node counts as default for desired nodes"
-  default = "6" #REPLACE IF NEEDED
+  default = "2" #REPLACE IF NEEDED
 }
 
 variable "max_worker_nodes" {
   description = "eGov recommended below worker node counts as default for max nodes"
-  default = "6" #REPLACE IF NEEDED
+  default = "2" #REPLACE IF NEEDED
+}
+
+variable "ami_id" {
+  description = "Provide the AMI ID that supports your eks version"
+  default = {
+    id   = "ami-004f5306b98d06eff"
+    name = "bottlerocket-aws-k8s-1.32-x86_64-v1.49.0-713f44ce"
+  }
 }
 
 variable "ssh_key_name" {
@@ -65,12 +91,22 @@ variable "db_username" {
   default = "kebbiuat" #REPLACE
 }
 
+variable "enable_ClusterAutoscaler" {
+  description = "Enable the Cluster Autoscaler."
+  type        = bool
+  default     = false
+}
+
 #DO NOT fill in here. This will be asked at runtime
 variable "db_password" {}
 
 variable "public_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCnlDWZx+BNCam1Oktz8qq6/LVxWAS/IiphPSxYYbiRwoXsDtmMsYg2bqdpdJZpJLL5usvjF3YP7Gs0ILT5CvAW5f2lR4MfR6HR1u4OpT8R+sNmP0eUBu/v9tOzHJca7oe8jQkD/LUErUuvWCgvLAgYMOBw1x1x831PgxT22XJ3seS8SFgFf9pNag3zAy8mQ2fvf7MN+FTyrsH1Ya/7ZuxtcXkT4otocKZoudP1cX8NJqA9I/prs8q1nj5uCqIYEdqY4o1XaWQXHnRzjR2W2z6ZCJGYljK7DujHxmxZVbL87tk3b3lBDJJhO1nkvyt5OEWIm7DHJ2HQ6IViybjzaQ88E6kADmisJnxdvdwb2RAWhya3fDk9AWKW4lUSn/TYAo3tl+t7vLp3y5ls39F8aQ1qV3UgzPJLvfsy2KrGoePMhq6BUFTdNwcfqKLiDuGpR6xoIO2yj+CN7ZT3/IvfbwvYnZbzq4uoRqt8SWrjxjvlL51BN+a/uKg7vmMcbrXvTD0FT0p9ByY/kS2v6ZVPOz7m1frC6/FITIhc+D7KGAJ7WF4Q00yAok6Freh4/ZbfaMoRNL0zwZ5SlirW15QhpkAETIc/t6lXtFQFW6JykfRqpVUMuWdh4h+NJ112UiNGFejspSChuTJTXM5kh07yyJu9pJ5fTF5w9kWPuLsQLY9kPQ== prasanna@prasanna-Latitude-3420"
   description = "ssh key"
+}
+
+variable "enable_karpenter" {
+  default = true
 }
 
 ## change ssh key_name eg. digit-quickstart_your-name

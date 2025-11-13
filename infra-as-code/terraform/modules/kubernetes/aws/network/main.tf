@@ -12,6 +12,7 @@ resource "aws_vpc" "vpc" {
 
   tags = "${
     tomap({
+      "KubernetesCluster" = "${var.cluster_name}"
       Name = "${var.cluster_name}"
       "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     })
@@ -50,6 +51,7 @@ resource "aws_subnet" "private_subnet" {
       "kubernetes.io/role/internal-elb" = 1
       "SubnetType" = "Private"
       "KubernetesCluster" = "${var.cluster_name}"
+      "karpenter.sh/discovery" = "${var.cluster_name}"
     })
   }"
 }
@@ -91,7 +93,7 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_eip" "eip" {
-  vpc      = true
+  domain     = "vpc"
   depends_on = ["aws_internet_gateway.internet_gateway"]
 
     tags = "${
