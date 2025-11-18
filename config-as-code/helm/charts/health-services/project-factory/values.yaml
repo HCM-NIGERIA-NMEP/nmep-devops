@@ -33,14 +33,14 @@ env: |
           name: egov-config
           key: kafka-brokers 
     - name: KAFKA_SAVE_CAMPAIGN_DETAILS_TOPIC
-      value: save-campaign-details
+      value: {{ index .Values "save-campaign-details" | quote }}
     - name: KAFKA_UPDATE_CAMPAIGN_DETAILS_TOPIC
-      value: update-campaign-details
+      value: {{ index .Values "update-campaign-details" | quote }}
     - name: EGOV_MDMS_HOST
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: egov-mdms-service   
+          key: mdms-v2   
     - name: EGOV_MDMS_V2_HOST
       valueFrom:
         configMapKeyRef:
@@ -105,12 +105,12 @@ env: |
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: plan-service
+          key: {{ index .Values "plan-service" | quote }}
     - name: EGOV_CENSUS_HOST
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: census-service
+          key: {{ index .Values "census-service" | quote }}
     - name: CONTEXT_PATH
       value: "/project-factory"
     - name: FILE_STORE_SERVICE_END_POINT
@@ -188,7 +188,7 @@ env: |
       valueFrom:
         configMapKeyRef:
           name: egov-config
-          key: db-url
+          key: {{ index .Values "db-url" | quote }}
     {{- end }}
     - name: "SCHEMA_TABLE"
       value: {{ .Values.initContainers.dbMigration.schemaTable | quote }}
@@ -280,23 +280,3 @@ env: |
       value: {{ .Values.ExcludeHierarchyTypeFromBoundaryCodes | default "false" | quote }}
     - name: EXCLUDE_BOUNDARY_NAME_AT_LAST_FROM_BOUNDARY_CODES
       value: {{ .Values.ExcludeBoundaryTypeFromLastBoundaryCodes | default "false" | quote }}
-
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-    name: project-factory-hpa
-    namespace: "health"
-spec:
-    scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: project-factory
-    minReplicas: 1
-    maxReplicas: 5
-    metrics:
-        - type: Resource
-          resource:
-              name: cpu
-              target:
-                  type: Utilization
-                  averageUtilization: 80

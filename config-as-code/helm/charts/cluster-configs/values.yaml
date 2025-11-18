@@ -40,7 +40,7 @@ cluster-configs:
 
   secrets:
     db: 
-      namespace: [ egov ]
+      namespace: [ egov, bauchi, kebbi ]
       name: db
 
     egov-notification-sms:
@@ -64,7 +64,7 @@ cluster-configs:
       name: pgadmin       
 
     egov-enc-service: 
-      namespace: egov
+      namespace: [ egov, bauchi, kebbi ]
       name: egov-enc-service       
 
     egov-notification-mail: 
@@ -76,7 +76,7 @@ cluster-configs:
       name: home-isolation-notification-mail      
 
     git-sync: 
-      namespace: [ egov ]
+      namespace: [ egov, bauchi, kebbi ]
       name: git-creds   
 
     kibana: 
@@ -148,7 +148,7 @@ cluster-configs:
       name: postgres
 
     elastic:
-      namespace: egov
+      namespace: [ egov, bauchi, kebbi ]
       name: elastic
 
     jupyter:

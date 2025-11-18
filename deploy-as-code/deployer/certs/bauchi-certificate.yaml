@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bauchi-hcm-uat.digit.org-tls-certs
+  namespace: egov
+spec:
+  secretName: bauchi-hcm-uat.digit.org-tls-certs
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: bauchi-hcm-uat.digit.org
+  dnsNames:
+  - bauchi-hcm-uat.digit.org

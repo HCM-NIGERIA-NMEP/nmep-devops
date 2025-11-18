@@ -9,11 +9,14 @@ replicas: 1
 httpPort: 8080
 appType: ""
 
+central-instance-build: false
+db-schema-names: "ba"
+
 ingress:
     enabled: false
     zuul: false
     annotations:
-        kubernetes.io/ingress.class: "nginx"
+        # kubernetes.io/ingress.class: "nginx"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/limit-rpm: "1200"
     waf:
@@ -42,10 +45,19 @@ initContainers:
               valueFrom: 
                 configMapKeyRef: 
                   name: egov-config
-                  key: db-url            
+                  {{- if eq .Values.namespace "bauchi" }}
+                  key: ba-db-url
+                  {{- else if eq .Values.namespace "kebbi" }}
+                  key: ke-db-url
+                  {{- else }}
+                  key: db-url
+                  {{- end }}            
             - name: "SCHEMA_NAME"
-              {{- if and (index .Values "central-instance-build") (index .Values "central-instance-enabled") }}
-              value: "{{ index .Values "db-schema-names" }}"
+              {{- if index .Values "central-instance-build" }}
+              valueFrom:
+                configMapKeyRef:
+                  name: egov-config
+                  key: db-schema-names
               {{- else }}
               value: "public"
               {{- end }}
@@ -116,13 +128,12 @@ lifecycle:
                 - -c
                 - "sleep 10"
 
-memory_limits: "512Mi"
-cpu_limits: "200m"
+memory_limits: "256Mi"
 resources: |
     {{- if eq .Values.appType "java-spring" -}}
     requests:
-      cpu: {{ .Values.cpu_limits | quote }}
-      memory: {{ .Values.memory_limits | quote }}
+      cpu: {{ .Values.cpu_requests | quote }}
+      memory: {{ .Values.memory_requests | quote }}
     limits:
       cpu: {{ .Values.cpu_limits | quote }}
       memory: {{ .Values.memory_limits | quote }}
@@ -134,7 +145,13 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
+              {{- if eq .Values.namespace "bauchi" }}
+              key: ba-db-url
+              {{- else if eq .Values.namespace "kebbi" }}
+              key: ke-db-url
+              {{- else }}
               key: db-url
+              {{- end }}
         - name: FLYWAY_ENABLED
           value: "false"      
         - name: SPRING_FLYWAY_ENABLED
@@ -150,7 +167,13 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
+              {{- if eq .Values.namespace "bauchi" }}
+              key: ba-db-url
+              {{- else if eq .Values.namespace "kebbi" }}
+              key: ke-db-url
+              {{- else }}
               key: db-url
+              {{- end }}
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
@@ -217,6 +240,15 @@ extraEnv:
             configMapKeyRef:
               name: egov-config
               key: spring-jpa-show-sql
+        - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+          value: "true"
+        - name: STATE_SCHEMA_INDEX_POSITION_TENANTID
+          valueFrom:
+            configMapKeyRef:
+              name: egov-config
+              key: state-schema-index-position-tenantid
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: org.postgresql.Driver
     jaeger: |
         - name: JAEGER_SERVICE_NAME
           value: {{ template "common.name" . }}
