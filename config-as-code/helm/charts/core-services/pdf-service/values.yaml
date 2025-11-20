@@ -9,10 +9,11 @@ ingress:
   zuul: true
   context: "pdf-service"
 
+
 # Init Containers Configs
 initContainers:
   dbMigration:
-    enabled: true
+    enabled: false
     schemaTable: "pdf_service_schema"
     image:
       repository: "pdf-service-db"
@@ -85,12 +86,11 @@ env: |
         name: egov-service-host
         key: egov-localization
   - name: EGOV_FILESTORE_SERVICE_HOST
-    valueFrom:
-      configMapKeyRef:
-        name: egov-service-host
-        key: egov-filestore
+    value: "http://egov-filestore:8080"
   - name: EGOV_HOST
     valueFrom:
       configMapKeyRef:
         name: egov-config
         key: egov-services-fqdn-name
+  - name: EGOV_LOCALISATION_SEARCH
+    value: "localization/messages/v2/_search"

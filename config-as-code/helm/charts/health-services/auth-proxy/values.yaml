@@ -1,0 +1,52 @@
+# Common Labels
+labels:
+  app: "auth-proxy"
+  group: "rainmaker"
+
+# Container Configs
+image:
+  repository: "auth-proxy"
+replicas: "1"
+tracing-enabled: true
+namespace: es-cluster-v8
+
+# Additional Container Envs
+env: |
+  - name: SERVER_PORT
+    value: "8080"
+  - name: EGOV_USER_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-user
+  - name: EGOV_USER_SEARCH
+    value: "user/_details"
+  - name: KIBANA_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: kibana-host
+  - name: KIBANA_ACCEPTED_CONTEXT_UI_PATHS
+    value: workbench-ui,dashboard-ui,microplan-ui,digit-ui,/kibana/app/dashboards,/kibana/login,/kibana/logout
+  - name: KIBANA_ACCEPTED_DOMAIN_NAME
+    valueFrom:
+      configMapKeyRef:
+        key: domain
+        name: egov-config
+  - name: KIBANA_EXCLUDE_URL_PATTERNS
+    value: .js,.css,.html,fonts,favicons,telemetry,.json
+  - name: APP_TIMEZONE
+    valueFrom:
+      configMapKeyRef:
+        key: timezone
+        name: egov-config
+  - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+    value: "false"
+  - name: DEBUG_ENABLED
+    value: "true"
+
+resources: |
+  limits:
+    memory: 768Mi
+  requests:
+    memory: 256Mi
