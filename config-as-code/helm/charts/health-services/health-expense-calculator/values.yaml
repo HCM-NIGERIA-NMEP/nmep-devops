@@ -48,11 +48,11 @@ env: |
   - name: SERVER_SERVLET_CONTEXT-PATH
     value: /health-expense-calculator
   - name: EXPENSE_CALCULATOR_CONSUME_TOPIC
-    value: "calculate-musterroll-health"
+    value: {{ index .Values "calculate-musterroll-health" | quote }}
   - name: EXPENSE_CALCULATOR_ERROR_TOPIC
-    value: "calculate-error-health"
+    value: {{ index .Values "calculate-error-health" | quote }}
   - name: EXPENSE_CALCULATOR_CREATE_BILL_TOPIC
-    value: "calculate-billmeta-health"
+    value: {{ index .Values "calculate-billmeta-health" | quote }}
   - name: EGOV_MUSTERROLL_HOST
     valueFrom:
       configMapKeyRef:
@@ -67,9 +67,9 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: egov-mdms-service
+        key: mdms-v2
   - name: EGOV_MDMS_SEARCH_ENDPOINT
-    value: "egov-mdms-service/v1/_search"      
+    value: "mdms-v2/v1/_search"      
   - name: EGOV_IDGEN_HOST
     valueFrom: 
       configMapKeyRef:
@@ -85,10 +85,6 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: mdms-v2
-  {{- if index .Values "egov-mdms-service-endpoint-key" }}
-  - name: EGOV_MDMS_SEARCH_V2_ENDPOINT
-    value: {{ index .Values "egov-mdms-service-endpoint-key" | quote }} 
-  {{- end }}
   - name: EGOV_MDMS_SEARCH_V2_ENDPOINT
     value: "mdms-v2/v1/_search"   
   - name: WORKS_ATTENDANCE_LOG_HOST
@@ -118,10 +114,11 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: pdf-service
-  {{- if index .Values "state-level-tenant-id" }}
   - name: STATE_LEVEL_TENANT_ID
-    value: {{ index .Values "state-level-tenant-id" | quote }} 
-  {{- end }}
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-level-tenant-id
   {{- if index .Values "payment-pdf-key" }}
   - name: PAYMENT_PDF_KEY
     value: {{ index .Values "payment-pdf-key" | quote }}

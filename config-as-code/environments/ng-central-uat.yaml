@@ -231,8 +231,9 @@ audit-service:
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/ba/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-persister.yml"
   initContainers:
     gitSync:
-      repo: "git@github.com:HCM-BAUCHI/health-campaign-config"
-      branch: "PROD"
+      enabled: "true"
+      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
+      branch: "CENTRAL-UAT"
   hpa:
     enabled: false
     minReplicas: 1
@@ -271,7 +272,6 @@ egov-persister:
   memory_limits: 768Mi
   images:
     - egovio/egov-persister
-    ########## Todo: change needed #############
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/ba,/work-dir/health-campaign-config/egov-persister/ke"
   initContainers:
     gitSync:
@@ -324,9 +324,18 @@ zuul:
   egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/property-services/property/_search,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/boundary-service/boundary-relationships/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
 
 health-expense:
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
   central-instance-build: true
-  tracing-enabled: true
-  java-enable-debug: true
+  tracing-enabled: false
+  java-enable-debug: false
   business-workflow-status-map: "{'EXPENSE.WAGES':'false'}"
   expense-billing-default-offset: 0
   expense-billing-default-limit: 100
@@ -334,21 +343,19 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
 
-health-expense-calculator:
-  central-instance-build: true
-  tracing-enabled: true
-  java-enable-debug: true
-  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
-  report-header-title: "Health Campaign Payment Report"
-  is-attendance-approval-required: "true"
-  register-batch-size: 15
-  bill-generation-async-enabled: "true"
-  bill-generation-async-topic: "bill-generation-async-topic"
-
 health-muster-roll:
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
   central-instance-build: true
-  tracing-enabled: true
-  java-enable-debug: true
+  tracing-enabled: false
+  java-enable-debug: false
   musterroll-default-offset: 0
   musterroll-default-limit: 100
   musterroll-search-max-limit: 200
@@ -404,16 +411,14 @@ egov-hrms:
 
 egov-otp:
   heap: "-Xmx192m -Xms192m"
+  memory_requests: "256Mi"
   memory_limits: "256Mi"
-  resources:
-    requests:
-      memory: "256Mi"
-    limits:
-      memory: "256Mi"
+  cpu_requests: 100m
+  cpu_limits: 200m
   central-instance-build: true
   java-args: -Dspring.profiles.active=monitoring
   employee-applink: "https://mc-nigeria-uat.digit.org/digit-ui/employee/login"
-  java-enable-debug: true
+  java-enable-debug: false
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -496,6 +501,17 @@ facility:
   cpu_limits: 300m
   memory_limits: 756Mi
 
+egov-url-shortening:
+  heap: "-Xmx192m -Xms192m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 368Mi
+
 product:
   central-instance-build: true
   heap: "-Xmx256m -Xms256m"
@@ -507,6 +523,18 @@ product:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+
+egov-notification-mail:
+  heap: "-Xmx192m -Xms192m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 368Mi
+
 
 egov-localization:
   namespace: "egov"
@@ -629,3 +657,61 @@ pdf-service:
       branch: "CENTRAL-UAT"   
   data-config-urls: "file:///work-dir/health-campaign-config/pdf-service/data-config/health-bill-payment.json"
   format-config-urls: "file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment.json"
+
+beneficiary-idgen:
+  namespace: egov
+  heap: "-Xmx384m -Xms384m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  idformat-from-mdms: "true"
+  java-args: -Dspring.profiles.active=monitoring
+  autocreate-new-seq: "true"
+  redis-ttl-in-days: 30
+  java-enable-debug: true
+  limit-id-user-device-per-day-enabled: "true"
+  limit-id-user-device-per-day: 100
+  limit-id-user-device-total: 6000
+  limit-id-user-device-per-day-expire-days: 10
+  limit-id-user-device-total-expire-days: 30
+  id-pool-generation-max-records-per-persist-batch: 500
+  id-pool-generation-max-size: 10000
+  id-dispatch-retrieval-restrict-to-today-enabled: "true"
+  kafka-topics-consumer-bulk-update-topic: "beneficiary-id-gen-bulk-update-health-topic"
+  kafka-topics-consumer-bulk-create-topic: "beneficiary-id-gen-bulk-create-health-topic"
+  kafka:
+    topics:
+      saveInIdPool: "save-in-id-pool"
+      updateIdPoolStatus: "update-id-pool-status"
+      saveInDispatchLog: "save-dispatch-id-log"
+  spring:
+    redis:
+      host: "redis.backbone"
+      port: 6379
+      cache:
+        type: "redis"
+        timeToLive: 86400
+        autoExpiry: true
+  redisson:
+    redis:
+      host: "redis.backbone"
+      port: 6379
+      timeout: 10000
+      connectionPoolSize: 20
+      connectionMinimumIdleSize: 10
+      threads: 4
+      nettyThreads: 4
+  idPool:
+    validation:
+      enabled: true
+  idgen:
+    pool:
+      seqCode: "id.pool.number.random"
+    random:
+      buffer: 5

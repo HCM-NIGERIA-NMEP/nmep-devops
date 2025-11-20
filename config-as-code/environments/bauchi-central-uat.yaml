@@ -110,3 +110,150 @@ payments-ui:
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-ba.js type=text/javascript></script>';"
+
+census-service:
+  namespace: bauchi
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  plan-service-host: ba-plan-service
+  resource-census-create-topic: ba-resource-census-create-topic
+  update-plan-facility: "ba-update-plan-facility"
+  ingress:
+    namespace: bauchi
+
+plan-service:
+  namespace: bauchi
+  heap: "-Xmx512m -Xms256m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  ingress:
+    namespace: bauchi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  census-service: ba-census-service
+  project-factory: ba-project-factory
+  resource-microplan-create-topic: ba-resource-microplan-create-topic
+
+resource-generator:
+  namespace: bauchi
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi  
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  plan-service: ba-plan-service
+  census-service: ba-census-service
+  project-factory: ba-project-factory
+  resource-microplan-create-topic: ba-resource-microplan-create-topic
+
+project-factory:
+  namespace: bauchi
+  heap: "-Xmx512m -Xms256m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  ingress:
+    namespace: bauchi
+  logLevel: 'debug'
+  maxDebugChar: '2000'
+  mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
+  mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  save-campaign-details: ba-save-campaign-details
+  update-campaign-details: ba-update-campaign-details
+  plan-service: ba-plan-service
+  census-service: ba-census-service
+  IS_ENVIRONMENT_CENTRAL_INSTANCE: false
+  DB_SCHEMA: ba      
+
+dashboard-analytics:
+  namespace: bauchi
+  heap: "-Xmx512m -Xms256m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  initContainers:
+    gitSync:
+      enabled: true
+      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
+      branch: "CENTRAL-UAT"
+  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ba/dashboard-analytics/*.json"
+
+microplan-ui:
+  namespace: bauchi
+  replicas: 1
+  cpu_requests: 50m
+  memory_requests: 256Mi
+  cpu_limits: 100m
+  memory_limits: 368Mi
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsMicroplan-ba.js type=text/javascript></script>';"
+
+dashboard-ui:
+  namespace: bauchi
+  replicas: 1
+  cpu_requests: 50m
+  memory_requests: 128Mi
+  cpu_limits: 100m
+  memory_limits: 256Mi
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsDashboard-ba.js type=text/javascript></script>';"
+
+health-expense-calculator:
+  namespace: bauchi
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  ingress:
+    namespace: bauchi
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi 
+  report-header-title: "Health Campaign Payment Report"
+  is-attendance-approval-required: "true"
+  register-batch-size: 15 
+  calculate-musterroll-health: ba-calculate-musterroll-health
+  calculate-error-health: ba-calculate-error-health
+  calculate-billmeta-health: ba-calculate-billmeta-health
+  report-error-queue-topic: ba-report-error-queue-topic
+  bill-generation-async-topic: ba-bill-generation-async-topic

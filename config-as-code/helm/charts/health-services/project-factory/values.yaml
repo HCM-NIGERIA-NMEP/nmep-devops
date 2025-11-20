@@ -188,7 +188,7 @@ env: |
       valueFrom:
         configMapKeyRef:
           name: egov-config
-          key: {{ index .Values "db-url" | quote }}
+          key: db-url
     {{- end }}
     - name: "SCHEMA_TABLE"
       value: {{ .Values.initContainers.dbMigration.schemaTable | quote }}
@@ -230,7 +230,12 @@ env: |
     - name: DB_PORT
       value: "5432"
     - name: DB_SCHEMA
-      value: {{ .Values.namespace | default "public" }}
+      value: {{ index .Values "DB_SCHEMA" | quote }}
+    - name: BASE_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: project-factory
+          key: basesecret      
     - name: SPLIT_BOUNDARIES_ON_LENGTH 
       value: "2"
     - name: FACILITY_TAB_NAME

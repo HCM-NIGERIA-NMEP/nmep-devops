@@ -58,6 +58,10 @@ initContainers:
                 configMapKeyRef:
                   name: egov-config
                   key: db-schema-names
+              {{- else if eq .Values.namespace "bauchi" }}
+              value: "ba"
+              {{- else if eq .Values.namespace "kebbi" }}
+              value: "ke"                  
               {{- else }}
               value: "public"
               {{- end }}
@@ -130,14 +134,12 @@ lifecycle:
 
 memory_limits: "256Mi"
 resources: |
-    {{- if eq .Values.appType "java-spring" -}}
     requests:
       cpu: {{ .Values.cpu_requests | quote }}
       memory: {{ .Values.memory_requests | quote }}
     limits:
       cpu: {{ .Values.cpu_limits | quote }}
       memory: {{ .Values.memory_limits | quote }}
-    {{- end -}}
 ## Allows specification of additional environment variables
 extraEnv:
     java: |
