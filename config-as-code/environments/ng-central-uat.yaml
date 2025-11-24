@@ -62,7 +62,8 @@ cluster-configs:
     egov-service-host:
       namespace: [egov, monitoring, bauchi, kebbi ]
       data:
-        dashboard-analytics: "http://dashboard-analytics.egov:8080/"
+        ke-dashboard-analytics: "http://dashboard-analytics.kebbi:8080/"
+        ba-dashboard-analytics: "http://dashboard-analytics.bauchi:8080/"
         egov-enc-service: "http://egov-enc-service.egov:8080/"
         egov-accesscontrol: "http://egov-accesscontrol.egov:8080/"
         egov-user: "http://egov-user.egov:8080/"
@@ -107,6 +108,8 @@ cluster-configs:
         health-expense-calculator: 'http://health-expense-calculator.egov:8080/'
         health-expense: 'http://health-expense.egov:8080/'
         jaeger-collector: 'http://jaeger-collector.tracing:80/'
+        ke-inbox: 'http://inbox.kebbi:8080/'
+        ba-inbox: 'http://inbox.bauchi:8080/'
 
     hcm-moz-impl:
       data:

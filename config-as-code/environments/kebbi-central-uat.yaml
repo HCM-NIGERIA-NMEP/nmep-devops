@@ -256,3 +256,20 @@ health-expense-calculator:
   calculate-billmeta-health: ke-calculate-billmeta-health
   report-error-queue-topic: ke-report-error-queue-topic
   bill-generation-async-topic: ke-bill-generation-async-topic
+
+
+inbox:
+  namespace: kebbi
+  ingress:
+    namespace: kebbi
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  heap: "-Xmx368m -Xms256m"
+  java-debug: true
+  tracing-enabled: "true"
+  service-map : '{}'
+  bs-service-map : '{}'
+  dashboard-analytics-host: "ke-dashboard-analytics"
+  egov-internal-microservice-user-uuid: "ke-egov-internal-microservice-user-uuid"
