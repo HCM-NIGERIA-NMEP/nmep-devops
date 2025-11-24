@@ -24,8 +24,8 @@ env: |
   - name: KIBANA_HOST
     valueFrom:
       configMapKeyRef:
-        name: egov-config
-        key: kibana-host
+        name: egov-service-host
+        key: kibana
   - name: KIBANA_ACCEPTED_CONTEXT_UI_PATHS
     value: workbench-ui,dashboard-ui,microplan-ui,digit-ui,/kibana/app/dashboards,/kibana/login,/kibana/logout
   - name: KIBANA_ACCEPTED_DOMAIN_NAME
