@@ -29,7 +29,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: zuul
+            name: gateway
             port:
               number: 8080
       {{- end }}
@@ -41,7 +41,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: zuul
+            name: gateway
             port:
               number: 8080
     {{- end }}
