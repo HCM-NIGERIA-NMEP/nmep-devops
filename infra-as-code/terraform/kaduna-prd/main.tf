@@ -19,7 +19,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.10.1"
+      version = ">= 2.10.1, < 3.0.0"
     }
   }
 }
@@ -260,11 +260,11 @@ resource "kubernetes_storage_class" "ebs_csi_encrypted_gp3_storage_class" {
 }
 
 provider "helm" {
-  kubernetes = {
+  kubernetes {
     host                   = data.aws_eks_cluster.cluster.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
     # token                  = data.aws_eks_cluster_auth.cluster.token
-    exec = {
+    exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
       command     = "aws"
@@ -320,7 +320,7 @@ resource "aws_iam_role_policy" "karpenter_policy" {
 
 module "karpenter" {
   count = var.enable_karpenter ? 1 : 0
-  version         = "~> 21.0"
+  version = "21.3.1"
   source = "terraform-aws-modules/eks/aws//modules/karpenter"
   cluster_name = module.eks.cluster_name
 
@@ -343,7 +343,7 @@ resource "helm_release" "karpenter-crd" {
   name                = "karpenter-crd"
   repository          = "oci://public.ecr.aws/karpenter"
   chart               = "karpenter-crd"
-  version             = "1.5.0"
+  version             = "1.8.1"
   wait                = true
   values = []
 }
@@ -355,12 +355,13 @@ resource "helm_release" "karpenter" {
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
   chart               = "karpenter"
-  version             = "1.5.0"
+  version             = "1.8.1"
   wait                = false
   skip_crds           = true
 
   values = [
     <<-EOT
+    logLevel: info
     serviceAccount:
       name: ${var.enable_karpenter ? module.karpenter[0].service_account : ""}
     settings:
@@ -381,7 +382,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
     spec:
       amiFamily: AL2
       amiSelectorTerms:
-      - id: ami-0d305d3f3101bc959
+      - id: ami-00b4d3514b06fcfb6
       role: ${module.eks_managed_node_group.iam_role_name}
       subnetSelectorTerms:
         - tags:
@@ -418,8 +419,6 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     spec:
       template:
         spec:
-          kubelet:
-            maxPods: 40
           nodeClassRef:
             name: default
             group: karpenter.k8s.aws  # Updated since only a single version will be served
