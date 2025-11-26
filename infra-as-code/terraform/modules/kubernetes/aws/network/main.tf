@@ -93,7 +93,7 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_eip" "eip" {
-  vpc      = true
+  domain = "vpc"
   depends_on = ["aws_internet_gateway.internet_gateway"]
 
     tags = "${

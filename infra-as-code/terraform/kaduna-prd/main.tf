@@ -17,6 +17,10 @@ terraform {
       source = "hashicorp/kubernetes"
       version = "2.37.1"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.10.1"
+    }
   }
 }
 
@@ -49,12 +53,13 @@ data "aws_caller_identity" "current" {}
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  version         = "~> 20.0"
-  cluster_name    = var.cluster_name
-  cluster_version = var.kubernetes_version
+  version         = "~> 21.0"
+  name    = var.cluster_name
+  kubernetes_version = var.kubernetes_version
+  create_cloudwatch_log_group = true
   vpc_id          = module.network.vpc_id
-  cluster_endpoint_public_access  = true
-  cluster_endpoint_private_access = true
+  endpoint_public_access  = true
+  endpoint_private_access = true
   authentication_mode = "API_AND_CONFIG_MAP"
   subnet_ids      = concat(module.network.private_subnets, module.network.public_subnets)
   node_security_group_additional_rules = {
@@ -82,7 +87,7 @@ module "eks" {
       }
     }
   }
-  cluster_addons = {
+  addons = {
     vpc-cni = {
       most_recent              = true
       before_compute           = true
@@ -94,11 +99,11 @@ module "eks" {
       })
     }
   }
-  cluster_timeouts = {
+  timeouts = {
     create = "30m"
     delete = "15m"
     update = "60m"
-   }
+  }
   node_security_group_tags = {
     "karpenter.sh/discovery" = var.cluster_name
   }
@@ -109,12 +114,11 @@ module "eks" {
 }
 
 module "eks_managed_node_group" {
-  # depends_on = [module.eks]
-  version         = "~> 20.0"
   source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  version         = "~> 21.0"
   name            = "${var.cluster_name}"
   cluster_name    = var.cluster_name
-  cluster_version = var.kubernetes_version
+  kubernetes_version = var.kubernetes_version
   subnet_ids = slice(module.network.private_subnets, 0, length(var.availability_zones))
   vpc_security_group_ids  = [module.eks.node_security_group_id]
   cluster_service_cidr = module.eks.cluster_service_cidr
@@ -130,7 +134,6 @@ module "eks_managed_node_group" {
       }
     }
   }
-  # user_data_template_path = "user-data.yaml"
   min_size     = var.min_worker_nodes
   max_size     = var.max_worker_nodes
   desired_size = var.desired_worker_nodes
@@ -143,6 +146,9 @@ module "eks_managed_node_group" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     SQS_POLICY                   = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
   }
+  update_config = {
+    "max_unavailable_percentage": 10
+  }  
   labels = {
     Environment = var.cluster_name
   }
@@ -180,6 +186,11 @@ resource "aws_security_group_rule" "rds_db_ingress_workers" {
   type                     = "ingress"
 }
 
+data "aws_iam_openid_connect_provider" "oidc_arn" {
+  depends_on = [module.eks_managed_node_group]
+  url = data.aws_eks_cluster.cluster.identity.0.oidc.0.issuer
+}
+
 # Fetching EKS Cluster Data after its creation
 data "aws_eks_cluster" "cluster" {
   depends_on = [module.eks_managed_node_group]
@@ -189,11 +200,6 @@ data "aws_eks_cluster" "cluster" {
 data "aws_eks_cluster_auth" "cluster" {
   depends_on = [module.eks_managed_node_group]
   name = var.cluster_name
-}
-
-data "aws_iam_openid_connect_provider" "oidc_arn" {
-  depends_on = [module.eks_managed_node_group]
-  url = data.aws_eks_cluster.cluster.identity.0.oidc.0.issuer
 }
 
 resource "aws_eks_addon" "kube_proxy" {
@@ -215,13 +221,13 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
   service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
   resolve_conflicts_on_create = "OVERWRITE"
 }
-
-# provider "kubernetes" {
-#   host                   = data.aws_eks_cluster.cluster.endpoint
-#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
-#   token                  = data.aws_eks_cluster_auth.cluster.token
-#   # config_path    = "/home/thinkbig/egov/health_projects_upgrade/kebbi-devops/config"
-# }
+resource "aws_eks_addon" "eks-pod-identity-agent" {
+  count = var.enable_karpenter ? 1 : 0
+  depends_on = [module.eks_managed_node_group]
+  cluster_name      = var.cluster_name
+  addon_name        = "eks-pod-identity-agent"
+  resolve_conflicts_on_create = "OVERWRITE"
+}
 
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
@@ -231,22 +237,6 @@ provider "kubernetes" {
     args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
     command     = "aws"
   }
-}
-
-
-resource "kubernetes_annotations" "gp2_default" {
-  annotations = {
-    "storageclass.kubernetes.io/is-default-class" : "false"
-  }
-  api_version = "storage.k8s.io/v1"
-  kind        = "StorageClass"
-  metadata {
-    name = "gp2"
-  }
-
-  force = true
-
-  depends_on = [aws_eks_addon.aws_ebs_csi_driver]
 }
 
 resource "kubernetes_storage_class" "ebs_csi_encrypted_gp3_storage_class" {
@@ -267,14 +257,18 @@ resource "kubernetes_storage_class" "ebs_csi_encrypted_gp3_storage_class" {
     type      = "gp3"
   }
 
-  depends_on = [kubernetes_annotations.gp2_default]
 }
 
 provider "helm" {
   kubernetes = {
     host                   = data.aws_eks_cluster.cluster.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.cluster.token
+    # token                  = data.aws_eks_cluster_auth.cluster.token
+    exec = {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+      command     = "aws"
+    }
   }
 }
 
@@ -326,7 +320,7 @@ resource "aws_iam_role_policy" "karpenter_policy" {
 
 module "karpenter" {
   count = var.enable_karpenter ? 1 : 0
-  version         = "~> 20.0"
+  version         = "~> 21.0"
   source = "terraform-aws-modules/eks/aws//modules/karpenter"
   cluster_name = module.eks.cluster_name
 
@@ -425,7 +419,7 @@ resource "kubectl_manifest" "karpenter_node_pool" {
       template:
         spec:
           kubelet:
-            maxPods: 40        
+            maxPods: 40
           nodeClassRef:
             name: default
             group: karpenter.k8s.aws  # Updated since only a single version will be served
