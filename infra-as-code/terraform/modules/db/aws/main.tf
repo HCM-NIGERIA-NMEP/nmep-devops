@@ -30,6 +30,8 @@ resource "aws_db_instance" "rds_postgres" {
 
     tags = "${
     tomap({
+      "AutoStop"          = "true"
+      "KubernetesCluster" = "kebbi-prd"
       "Name" =  "${var.environment}-db",
       "environment" = "${var.environment}"
     })
