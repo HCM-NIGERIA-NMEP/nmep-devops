@@ -4,3 +4,5 @@ creation_rules:
     kms: 'arn:aws:kms:af-south-1:022499048165:key/0dca14ee-35cd-4ca6-b2e7-f5577d345f03'
   - path: environments/ng-central-uat-secrets.yaml
     kms: 'arn:aws:kms:ap-south-1:218381940040:key/9a3b0835-7713-4925-8b3d-da7e421d28d2'
+  - path: environments/ng-upgrade-uat-secrets.yaml
+    kms: 'arn:aws:kms:ap-south-1:218381940040:key/9a3b0835-7713-4925-8b3d-da7e421d28d2'
