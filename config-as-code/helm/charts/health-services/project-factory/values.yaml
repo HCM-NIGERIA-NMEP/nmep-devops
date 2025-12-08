@@ -32,10 +32,6 @@ env: |
         configMapKeyRef:
           name: egov-config
           key: kafka-brokers 
-    - name: KAFKA_SAVE_CAMPAIGN_DETAILS_TOPIC
-      value: {{ index .Values "save-campaign-details" | quote }}
-    - name: KAFKA_UPDATE_CAMPAIGN_DETAILS_TOPIC
-      value: {{ index .Values "update-campaign-details" | quote }}
     - name: EGOV_MDMS_HOST
       valueFrom:
         configMapKeyRef:
@@ -105,14 +101,14 @@ env: |
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: {{ index .Values "plan-service" | quote }}
+          key: plan-service
     - name: EGOV_CENSUS_HOST
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: {{ index .Values "census-service" | quote }}
+          key: census-service
     - name: CONTEXT_PATH
-      value: "/project-factory"
+      value: {{ .Values.context | default "/project-factory" }}
     - name: FILE_STORE_SERVICE_END_POINT
       value: filestore/v1/files 
     - name: EGOV_MDMS_V2_SEARCH_ENDPOINT
@@ -122,11 +118,11 @@ env: |
     - name: EGOV_MDMS_V2_UPDATE_ENDPOINT
       value: {{ .Values.mdmsV2UpdateEndpoint | default "mdms-v2/v2/_update" }}
     - name: EGOV_MDMS_V1_SEARCH_ENDPOINT
-      value: {{ .Values.mdmsV1SearchEndpoint | default "egov-mdms-service/v1/_search" }}
+      value: {{ .Values.mdmsV1SearchEndpoint | default "mdms-v2/v1/_search" }}
     - name: EGOV_IDGEN_PATH
       value: egov-idgen/id/_generate
     - name: EGOV_MDMS_SCHEMA_PATH
-      value: egov-mdms-service/schema/v1/_search
+      value: mdms-v2/schema/v1/_search
     - name: EGOV_BOUNDARY_RELATIONSHIP_SEARCHPATH
       value: boundary-service/boundary-relationships/_search
     - name: EGOV_BOUNDARY_SERVICE_SEARCHPATH
@@ -179,17 +175,10 @@ env: |
           name: egov-config
           key: egov-services-fqdn-name
     - name: "DB_URL"
-    {{- if eq .Values.namespace "health" }}
       valueFrom:
         configMapKeyRef:
           name: egov-config
           key: db-url
-    {{- else }}
-      valueFrom:
-        configMapKeyRef:
-          name: egov-config
-          key: db-url
-    {{- end }}
     - name: "SCHEMA_TABLE"
       value: {{ .Values.initContainers.dbMigration.schemaTable | quote }}
     - name: "FLYWAY_USER"
@@ -235,7 +224,7 @@ env: |
       valueFrom:
         secretKeyRef:
           name: project-factory
-          key: basesecret      
+          key: basesecret
     - name: SPLIT_BOUNDARIES_ON_LENGTH 
       value: "2"
     - name: FACILITY_TAB_NAME
@@ -245,7 +234,7 @@ env: |
     - name: USER_TAB_NAME
       value: "HCM_ADMIN_CONSOLE_USER_LIST"
     - name: LOCALE
-      value: {{ .Values.defaultLocale | default "en_IN" }} 
+      value: {{ .Values.defaultLocale | default "en_MZ" }} 
     - name: LOCALIZATION_MODULE
       value: "hcm-admin-schemas"
     - name: MODULE_NAME
@@ -266,7 +255,8 @@ env: |
       value: "eGov@123"
     - name: MAP_USER_VIA_COMMON_PARENT
       value: "true"
-      
+    - name: DEFAULT_TENANT_ID
+      value: {{ .Values.defaultTenantId | default "mz" | quote }}
     - name: CACHE_ENABLED
       value: "true"
     - name: RESET_CACHE
@@ -285,3 +275,57 @@ env: |
       value: {{ .Values.ExcludeHierarchyTypeFromBoundaryCodes | default "false" | quote }}
     - name: EXCLUDE_BOUNDARY_NAME_AT_LAST_FROM_BOUNDARY_CODES
       value: {{ .Values.ExcludeBoundaryTypeFromLastBoundaryCodes | default "false" | quote }}
+    - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+      value: {{ .Values.IS_ENVIRONMENT_CENTRAL_INSTANCE | default "false" | quote }}
+    - name: KAFKA_START_CAMPAIGN_MAPPING_TOPIC
+      value: {{ .Values.startCampaignMappingTopic | default "start-campaign-mapping" }}
+    - name: KAFKA_CREATE_RESOURCE_DETAILS_TOPIC
+      value: {{ .Values.createResourceDetailsTopic | default "create-resource-details" }}
+    - name: KAFKA_UPDATE_RESOURCE_DETAILS_TOPIC
+      value: {{ .Values.updateResourceDetailsTopic | default "update-resource-details" }}
+    - name: KAFKA_CREATE_RESOURCE_ACTIVITY_TOPIC
+      value: {{ .Values.createResourceActivityTopic | default "create-resource-activity" }}
+    - name: KAFKA_UPDATE_GENERATED_RESOURCE_DETAILS_TOPIC
+      value: {{ .Values.updateGeneratedResourceDetailsTopic | default "update-generated-resource-details" }}
+    - name: KAFKA_CREATE_GENERATED_RESOURCE_DETAILS_TOPIC
+      value: {{ .Values.createGeneratedResourceDetailsTopic | default "create-generated-resource-details" }}
+    - name: KAFKA_SAVE_PLAN_FACILITY_TOPIC
+      value: {{ .Values.savePlanFacilityTopic | default "project-factory-save-plan-facility" }}
+    - name: KAFKA_SAVE_SHEET_DATA_TOPIC
+      value: {{ .Values.saveSheetDataTopic | default "save-sheet-data" }}
+    - name: KAFKA_UPDATE_SHEET_DATA_TOPIC
+      value: {{ .Values.updateSheetDataTopic | default "update-sheet-data" }}
+    - name: KAFKA_SAVE_MAPPING_TOPIC
+      value: {{ .Values.saveMappingDataTopic | default "save-mapping-data" }}
+    - name: KAFKA_UPDATE_MAPPING_TOPIC
+      value: {{ .Values.updateMappingDataTopic | default "update-mapping-data" }}
+    - name: KAFKA_DELETE_MAPPING_TOPIC
+      value: {{ .Values.deleteMappingDataTopic | default "delete-mapping-data" }}
+    - name: KAFKA_SAVE_PROCESS_TOPIC
+      value: {{ .Values.saveProcessDataTopic | default "save-process-data" }}
+    - name: KAFKA_UPDATE_PROCESS_TOPIC
+      value: {{ .Values.updateProcessDataTopic | default "update-process-data" }}
+    - name: KAFKA_START_TASK_TOPIC
+      value: {{ .Values.startAdminConsoleTaskTopic | default "start-admin-console-task" }}
+    - name: KAFKA_START_MAPPING_TASK_TOPIC
+      value: {{ .Values.startAdminConsoleMappingTaskTopic | default "start-admin-console-mapping-task" }}
+    - name: KAFKA_NOTIFICATION_EMAIL_TOPIC
+      value: {{ .Values.notificationEmailTopic | default "egov.core.notification.email" }}
+    - name: KAFKA_SAVE_PROJECT_CAMPAIGN_DETAILS_TOPIC
+      value: {{ .Values.saveProjectCampaignDetailsTopic | default "save-project-campaign-details" }}
+    - name: KAFKA_UPDATE_PROJECT_CAMPAIGN_DETAILS_TOPIC
+      value: {{ .Values.updateProjectCampaignDetailsTopic | default "update-project-campaign-details" }} 
+    - name: USER_MAIN_BOUNDARY
+      value: {{ .Values.userMainBoundary | default "mz" }}
+    - name: USER_MAIN_BOUNDARY_TYPE
+      value: {{ .Values.userMainBoundaryType | default "Country" }}
+    - name: MAX_RESOURCE_CREATION_ATTEMPTS
+      value: {{ .Values.maxResourceCreationAttempts | default "200" | quote }}
+    - name: WAIT_TIME_OF_EACH_ATTEMPT_MS
+      value: {{ .Values.waitTimeOfEachAttemptMs | default "40000" | quote }}
+    - name: RETRY_TILL_RESOURCE_CREATION_COMPLETES
+      value: {{ .Values.retryTillResourceCreationCompletes | default "100" | quote }}
+    - name: LOCALIZATION_MODULE
+      value: {{ .Values.localizationModule | default "hcm-admin-schemas" }}
+    - name: KAFKAJS_GROUP_ID
+      value: {{ .Values.groupId | default "project-factory" }}

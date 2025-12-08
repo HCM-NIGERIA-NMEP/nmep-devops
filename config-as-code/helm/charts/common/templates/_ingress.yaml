@@ -4,76 +4,81 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ template "common.name" . }}
+  name: {{ default (include "common.name" .) .Values.ingress.name }}
   namespace: {{ .Values.ingress.namespace | default .Values.namespace }}
   annotations:
-{{ toYaml .Values.ingress.annotations | nindent 4 }}
-{{- if .Values.ingress.waf.enabled }}
-{{ toYaml .Values.ingress.waf.annotations | nindent 4 }}
-{{- end }}
-{{- if .Values.ingress.additionalAnnotations }}
-{{ tpl .Values.ingress.additionalAnnotations . | nindent 4 }}
-{{- end }}
+  {{- if and .Values.ingress .Values.ingress.rewritePath }}
+    nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}/$2
+  {{- end }}
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.ingress.waf.enabled }}
+    {{- toYaml .Values.ingress.waf.annotations | nindent 4 }}
+  {{- end }}
+  {{- if .Values.ingress.additionalAnnotations }}
+    {{- tpl .Values.ingress.additionalAnnotations . | nindent 4 }}
+  {{- end }}
   labels:
-{{ include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
   {{- if .Values.ingress.zuul }}
     {{- if .Values.global.hosts }}
       {{- range .Values.global.hosts }}
-  - host: {{ . }}
-    http:
-      paths:
-      - path: /{{ $.Values.ingress.context }}
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: gateway
-            port:
-              number: 8080
+    - host: {{ . }}
+      http:
+        paths:
+          - path: /{{ $.Values.ingress.context }}{{ if and $.Values.ingress $.Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $.Values.ingress.gatewayService | default "gateway" }}
+                port:
+                  number: {{ $.Values.ingress.gatewayServicePort | default 8080 }}
       {{- end }}
     {{- else }}
-  - host: {{ .Values.global.domain | default "example.com" }}
-    http:
-      paths:
-      - path: /{{ $.Values.ingress.context }}
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: gateway
-            port:
-              number: 8080
+    - host: {{ .Values.global.domain | default "example.com" }}
+      http:
+        paths:
+          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.ingress.gatewayService | default "gateway" }}
+                port:
+                  number: {{ .Values.ingress.gatewayServicePort | default 8080 }}
     {{- end }}
   {{- else }}
-  - host: {{ .Values.global.domain }}
-    http:
-      paths:
-      - path: /{{ .Values.ingress.context }}
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: {{ $.Values.ingress.serviceName | default $.Chart.Name }}
-            port:
-              number: {{ $.Values.ingress.servicePort | default $.Values.httpPort }}
+    - host: {{ .Values.global.domain }}
+      http:
+        paths:
+          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.ingress.serviceName | default .Chart.Name }}
+                port:
+                  number: {{ .Values.ingress.servicePort | default .Values.httpPort }}
   {{- end }}
   tls:
   {{- if .Values.ingress.zuul }}
     {{- if .Values.global.hosts }}
       {{- range .Values.global.hosts }}
-  - hosts:
-    - {{ . }}
-    secretName: {{ . }}-tls-certs
+    - secretName: {{ . }}-tls-certs
+      hosts:
+        - {{ . }}
       {{- end }}
     {{- else }}
-  - hosts:
-    - {{ .Values.global.domain | default "example.com" }}
-    secretName: {{ .Values.global.domain | default "example.com" }}-tls-certs
+    - secretName: {{ .Values.global.domain | default "example.com" }}-tls-certs
+      hosts:
+        - {{ .Values.global.domain | default "example.com" }}
     {{- end }}
   {{- else }}
-  - hosts:
-    - {{ .Values.global.domain }}
-    secretName: {{ .Values.global.domain }}-tls-certs
+  - secretName: {{ .Values.global.domain }}-tls-certs
+    hosts:
+      - {{ .Values.global.domain }}
   {{- end }}
-{{- end -}}
-{{- end -}}
+{{- end }}
+{{- end }}

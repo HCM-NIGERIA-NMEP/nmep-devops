@@ -14,7 +14,13 @@ initContainers:
 # Ingress Configs
 ingress:
   zuul: true
+  enabled: true
   context: "filestore"
+  waf:
+    enabled: false
+  additionalAnnotations: |
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
 
 # Container Configs
 image:

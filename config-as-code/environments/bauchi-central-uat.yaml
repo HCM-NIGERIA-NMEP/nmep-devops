@@ -1,6 +1,7 @@
 global:
   domain: bauchi-hcm-uat.digit.org
 
+namespace: bauchi
 
 transformer:
   namespace: "bauchi"
@@ -169,9 +170,10 @@ resource-generator:
   resource-microplan-create-topic: ba-resource-microplan-create-topic
 
 project-factory:
-  namespace: bauchi
+  central-instance-enabled: false
+  central-instance-build: true
   heap: "-Xmx512m -Xms256m"
-  replicas: 1
+  replicas: 2
   hpa:
     enabled: false
     minReplicas: 1
@@ -180,21 +182,65 @@ project-factory:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  groupId: "ba-project-factory"
+  context: /ba-project-factory
   ingress:
-    namespace: bauchi
+    name: bauchi-project-factory
+    namespace: egov
+    rewritePath: ba-project-factory
   logLevel: 'debug'
   maxDebugChar: '2000'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
-  save-campaign-details: ba-save-campaign-details
-  update-campaign-details: ba-update-campaign-details
-  plan-service: ba-plan-service
-  census-service: ba-census-service
+  plan-service: plan-service
+  census-service: census-service
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
-  DB_SCHEMA: ba      
+  DB_SCHEMA: ba
+  defaultTenantId: ba
+  saveProjectCampaignDetailsTopic: "ba-save-project-campaign-details"
+  updateProjectCampaignDetailsTopic: "ba-update-project-campaign-details"
+  startCampaignMappingTopic: "ba-start-campaign-mapping"
+  createResourceDetailsTopic: "ba-create-resource-details"
+  updateResourceDetailsTopic: "ba-update-resource-details"
+  createResourceActivityTopic: "ba-create-resource-activity"
+  updateGeneratedResourceDetailsTopic: "ba-update-generated-resource-details"
+  createGeneratedResourceDetailsTopic: "ba-create-generated-resource-details"
+  savePlanFacilityTopic: "ba-project-factory-save-plan-facility"
+  saveSheetDataTopic: "ba-save-sheet-data"
+  updateSheetDataTopic: "ba-update-sheet-data"
+  saveMappingDataTopic: "ba-save-mapping-data"
+  updateMappingDataTopic: "ba-update-mapping-data"
+  deleteMappingDataTopic: "ba-delete-mapping-data"
+  saveProcessDataTopic: "ba-save-process-data"
+  updateProcessDataTopic: "ba-update-process-data"
+  startAdminConsoleTaskTopic: "ba-start-admin-console-task"
+  startAdminConsoleMappingTaskTopic: "ba-start-admin-console-mapping-task"
+  notificationEmailTopic: "ba-egov.core.notification.email"
+  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundaryType: "COUNTRY"
+  maxResourceCreationAttempts: "10"
+  waitTimeOfEachAttemptMs: "20000"
+  retryTillResourceCreationCompletes: "5"
+  command: |
+    - sh
+    - -c
+  args: |
+    - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      yarn prod
 
 dashboard-analytics:
   namespace: bauchi
+  context: /ba-dashboard-analytics
+  ingress:
+    name: bauchi-dashboard-analytics
+    namespace: egov
+    rewritePath: ba-dashboard-analytics
+  healthChecks:
+    enabled: true
+    livenessProbePath: "/ba-dashboard-analytics/health"
+    readinessProbePath: "/ba-dashboard-analytics/health"
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
@@ -210,7 +256,26 @@ dashboard-analytics:
       enabled: true
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
       branch: "CENTRAL-UAT"
-  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ba/dashboard-analytics/*.json"
+  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ke/dashboard-analytics/*.json"
+
+auth-proxy:
+  heap: "-Xmx192m -Xms192m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  ingress:
+    enabled: "true"
+    name: auth-proxy
+    namespace: bauchi
+    context: kibana-upgrade
+    rewritePath: kibana-upgrade
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 368Mi
+  namespace: bauchi
+  kibanaBasePath: "/kibana-upgrade"
 
 microplan-ui:
   namespace: bauchi
@@ -259,9 +324,9 @@ health-expense-calculator:
   bill-generation-async-topic: ba-bill-generation-async-topic
 
 inbox:
-  namespace: kebbi
+  namespace: bauchi
   ingress:
-    namespace: kebbi
+    namespace: bauchi
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
@@ -271,5 +336,5 @@ inbox:
   tracing-enabled: "true"
   service-map : '{}'
   bs-service-map : '{}'
-  dashboard-analytics-host: "ke-dashboard-analytics"
-  egov-internal-microservice-user-uuid: "ke-egov-internal-microservice-user-uuid"
+  dashboard-analytics-host: "ba-dashboard-analytics"
+  egov-internal-microservice-user-uuid: "ba-egov-internal-microservice-user-uuid"
