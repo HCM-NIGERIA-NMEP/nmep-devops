@@ -10,6 +10,14 @@ replicas: "1"
 tracing-enabled: true
 namespace: es-cluster-v8
 
+additionalAnnotations: |
+  nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header kbn-version "8.11.1";
+      sub_filter_once off;
+      sub_filter_types text/html text/plain application/json application/javascript;
+      sub_filter "kibana-upgrade" "kibana-upgrade";
+
+
 # Additional Container Envs
 env: |
   - name: SERVER_PORT
@@ -28,6 +36,8 @@ env: |
         key: kibana
   - name: KIBANA_ACCEPTED_CONTEXT_UI_PATHS
     value: workbench-ui,dashboard-ui,microplan-ui,digit-ui,/kibana/app/dashboards,/kibana/login,/kibana/logout
+  - name: KIBANA_BASE_PATH
+    value: {{ .Values.kibanaBasePath | default "kibana" }}
   - name: KIBANA_ACCEPTED_DOMAIN_NAME
     valueFrom:
       configMapKeyRef:

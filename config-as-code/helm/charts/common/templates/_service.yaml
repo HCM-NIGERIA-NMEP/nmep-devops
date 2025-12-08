@@ -12,7 +12,7 @@ metadata:
     prometheus.io/scrape: "true"  
 {{- end }}
 {{- if .Values.ingress.zuul }} 
-    zuul/route-path: {{ .Values.ingress.context }}
+    zuul/route-path: {{ .Values.ingress.rewritePath | default .Values.ingress.context }}
 {{- end }}
 {{- if and .Values.service .Values.service.additionalAnnotations}}                                   
   {{- tpl  .Values.service.additionalAnnotations . | nindent 4 }}

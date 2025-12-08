@@ -110,67 +110,12 @@ payments-ui:
       sub_filter  '<head>' '<head>
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-ba.js type=text/javascript></script>';"
 
-census-service:
-  namespace: kebbi
-  heap: "-Xmx256m -Xms256m"
-  hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 200m
-  memory_requests: 368Mi
-  cpu_limits: 300m
-  memory_limits: 512Mi
-  plan-service-host: ke-plan-service
-  resource-census-create-topic: ke-resource-census-create-topic
-  update-plan-facility: "ke-update-plan-facility"
-  ingress:
-    namespace: kebbi
-
-plan-service:
-  namespace: kebbi
-  heap: "-Xmx512m -Xms256m"
-  replicas: 1
-  hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 200m
-  memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
-  ingress:
-    namespace: kebbi
-  egov-mdms-service-host-key: 'mdms-v2'
-  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
-  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
-  census-service: ke-census-service
-  project-factory: ke-project-factory
-  resource-microplan-create-topic: ke-resource-microplan-create-topic
-
-resource-generator:
-  namespace: kebbi
-  heap: "-Xmx256m -Xms256m"
-  hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 200m
-  memory_requests: 368Mi
-  cpu_limits: 300m
-  memory_limits: 512Mi  
-  egov-mdms-service-host-key: 'mdms-v2'
-  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
-  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
-  plan-service: ke-plan-service
-  census-service: ke-census-service
-  project-factory: ke-project-factory
-  resource-microplan-create-topic: ke-resource-microplan-create-topic
-
 project-factory:
+  central-instance-enabled: false
+  central-instance-build: true
   namespace: kebbi
   heap: "-Xmx512m -Xms256m"
-  replicas: 1
+  replicas: 2
   hpa:
     enabled: false
     minReplicas: 1
@@ -179,21 +124,65 @@ project-factory:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  groupId: "ke-project-factory"
+  context: /ke-project-factory
   ingress:
-    namespace: kebbi
+    name: kebbi-project-factory
+    namespace: egov
+    rewritePath: ke-project-factory
   logLevel: 'debug'
   maxDebugChar: '2000'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
-  save-campaign-details: ke-save-campaign-details
-  update-campaign-details: ke-update-campaign-details
-  plan-service: ke-plan-service
-  census-service: ke-census-service
+  plan-service: plan-service
+  census-service: census-service
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
   DB_SCHEMA: ke
+  defaultTenantId: ke
+  saveProjectCampaignDetailsTopic: "ke-save-project-campaign-details"
+  updateProjectCampaignDetailsTopic: "ke-update-project-campaign-details"
+  startCampaignMappingTopic: "ke-start-campaign-mapping"
+  createResourceDetailsTopic: "ke-create-resource-details"
+  updateResourceDetailsTopic: "ke-update-resource-details"
+  createResourceActivityTopic: "ke-create-resource-activity"
+  updateGeneratedResourceDetailsTopic: "ke-update-generated-resource-details"
+  createGeneratedResourceDetailsTopic: "ke-create-generated-resource-details"
+  savePlanFacilityTopic: "ke-project-factory-save-plan-facility"
+  saveSheetDataTopic: "ke-save-sheet-data"
+  updateSheetDataTopic: "ke-update-sheet-data"
+  saveMappingDataTopic: "ke-save-mapping-data"
+  updateMappingDataTopic: "ke-update-mapping-data"
+  deleteMappingDataTopic: "ke-delete-mapping-data"
+  saveProcessDataTopic: "ke-save-process-data"
+  updateProcessDataTopic: "ke-update-process-data"
+  startAdminConsoleTaskTopic: "ke-start-admin-console-task"
+  startAdminConsoleMappingTaskTopic: "ke-start-admin-console-mapping-task"
+  notificationEmailTopic: "ke-egov.core.notification.email"
+  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundaryType: "COUNTRY"
+  maxResourceCreationAttempts: "10"
+  waitTimeOfEachAttemptMs: "20000"
+  retryTillResourceCreationCompletes: "5"
+  command: |
+    - sh
+    - -c
+  args: |
+    - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      yarn prod
 
 dashboard-analytics:
   namespace: kebbi
+  context: /ke-dashboard-analytics
+  ingress:
+    name: kebbi-dashboard-analytics
+    namespace: egov
+    rewritePath: ke-dashboard-analytics
+  healthChecks:
+    enabled: true
+    livenessProbePath: "/ke-dashboard-analytics/health"
+    readinessProbePath: "/ke-dashboard-analytics/health"
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
@@ -210,6 +199,25 @@ dashboard-analytics:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
       branch: "CENTRAL-UAT"
   config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ke/dashboard-analytics/*.json"
+
+auth-proxy:
+  heap: "-Xmx192m -Xms192m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  ingress:
+    enabled: "true"
+    name: auth-proxy
+    namespace: kebbi
+    context: kibana-upgrade
+    rewritePath: kibana-upgrade
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 368Mi
+  namespace: kebbi
+  kibanaBasePath: "/kibana-upgrade"
 
 microplan-ui:
   namespace: kebbi

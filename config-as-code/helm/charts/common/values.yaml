@@ -10,6 +10,7 @@ httpPort: 8080
 appType: ""
 
 central-instance-build: false
+central-instance-enabled: true
 db-schema-names: "ba"
 
 ingress:
@@ -41,19 +42,21 @@ initContainers:
             pullPolicy: IfNotPresent
             tag: latest
         env: |
-            - name: "DB_URL"
+            - name: DB_URL
               valueFrom: 
                 configMapKeyRef: 
                   name: egov-config
-                  {{- if eq .Values.namespace "bauchi" }}
+                  {{- if index .Values "central-instance-build" }}
+                  key: db-url
+                  {{- else if eq .Values.namespace "bauchi" }}
                   key: ba-db-url
                   {{- else if eq .Values.namespace "kebbi" }}
                   key: ke-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
-            - name: "SCHEMA_NAME"
-              {{- if index .Values "central-instance-build" }}
+            - name: SCHEMA_NAME
+              {{- if and (eq (lower (index .Values "central-instance-build" | quote)) "true") (eq (lower (index .Values "central-instance-enabled" | quote )) "true") }}          
               valueFrom:
                 configMapKeyRef:
                   name: egov-config
@@ -65,7 +68,7 @@ initContainers:
               {{- else }}
               value: "public"
               {{- end }}
-            - name: "SCHEMA_TABLE"
+            - name: SCHEMA_TABLE
               value: {{ .Values.initContainers.dbMigration.schemaTable | quote }}              
             - name: "FLYWAY_USER"
               valueFrom: 
