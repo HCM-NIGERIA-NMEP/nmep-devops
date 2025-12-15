@@ -46,6 +46,8 @@ env: |
         key: egov-user
   - name: EGOV_USER_SEARCH_PATH
     value: "user/_search"
+  - name: SERVER_SERVLET_CONTEXT_PATH
+    value: {{ index .Values "context" | default "/inbox" | quote }} 
   - name: EGOV_DASHBOARD_ANALYTICS_HOST
     valueFrom:
       configMapKeyRef:
@@ -96,4 +98,14 @@ env: |
     value: "true" 
   {{- end }}
   - name: JAVA_ENABLE_DEBUG
-    value: "true"
+    value: "false"
+  - name: EGOV_ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: elastic
+  - name: SERVICES_ESINDEXER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: elastic

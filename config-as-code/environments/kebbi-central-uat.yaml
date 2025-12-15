@@ -268,8 +268,15 @@ health-expense-calculator:
 
 inbox:
   namespace: kebbi
+  context: /ke-inbox
   ingress:
-    namespace: kebbi
+    name: kebbi-inbox
+    namespace: egov
+    rewritePath: ke-inbox
+  healthChecks:
+    enabled: true
+    livenessProbePath: "/ke-inbox/health"
+    readinessProbePath: "/ke-inbox/health"
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
