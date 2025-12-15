@@ -65,6 +65,7 @@ cluster-configs:
       data:
         ke-dashboard-analytics: "http://dashboard-analytics.kebbi:8080/"
         ba-dashboard-analytics: "http://dashboard-analytics.bauchi:8080/"
+        beneficiary-idgen: "http://beneficiary-idgen.egov:8080/"
         egov-enc-service: "http://egov-enc-service.egov:8080/"
         egov-accesscontrol: "http://egov-accesscontrol.egov:8080/"
         egov-user: "http://egov-user.egov:8080/"
