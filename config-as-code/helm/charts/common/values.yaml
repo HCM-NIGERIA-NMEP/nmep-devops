@@ -56,7 +56,7 @@ initContainers:
                   key: db-url
                   {{- end }}            
             - name: SCHEMA_NAME
-              {{- if and (eq (lower (index .Values "central-instance-build" | quote)) "true") (eq (lower (index .Values "central-instance-enabled" | quote )) "true") }}          
+              {{- if and (index .Values "central-instance-build" | default false) (index .Values "central-instance-enabled" | default false) }}            
               valueFrom:
                 configMapKeyRef:
                   name: egov-config
