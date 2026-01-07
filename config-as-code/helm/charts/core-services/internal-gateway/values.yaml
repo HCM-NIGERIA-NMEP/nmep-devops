@@ -7,15 +7,28 @@ serviceAccount: internal-gateway
 namespace: egov  
 
 # Init Containers Configs
-initContainers: 
+#initContainers:
+#  extraInitContainers: |
+#    - name: "zuul-kubernetes-discovery"
+#      image: "{{ .Values.global.containerRegistry }}/zuul-kubernetes-discovery:2-master-91c9795"
+#      env:
+#      - name: "OUTPUT_FILE_PATH"
+#        value: "/etc/zuul/routes.properties"
+#      - name: "NAMESPACE"
+#        value: "egov"
+#      volumeMounts:
+#      - name: zuul-routes
+#        mountPath: /etc/zuul
+
+initContainers:
   extraInitContainers: |
-    - name: "zuul-kubernetes-discovery"
-      image: "{{ .Values.global.containerRegistry }}/zuul-kubernetes-discovery:2-master-91c9795"      
+    - name: "gateway-kubernetes-discovery"
+      image: {{ .Values.global.containerRegistry }}/gateway-kubernetes-discovery:multiarch
       env: 
       - name: "OUTPUT_FILE_PATH"
         value: "/etc/zuul/routes.properties" 
       - name: "NAMESPACE"
-        value: "egov"         
+        value: "egov,kebbi,bauchi"         
       volumeMounts:
       - name: zuul-routes
         mountPath: /etc/zuul

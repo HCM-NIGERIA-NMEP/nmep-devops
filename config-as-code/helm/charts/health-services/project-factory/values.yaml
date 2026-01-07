@@ -101,12 +101,12 @@ env: |
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: plan-service
+          key: {{ index .Values "plan-service" | quote }}
     - name: EGOV_CENSUS_HOST
       valueFrom:
         configMapKeyRef:
           name: egov-service-host
-          key: census-service
+          key: {{ index .Values "census-service" | quote }}
     - name: CONTEXT_PATH
       value: {{ .Values.context | default "/project-factory" }}
     - name: FILE_STORE_SERVICE_END_POINT

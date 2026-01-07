@@ -8,8 +8,8 @@ namespace: egov
 # Ingress Configs
 ingress:
   namespace: egov
-  enabled: false
-  zuul: false
+  enabled: true
+  zuul: true
   context: "resource-generator"
 
 # Container Configs
@@ -32,7 +32,7 @@ egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
 # Additional Container Envs
 env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
-    value: resource-generator
+    value: {{ index .Values "group-id" | default "resource-generator" }}
   - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
     value: org.apache.kafka.common.serialization.StringSerializer
   {{- if index .Values "global" "tracer-errors-provideexceptionindetails" }}
@@ -64,14 +64,14 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: plan-service
+        key: {{ index .Values "plan-service" | quote }}
   - name: EGOV_PLAN_CREATE_ENDPOINT
     value: /plan-service/plan/_create
   - name: EGOV_PROJECT_FACTORY_HOST
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: project-factory
+        key: {{ index .Values "project-factory" | quote }}
   - name: EGOV_BOUNDARY_SERVICE_HOST
     valueFrom:
       configMapKeyRef:
@@ -90,7 +90,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: census-service
+        key: {{ index .Values "census-service" | quote }}
   - name: JAVA_OPTS
     value: {{ index .Values "heap" | quote }}
   - name: JAVA_ARGS
@@ -101,8 +101,16 @@ env: |
     value: "false"
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
+  - name: PLAN_CONFIG_CONSUMER_KAFKA_SAVE_TOPIC
+    value: {{ index .Values "plan-config-create-topic" | quote }}
+  - name: PLAN_CONFIG_CONSUMER_KAFKA_UPDATE_TOPIC
+    value: {{ index .Values "plan-config-update-topic" | quote }}
   - name: RESOURCE_MICROPLAN_CREATE_TOPIC
     value: {{ index .Values "resource-microplan-create-topic" | quote }}
+  - name: RESOURCE_UPDATE_PLAN_CONFIG_CONSUMER_TOPIC
+    value: {{ index .Values "resource-plan-config-update-topic" | quote }}
+  - name: RESOURCE_CENSUS_CREATE_TOPIC
+    value: {{ index .Values "resource-census-create-topic" | quote }}
   - name: INTEGRATE_WITH_ADMIN_CONSOLE
     value: "true"
   - name: DEFAULT_LIMIT_FOR_MDMS_DATA

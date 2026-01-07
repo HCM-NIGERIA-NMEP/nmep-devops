@@ -39,7 +39,7 @@ egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
 # Additional Container Envs
 env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
-    value: plan-service
+    value: {{ index .Values "group-id" | default "plan-service" }}
   - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
     value: org.apache.kafka.common.serialization.StringSerializer
   {{- if index .Values "global" "tracer-errors-provideexceptionindetails" }}
@@ -117,8 +117,30 @@ env: |
     value: "false"
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
+  - name: PLAN_CONFIGURATION_CREATE_TOPIC
+    value: {{ index .Values "plan-config-create-topic" | quote }}
+  - name: PLAN_CONFIGURATION_UPDATE_TOPIC
+    value: {{ index .Values "plan-config-update-topic" | quote }}
+  - name: PLAN_CREATE_TOPIC
+    value: {{ index .Values "plan-create-topic" | quote }}
+  - name: PLAN_UPDATE_TOPIC
+    value: {{ index .Values "plan-update-topic" | quote }}
+  - name: PLAN_BULK_UPDATE_TOPIC
+    value: {{ index .Values "plan-bulk-update-topic" | quote }}
+  - name: PLAN_FACILITY_CREATE_TOPIC
+    value: {{ index .Values "plan-facility-create-topic" | quote }}
+  - name: PLAN_FACILITY_UPDATE_TOPIC
+    value: {{ index .Values "plan-facility-update-topic" | quote }}
+  - name: PLAN_EMPLOYEE_ASSIGNMENT_CREATE_TOPIC
+    value: {{ index .Values "plan-employee-assignment-create-topic" | quote }}
+  - name: PLAN_EMPLOYEE_ASSIGNMENT_UPDATE_TOPIC
+    value: {{ index .Values "plan-employee-assignment-update-topic" | quote }}
   - name: RESOURCE_CONFIG_CONSUMER_PLAN_CREATE_TOPIC
     value: {{ index .Values "resource-microplan-create-topic" | quote }}
+  - name: RESOURCE_UPDATE_PLAN_CONFIG_CONSUMER_TOPIC
+    value: {{ index .Values "resource-plan-config-update-topic" | quote }}
+  - name: PROJECT_FACTORY_SAVE_PLAN_FACILITY_CONSUMER_TOPIC
+    value: {{ index .Values "project-factory-save-plan-facility" | quote }}
   - name: PLAN_DEFAULT_LIMIT
     value: "50"
   - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE

@@ -30,7 +30,7 @@ config-schema-paths: "file:///work-dir/configs/egov-dss-dashboards/dashboard-ana
 # Additional Container Envs
 env: |      
   - name: SERVER_SERVLET_CONTEXT_PATH
-    value: {{ index .Values "context" | default "dashboard-analytics" | quote }}
+    value: {{ index .Values "context" | default "/dashboard-analytics" | quote }}
   - name: SERVER_PORT
     value: "8080" 
   - name: SERVICES_ESINDEXER_HOST

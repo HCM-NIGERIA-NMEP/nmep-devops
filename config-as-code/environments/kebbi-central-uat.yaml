@@ -1,6 +1,10 @@
 global:
   domain: kebbi-hcm-uat.digit.org
 
+service:
+  additionalAnnotations: |
+    zuul/route-host: kebbi-hcm-uat.digit.org
+
 transformer:
   namespace: "kebbi"
   heap: "-Xmx768m -Xms512m"
@@ -110,6 +114,90 @@ payments-ui:
       sub_filter  '<head>' '<head>
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-ba.js type=text/javascript></script>';"
 
+census-service:
+  namespace: "kebbi"
+  group-id: "ke-census-service"
+  ingress:
+    name: kebbi-census-service
+    namespace: egov
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  plan-service-host: "ke-plan-service"
+  egov-plan-employee-assignment-search-endpoint: "/plan-service/employee/_search"
+  census-create-topic: "ke-census-create-topic"
+  census-update-topic: "ke-census-update-topic"
+  census-bulk-update-topic: "ke-census-bulk-update-topic"
+  resource-census-create-topic: "ke-resource-census-create-topic"
+  update-plan-facility: "ke-update-plan-facility"
+
+plan-service:
+  namespace: "kebbi"
+  group-id: "ke-plan-service"
+  ingress:
+    name: kebbi-plan-service
+    namespace: egov
+  heap: "-Xmx512m -Xms256m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  census-service: ke-census-service
+  project-factory: ke-project-factory
+  plan-config-create-topic: ke-plan-config-create-topic
+  plan-config-update-topic: ke-plan-config-update-topic
+  plan-create-topic: ke-save-plan
+  plan-update-topic: ke-update-plan
+  plan-bulk-update-topic: ke-bulk-update-plan
+  plan-facility-create-topic: ke-save-plan-facility
+  plan-facility-update-topic: ke-update-plan-facility
+  plan-employee-assignment-create-topic: ke-plan-employee-assignment-create-topic
+  plan-employee-assignment-update-topic: ke-plan-employee-assignment-update-topic
+  resource-microplan-create-topic: ke-resource-microplan-create-topic
+  resource-plan-config-update-topic: ke-resource-plan-config-update-topic
+  project-factory-save-plan-facility: ke-project-factory-save-plan-facility
+
+resource-generator:
+  namespace: "kebbi"
+  group-id: "ke-resource-generator"
+  ingress:
+    name: kebbi-resource-generator
+    namespace: egov
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  plan-service: ke-plan-service
+  census-service: ke-census-service
+  project-factory: ke-project-factory
+  plan-config-create-topic: ke-plan-config-create-topic
+  plan-config-update-topic: ke-plan-config-update-topic
+  resource-microplan-create-topic: ke-resource-microplan-create-topic
+  resource-plan-config-update-topic: ke-resource-plan-config-update-topic
+  resource-census-create-topic: ke-resource-census-create-topic
+
 project-factory:
   central-instance-enabled: false
   central-instance-build: true
@@ -125,17 +213,15 @@ project-factory:
   cpu_limits: 300m
   memory_limits: 1Gi
   groupId: "ke-project-factory"
-  context: /ke-project-factory
   ingress:
     name: kebbi-project-factory
     namespace: egov
-    rewritePath: ke-project-factory
   logLevel: 'debug'
   maxDebugChar: '2000'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
-  plan-service: plan-service
-  census-service: census-service
+  plan-service: ke-plan-service
+  census-service: ke-census-service
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
   DB_SCHEMA: ke
   defaultTenantId: ke
@@ -169,20 +255,19 @@ project-factory:
   args: |
     - |
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i "s/tenantId: 'mz'/tenantId: request?.body?.RequestInfo?.userInfo?.tenantId || config.app.defaultTenantId/g" src/server/api/campaignApis.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
       yarn prod
 
 dashboard-analytics:
   namespace: kebbi
-  context: /ke-dashboard-analytics
   ingress:
     name: kebbi-dashboard-analytics
     namespace: egov
-    rewritePath: ke-dashboard-analytics
   healthChecks:
     enabled: true
-    livenessProbePath: "/ke-dashboard-analytics/health"
-    readinessProbePath: "/ke-dashboard-analytics/health"
+    livenessProbePath: "/dashboard-analytics/health"
+    readinessProbePath: "/dashboard-analytics/health"
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
@@ -251,32 +336,40 @@ health-expense-calculator:
     minReplicas: 1
     maxReplicas: 3
   ingress:
-    namespace: kebbi
+    name: kebbi-expense-calculator
+    namespace: egov
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi 
   report-header-title: "Health Campaign Payment Report"
   is-attendance-approval-required: "true"
-  register-batch-size: 15 
+  register-batch-size: 15
+  tenantId: "ke"
   calculate-musterroll-health: ke-calculate-musterroll-health
   calculate-error-health: ke-calculate-error-health
   calculate-billmeta-health: ke-calculate-billmeta-health
   report-error-queue-topic: ke-report-error-queue-topic
+  report-retry-queue-topic: ke-report-retry-queue-topic
+  report-generation-trigger-topic: ke-report-generation-trigger-topic
+  report-generation-retry-trigger-topic: ke-report-generation-retry-trigger-topic
   bill-generation-async-topic: ke-bill-generation-async-topic
+  bill-generation-async-enabled: "true"
+  expense-bill-create-topic: ke-expense-bill-create-health
+  expense-bill-update-topic: ke-expense-bill-update-health
+  expense-bill-index-topic: ke-expense-bill-index-health
+  payment-pdf-key: "health-bill-payment-ke"
 
 
 inbox:
   namespace: kebbi
-  context: /ke-inbox
   ingress:
     name: kebbi-inbox
     namespace: egov
-    rewritePath: ke-inbox
   healthChecks:
     enabled: true
-    livenessProbePath: "/ke-inbox/health"
-    readinessProbePath: "/ke-inbox/health"
+    livenessProbePath: "/inbox/health"
+    readinessProbePath: "/inbox/health"
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
