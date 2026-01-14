@@ -509,6 +509,9 @@ facility:
 
 egov-url-shortening:
   heap: "-Xmx192m -Xms192m"
+  ingress:
+    enabled: true
+    zuul: true
   hpa:
     enabled: false
     minReplicas: 1
