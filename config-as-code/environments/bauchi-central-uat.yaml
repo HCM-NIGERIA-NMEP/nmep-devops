@@ -1,6 +1,10 @@
 global:
   domain: bauchi-hcm-uat.digit.org
 
+service:
+  additionalAnnotations: |
+    zuul/route-host: bauchi-hcm-uat.digit.org
+
 namespace: bauchi
 
 transformer:
@@ -113,7 +117,11 @@ payments-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-ba.js type=text/javascript></script>';"
 
 census-service:
-  namespace: bauchi
+  namespace: "bauchi"
+  group-id: "ba-census-service"
+  ingress:
+    name: bauchi-census-service
+    namespace: egov
   heap: "-Xmx256m -Xms256m"
   hpa:
     enabled: false
@@ -123,14 +131,20 @@ census-service:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
-  plan-service-host: ba-plan-service
-  resource-census-create-topic: ba-resource-census-create-topic
+  plan-service-host: "ba-plan-service"
+  egov-plan-employee-assignment-search-endpoint: "/plan-service/employee/_search"
+  census-create-topic: "ba-census-create-topic"
+  census-update-topic: "ba-census-update-topic"
+  census-bulk-update-topic: "ba-census-bulk-update-topic"
+  resource-census-create-topic: "ba-resource-census-create-topic"
   update-plan-facility: "ba-update-plan-facility"
-  ingress:
-    namespace: bauchi
 
 plan-service:
-  namespace: bauchi
+  namespace: "bauchi"
+  group-id: "ba-plan-service"
+  ingress:
+    name: bauchi-plan-service
+    namespace: egov
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
@@ -141,17 +155,30 @@ plan-service:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  ingress:
-    namespace: bauchi
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
   census-service: ba-census-service
   project-factory: ba-project-factory
+  plan-config-create-topic: ba-plan-config-create-topic
+  plan-config-update-topic: ba-plan-config-update-topic
+  plan-create-topic: ba-save-plan
+  plan-update-topic: ba-update-plan
+  plan-bulk-update-topic: ba-bulk-update-plan
+  plan-facility-create-topic: ba-save-plan-facility
+  plan-facility-update-topic: ba-update-plan-facility
+  plan-employee-assignment-create-topic: ba-plan-employee-assignment-create-topic
+  plan-employee-assignment-update-topic: ba-plan-employee-assignment-update-topic
   resource-microplan-create-topic: ba-resource-microplan-create-topic
+  resource-plan-config-update-topic: ba-resource-plan-config-update-topic
+  project-factory-save-plan-facility: ba-project-factory-save-plan-facility
 
 resource-generator:
-  namespace: bauchi
+  namespace: "bauchi"
+  group-id: "ba-resource-generator"
+  ingress:
+    name: bauchi-resource-generator
+    namespace: egov
   heap: "-Xmx256m -Xms256m"
   hpa:
     enabled: false
@@ -160,18 +187,23 @@ resource-generator:
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
-  memory_limits: 512Mi  
+  memory_limits: 512Mi
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
   plan-service: ba-plan-service
   census-service: ba-census-service
   project-factory: ba-project-factory
+  plan-config-create-topic: ba-plan-config-create-topic
+  plan-config-update-topic: ba-plan-config-update-topic
   resource-microplan-create-topic: ba-resource-microplan-create-topic
+  resource-plan-config-update-topic: ba-resource-plan-config-update-topic
+  resource-census-create-topic: ba-resource-census-create-topic
 
 project-factory:
   central-instance-enabled: false
   central-instance-build: true
+  namespace: bauchi
   heap: "-Xmx512m -Xms256m"
   replicas: 2
   hpa:
@@ -183,17 +215,15 @@ project-factory:
   cpu_limits: 300m
   memory_limits: 1Gi
   groupId: "ba-project-factory"
-  context: /ba-project-factory
   ingress:
     name: bauchi-project-factory
     namespace: egov
-    rewritePath: ba-project-factory
   logLevel: 'debug'
   maxDebugChar: '2000'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
-  plan-service: plan-service
-  census-service: census-service
+  plan-service: ba-plan-service
+  census-service: ba-census-service
   excel-ingestion-host: ba-excel-ingestion
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
   DB_SCHEMA: ba
@@ -224,16 +254,6 @@ project-factory:
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
   retryTillResourceCreationCompletes: "5"
-  validateCampaignIdInMetadata: 'false'
-  notCreateUserIfAlreadyThere: 'false'
-  formConfigTemplateName: 'FormConfigTemplate'
-  formConfigName: 'FormConfig'
-  excelIngestionProcess: 'excel-ingestion/v1/data/process/_create'
-  excelIngestionGenerate: 'excel-ingestion/v1/data/generate/_init'
-  emailNotificationId: 'support@egov.org.in'
-  egovLogoLink: 'https://egov-qa-assets.s3.ap-south-1.amazonaws.com/egovLogo.png'
-  mdmsV1SchemaSearchEndpoint: 'mdms-v2/schema/v1/_search'
-  excelIngestionGenerateSearch: 'excel-ingestion/v1/data/generate/_search'
   command: |
     - sh
     - -c
@@ -246,6 +266,9 @@ project-factory:
 
 excel-ingestion:
   namespace: bauchi
+  ingress:
+    name: bauchi-excel-ingestion
+    namespace: egov
   group-id: "ba-excel-ingestion"
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
