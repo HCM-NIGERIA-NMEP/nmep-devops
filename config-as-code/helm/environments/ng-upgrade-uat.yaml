@@ -113,6 +113,9 @@ cluster-configs:
         jaeger-collector: 'http://jaeger-collector.tracing:80/'
         ke-inbox: 'http://inbox.kebbi:8080/'
         ba-inbox: 'http://inbox.bauchi:8080/'
+        boundary-management: 'http://boundary-management:8080/'
+        ke-excel-ingestion: 'http://excel-ingestion.kebbi:8080/'
+        ba-excel-ingestion: 'http://excel-ingestion.bauchi:8080/'
 
     hcm-moz-impl:
       data:
@@ -773,3 +776,15 @@ auth-proxy:
   namespace: egov
   kibanaBasePath: "/kibana-upgrade"
 
+boundary-management:
+  DEBUG: 'true'
+  namespace: 'egov'
+  logLevel: 'debug'
+  defaultLocale: 'en_MZ'
+  mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
+  mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  defaultTenantId: 'mz'
+  validateCampaignIdInMetadata: 'false'
+  central-instance-name: egov
+  central-instance-build: true
+  central-instance-enabled: false

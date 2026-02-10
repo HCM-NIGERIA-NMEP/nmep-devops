@@ -224,6 +224,16 @@ project-factory:
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
   retryTillResourceCreationCompletes: "5"
+  validateCampaignIdInMetadata: 'false'
+  notCreateUserIfAlreadyThere: 'false'
+  formConfigTemplateName: 'FormConfigTemplate'
+  formConfigName: 'FormConfig'
+  excelIngestionProcess: 'excel-ingestion/v1/data/process/_create'
+  excelIngestionGenerate: 'excel-ingestion/v1/data/generate/_init'
+  emailNotificationId: 'support@egov.org.in'
+  egovLogoLink: 'https://egov-qa-assets.s3.ap-south-1.amazonaws.com/egovLogo.png'
+  mdmsV1SchemaSearchEndpoint: 'mdms-v2/schema/v1/_search'
+  excelIngestionGenerateSearch: 'excel-ingestion/v1/data/generate/_search'
   command: |
     - sh
     - -c
@@ -232,6 +242,18 @@ project-factory:
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
       yarn prod
+
+
+excel-ingestion:
+  namespace: bauchi
+  group-id: "ba-excel-ingestion"
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
+  defaultLocale: 'en_MZ'
+  central-instance-name: egov
+  central-instance-build: true
+  central-instance-enabled: false
+  project-factory-host: ba-project-facotry
 
 dashboard-analytics:
   namespace: bauchi
