@@ -222,9 +222,12 @@ project-factory:
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
   plan-service: ke-plan-service
   census-service: ke-census-service
+  excel-ingestion-host: ke-excel-ingestion
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
   DB_SCHEMA: ke
   defaultTenantId: ke
+  saveCampaignDetails: "ke-save-campaign-details"
+  updateCampaignDetails: "ke-update-campaign-details"
   saveProjectCampaignDetailsTopic: "ke-save-project-campaign-details"
   updateProjectCampaignDetailsTopic: "ke-update-project-campaign-details"
   startCampaignMappingTopic: "ke-start-campaign-mapping"

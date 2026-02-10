@@ -194,9 +194,12 @@ project-factory:
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
   plan-service: plan-service
   census-service: census-service
+  excel-ingestion-host: ba-excel-ingestion
   IS_ENVIRONMENT_CENTRAL_INSTANCE: false
   DB_SCHEMA: ba
   defaultTenantId: ba
+  saveCampaignDetails: "ba-save-campaign-details"
+  updateCampaignDetails: "ba-update-campaign-details"
   saveProjectCampaignDetailsTopic: "ba-save-project-campaign-details"
   updateProjectCampaignDetailsTopic: "ba-update-project-campaign-details"
   startCampaignMappingTopic: "ba-start-campaign-mapping"
