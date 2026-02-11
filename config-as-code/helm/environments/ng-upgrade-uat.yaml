@@ -783,6 +783,8 @@ auth-proxy:
 
 boundary-management:
   DEBUG: 'true'
+  cpu_requests: 200m
+  memory_requests: 768Mi
   namespace: 'egov'
   logLevel: 'debug'
   defaultLocale: 'en_MZ'

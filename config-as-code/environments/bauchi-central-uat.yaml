@@ -270,6 +270,8 @@ excel-ingestion:
     name: bauchi-excel-ingestion
     namespace: egov
   group-id: "ba-excel-ingestion"
+  cpu_requests: 200m
+  memory_requests: 768Mi
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
   defaultLocale: 'en_MZ'
