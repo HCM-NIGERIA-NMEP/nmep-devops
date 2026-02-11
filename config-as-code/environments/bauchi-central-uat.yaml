@@ -279,6 +279,13 @@ excel-ingestion:
   central-instance-build: true
   central-instance-enabled: false
   project-factory-host: ba-project-facotry
+  excel-ingestion-generation-save-topic: "ba-save-generated-file"
+  excel-ingestion-generation-update-topic: "ba-update-generated-file"
+  excel-ingestion-processing-save-topic: "ba-save-processing-file"
+  excel-ingestion-processing-update-topic: "ba-update-processing-file"
+  excel-ingestion-sheet-data-save-topic: "ba-save-sheet-data-temp"
+  excel-ingestion-sheet-data-delete-topic: "ba-delete-sheet-data-temp"
+  excel-ingestion-processing-result-topic: "ba-hcm-processing-result"
 
 dashboard-analytics:
   namespace: bauchi

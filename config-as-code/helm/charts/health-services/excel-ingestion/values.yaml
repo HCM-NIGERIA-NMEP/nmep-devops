@@ -113,3 +113,17 @@ env: |
     value: "update"
   - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
     value: "org.hibernate.dialect.PostgreSQLDialect"
+  - name: EXCEL_INGESTION_GENERATION_SAVE_TOPIC
+    value: {{ index .Values "excel-ingestion-generation-save-topic" | default "save-generated-file" | quote }}
+  - name: EXCEL_INGESTION_GENERATION_UPDATE_TOPIC
+    value: {{ index .Values "excel-ingestion-generation-update-topic" | default "update-generated-file" | quote }}
+  - name: EXCEL_INGESTION_PROCESSING_SAVE_TOPIC
+    value: {{ index .Values "excel-ingestion-processing-save-topic" | default "save-processing-file" | quote }}
+  - name: EXCEL_INGESTION_PROCESSING_UPDATE_TOPIC
+    value: {{ index .Values "excel-ingestion-processing-update-topic" | default "update-processing-file" | quote }}
+  - name: EXCEL_INGESTION_SHEET_DATA_SAVE_TOPIC
+    value: {{ index .Values "excel-ingestion-sheet-data-save-topic" | default "save-sheet-data-temp" | quote }}
+  - name: EXCEL_INGESTION_SHEET_DATA_DELETE_TOPIC
+    value: {{ index .Values "excel-ingestion-sheet-data-delete-topic" | default "delete-sheet-data-temp" | quote }}
+  - name: EXCEL_INGESTION_PROCESSING_RESULT_TOPIC
+    value: {{ index .Values "excel-ingestion-processing-result-topic" | default "hcm-processing-result" | quote }}

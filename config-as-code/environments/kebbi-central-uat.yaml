@@ -262,6 +262,29 @@ project-factory:
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
       yarn prod
 
+excel-ingestion:
+  namespace: kebbi
+  ingress:
+    name: kebbi-excel-ingestion
+    namespace: egov
+  group-id: "ke-excel-ingestion"
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
+  defaultLocale: 'en_MZ'
+  central-instance-name: egov
+  central-instance-build: true
+  central-instance-enabled: false
+  project-factory-host: ke-project-facotry
+  excel-ingestion-generation-save-topic: "ke-save-generated-file"
+  excel-ingestion-generation-update-topic: "ke-update-generated-file"
+  excel-ingestion-processing-save-topic: "ke-save-processing-file"
+  excel-ingestion-processing-update-topic: "ke-update-processing-file"
+  excel-ingestion-sheet-data-save-topic: "ke-save-sheet-data-temp"
+  excel-ingestion-sheet-data-delete-topic: "ke-delete-sheet-data-temp"
+  excel-ingestion-processing-result-topic: "ke-hcm-processing-result"
+
 dashboard-analytics:
   namespace: kebbi
   ingress:
