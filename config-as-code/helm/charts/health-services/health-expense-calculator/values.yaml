@@ -97,6 +97,8 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: boundary-service
+  - name: EGOV_BOUNDARY_SEARCH_URL
+    value: {{ index .Values "egov-boundary-search-url" | default "/boundary-service/boundary-relationships/_search" }}
   - name: PROJECT_SERVICE_HOST
     valueFrom:
       configMapKeyRef:
@@ -114,8 +116,16 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: pdf-service
+  {{- if index .Values "excell-state-level-tenant-id" }}
   - name: STATE_LEVEL_TENANT_ID
-    value: {{ index .Values "tenantId" | quote }}
+    value: {{ index .Values "excell-state-level-tenant-id" | quote }}
+  {{- else }}
+  - name: STATE_LEVEL_TENANT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: egov-state-level-tenant-id
+  {{- end }}
   {{- if index .Values "payment-pdf-key" }}
   - name: PAYMENT_PDF_KEY
     value: {{ index .Values "payment-pdf-key" | quote }}
@@ -208,9 +218,32 @@ env: |
   - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE
     value: {{ index .Values "spring-kafka-producer-properties-max-request-size" | quote }} 
   {{- end }}
-  - name: JAVA_ENABLE_DEBUG
-    value: {{ index .Values "java-enable-debug" | quote }}
   - name: WORKS_ATTENDANCE_REGISTER_SEARCH_ENDPOINT
     value: attendance/v1/_search
+  - name: WORKS_ATTENDANCE_REGISTER_UPDATE_ENDPOINT
+    value: attendance/v1/_update
+  - name: EGOV_MUSTERROLL_SEARCH_ENDPOINT 
+    value: {{ index .Values "egov-musterroll-search-endpoint" | quote }} 
+  - name: IS_HEALTH_CONTEXT_ENABLED
+    value: "true"
   - name: EGOV_INDIVIDUAL_SEARCH_ENDPOINT
-    value: individual/v1/_search
+    value: "/individual/v1/_search"
+  - name: EGOV_FILESTORE_PATH
+    value: "filestore/v1/files"
+  - name: BILLING_FREQUENCY_CUSTOM_MINIMUM_DAYS
+    value: {{ index .Values "billing-frequency-custom-minimum-days" | quote }}
+  - name: BILLING_CONFIG_V2_ENABLED
+    value: {{ index .Values "billing-config-v2-enabled" | default "false" | quote }}
+  - name: BILLING_CONFIG_CREATE_TOPIC
+    value: {{ index .Values "billing-config-create-topic" | default "billing-config-create" | quote }}
+  - name: BILLING_CONFIG_UPDATE_TOPIC
+    value: {{ index .Values "billing-config-update-topic" | default "billing-config-update" | quote }}
+  - name: BILLING_PERIOD_STATUS_UPDATE_TOPIC
+    value: {{ index .Values "billing-period-status-update-topic" | default "billing-period-status-update" | quote }}
+  - name: BILLING_PERIOD_GENERATION_ENABLED
+    value: {{ index .Values "billing-period-generation-enabled" | default "false" | quote }}
+  - name: BILLING_MUSTER_ROLL_PERIOD_AWARE_ENABLED
+    value: {{ index .Values "billing-muster-roll-period-aware-enabled" | default "false" | quote }}
+  - name: BILLING_V2_BATCH_PROCESSING_ENABLED
+    value: "false"
+  

@@ -344,8 +344,10 @@ health-expense-calculator:
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
-  memory_limits: 512Mi 
+  memory_limits: 512Mi
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   report-header-title: "Health Campaign Payment Report"
+  report-date-time-format: "dd/MM/yyyy HH:mm:ss z"
   is-attendance-approval-required: "true"
   register-batch-size: 15
   tenantId: "ke"
@@ -362,6 +364,14 @@ health-expense-calculator:
   expense-bill-update-topic: ke-expense-bill-update-health
   expense-bill-index-topic: ke-expense-bill-index-health
   payment-pdf-key: "health-bill-payment-ke"
+  billing-frequency-custom-minimum-days: "1"
+  billing-config-v2-enabled: "true"
+  billing-config-create-topic: ke-billing-config-create
+  billing-config-update-topic: ke-billing-config-update
+  billing-period-status-update-topic: ke-billing-period-status-update
+  billing-period-generation-enabled: "true"
+  billing-muster-roll-period-aware-enabled: "true"
+  egov-musterroll-search-endpoint: "/health-muster-roll/v1/_search"
 
 
 inbox:

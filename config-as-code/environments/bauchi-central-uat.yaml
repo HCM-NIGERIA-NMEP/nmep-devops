@@ -357,19 +357,39 @@ health-expense-calculator:
     minReplicas: 1
     maxReplicas: 3
   ingress:
-    namespace: bauchi
+    name: bauchi-expense-calculator
+    namespace: egov
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
-  memory_limits: 512Mi 
+  memory_limits: 512Mi
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   report-header-title: "Health Campaign Payment Report"
+  report-date-time-format: "dd/MM/yyyy HH:mm:ss z"
   is-attendance-approval-required: "true"
-  register-batch-size: 15 
+  register-batch-size: 15
+  tenantId: "ba"
   calculate-musterroll-health: ba-calculate-musterroll-health
   calculate-error-health: ba-calculate-error-health
   calculate-billmeta-health: ba-calculate-billmeta-health
   report-error-queue-topic: ba-report-error-queue-topic
+  report-retry-queue-topic: ba-report-retry-queue-topic
+  report-generation-trigger-topic: ba-report-generation-trigger-topic
+  report-generation-retry-trigger-topic: ba-report-generation-retry-trigger-topic
   bill-generation-async-topic: ba-bill-generation-async-topic
+  bill-generation-async-enabled: "true"
+  expense-bill-create-topic: ba-expense-bill-create-health
+  expense-bill-update-topic: ba-expense-bill-update-health
+  expense-bill-index-topic: ba-expense-bill-index-health
+  payment-pdf-key: "health-bill-payment-ba"
+  billing-frequency-custom-minimum-days: "1"
+  billing-config-v2-enabled: "true"
+  billing-config-create-topic: ba-billing-config-create
+  billing-config-update-topic: ba-billing-config-update
+  billing-period-status-update-topic: ba-billing-period-status-update
+  billing-period-generation-enabled: "true"
+  billing-muster-roll-period-aware-enabled: "true"
+  egov-musterroll-search-endpoint: "/health-muster-roll/v1/_search"
 
 inbox:
   namespace: bauchi

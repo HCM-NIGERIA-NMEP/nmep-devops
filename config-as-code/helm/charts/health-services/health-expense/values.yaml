@@ -127,7 +127,7 @@ env: |
   - name: EGOV_MDMS_V2_SEARCH_ENDPOINT
     value: {{ index .Values "egov-mdms-v2-search-endpoint" | quote }} 
   {{- end }}
-  - name: JAVA_ENABLE_DEBUG
-    value: {{ index .Values "java-enable-debug" | quote }}
   - name: IS_HEALTH_CONTEXT_ENABLED
     value: "true"
+  - name: EXPENSE_V2_PERIODIC_BILLING_ENABLED
+    value: {{ index .Values "expense-v2-periodic-billing-enabled" | default "false" | quote }} 

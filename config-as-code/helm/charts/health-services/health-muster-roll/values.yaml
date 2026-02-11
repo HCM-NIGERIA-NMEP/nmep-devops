@@ -51,6 +51,8 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: mdms-v2
+  - name: EGOV_MDMS_SEARCH_ENDPOINT 
+    value: /mdms-v2/v1/_search
   - name: EGOV_IDGEN_HOST
     valueFrom:
       configMapKeyRef:
@@ -194,5 +196,9 @@ env: |
   - name: MUSTERROLL_SET_DEFAULT_DURATION_ENABLED
     value: {{ index .Values "musterroll-set-default-duration-enabled" | quote }}
   {{- end }}
+  - name: MUSTERROLL_KAFKA_STATUS_UPDATE_TOPIC
+    value: {{ index .Values "musterroll-kafka-status-update-topic" | default "muster-roll-status-update" | quote }}
+  - name: MUSTERROLL_PERIOD_LOCKING_ENABLED
+    value: {{ index .Values "musterroll-period-locking-enabled" | default "true" | quote }}
 
   
