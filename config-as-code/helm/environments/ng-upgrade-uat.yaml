@@ -135,6 +135,7 @@ egov-filestore:
   memory_requests: "512Mi"
   cpu_requests: "200m"
   memory_limits: "768Mi"
+  cpu_limits: "500m"
   replicas: 1
 
 

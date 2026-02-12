@@ -30,6 +30,8 @@ tracing-enabled: true
 heap: "-Xmx368m -Xms192m"
 memory_requests: "512Mi"
 cpu_requests: "200m"
+memory_limits: "512Mi"
+cpu_limits: "200m"
 java-args: ""
 
 # Additional Container Envs
