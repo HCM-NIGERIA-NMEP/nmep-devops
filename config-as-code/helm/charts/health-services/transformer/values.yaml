@@ -83,12 +83,6 @@ env: |
     value: {{ index .Values "health-transformer" | quote }}
   - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
     value: org.apache.kafka.common.serialization.StringSerializer
-  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SESSION_TIMEOUT_MS
-    value: "240000"
-  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_HEARTBEAT_INTERVAL_MS
-    value: "30000"
-  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_POLL_INTERVAL_MS
-    value: "600000" 
   {{- if index .Values "global" "tracer-errors-provideexceptionindetails" }}
   - name: TRACER_ERRORS_PROVIDEEXCEPTIONINDETAILS
     valueFrom:
@@ -100,8 +94,6 @@ env: |
     value: {{ index .Values "heap" | quote }}
   - name: JAVA_ARGS
     value: {{ index .Values "java-args" | quote }}
-  - name: JAVA_ENABLE_DEBUG
-    value: {{ index .Values "java-enable-debug" | quote }}
   - name: SERVER_PORT
     value: "8080"
   - name: SECURITY_BASIC_ENABLED
@@ -259,7 +251,7 @@ env: |
   - name: TRANSFORMER_PRODUCER_HFREFERRAL_SERVICE_INDEX_TOPIC
     value: {{ index .Values "transformer-producer-hfreferral-service-index-topic" | quote }}
   - name: HFREFERRAL_FEVER_SERVICE_CHECKLIST_NAME
-    value: SMCNigeria.HF_RF_FEVER.HEALTH_FACILITY_SUPERVISOR
+    value: SMCMozambique.HF_RF_FEVER.HEALTH_FACILITY_SUPERVISOR
   - name: TRANSFORMER_PRODUCER_FINANCE_CHECKLIST_INDEX_V1_TOPIC
     value: {{ index .Values "transformer-producer-finance-checklist-index-v1-topic" | quote }}
   - name: FINANCE_CHECKLIST_INDEX_CHECKLIST_NAMES
@@ -287,32 +279,11 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: household
-  - name: SPRING_REDIS_HOST
-    valueFrom:
-      configMapKeyRef:
-        name: egov-config
-        key: redis-host
-  - name: SPRING_REDIS_PORT
-    value: "6379"
-  - name: SPRING_CACHE_TYPE
-    value: "redis"
-  - name: SPRING_CACHE_REDIS_TIME-TO-LIVE
-    value: "60"
   - name: EGOV_ATTENDANCE_HOST
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
         key: attendance-service
-  - name: TRANSFORMER_CONSUMER_SAVE_ATTENDANCE_LOG_TOPIC
-    value: {{ index .Values "save-attendance-log" | quote }}
-  - name: TRANSFORMER_CONSUMER_UPDATE_ATTENDANCE_LOG_TOPIC
-    value: {{ index .Values "update-attendance-log" | quote }}
-  - name: TRANSFORMER_PRODUCER_ATTENDANCE_LOG_INDEX_V1_TOPIC
-    value: {{ index .Values "transformer-save-attendance-log" | quote }}
-  - name: TRANSFORMER_PRODUCER_ATTENDANCE_REGISTER_INDEX_V1_TOPIC
-    value: {{ index .Values "transformer-save-attendance-register" | quote }}
-  - name: EGOV_SEARCH_ATTENDANCE_REGISTER_URL
-    value: /attendance/v1/_search
   - name: EGOV_USER_HOST
     valueFrom:
       configMapKeyRef:
@@ -349,7 +320,32 @@ env: |
     value: "3"
   - name: EGOV_PROGRAM_MANDATE_DIVIDING_FACTOR
     value: "1.8"
+  - name: EGOV_SEARCH_ATTENDANCE_REGISTER_URL
+    value: "attendance/v1/_search"
+  - name: TRANSFORMER_CONSUMER_SAVE_ATTENDANCE_LOG_TOPIC
+    value: {{ index .Values "save-attendance-log-topic" | default "save-attendance-log" | quote }}
+  - name: TRANSFORMER_CONSUMER_UPDATE_ATTENDANCE_LOG_TOPIC
+    value: {{ index .Values "update-attendance-log-topic" | default "update-attendance-log" | quote }}
+  - name: TRANSFORMER_PRODUCER_ATTENDANCE_LOG_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-save-attendance-log-topic" | default "transformer-save-attendance-log" | quote }}
+  - name: TRANSFORMER_PRODUCER_ATTENDANCE_REGISTER_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-save-attendance-register-topic" | default "transformer-save-attendance-register" | quote }}
   - name: EGOV_LOCALIZATION_LOCALE_CODE
     value: en_MZ
   - name: EGOV_LOCALIZATION_MODULE_NAME
-    value: hcm-boundary-admin
+    value: hcm-boundary-microplan
+  - name: EGOV_PROJECT_FACTORY_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: {{ index .Values "project-factory-host" | quote }}
+  - name: EGOV_PROJECT_FACTORY_SEARCH_ENDPOINT
+    value: "project-factory/v1/project-type/search"
+  - name: SPRING_REDIS_HOST
+    value: redis.backbone
+  - name: SPRING_REDIS_PORT
+    value: "6379"
+  - name: SPRING_CACHE_TYPE
+    value: "redis"
+  - name: SPRING_CACHE_REDIS_TIME-TO-LIVE
+    value: "60"

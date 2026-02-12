@@ -27,7 +27,9 @@ healthChecks:
   readinessProbePath: "/egov-user-event/health"
 appType: "java-spring"
 tracing-enabled: true
-heap: "-Xmx192m -Xms192m"
+heap: "-Xmx368m -Xms192m"
+memory_requests: "512Mi"
+cpu_requests: "200m"
 java-args: ""
 
 # Additional Container Envs

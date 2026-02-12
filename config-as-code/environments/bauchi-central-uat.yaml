@@ -19,6 +19,11 @@ transformer:
   cpu_limits: 300m
   memory_limits: 1.5Gi
   java-enable-debug: true
+  project-factory-host: "ba-project-factory"
+  save-attendance-log-topic: "ba-save-attendance-log"
+  update-attendance-log-topic: "ba-update-attendance-log"
+  transformer-save-attendance-log-topic: "ba-transformer-save-attendance-log"
+  transformer-save-attendance-register-topic: "ba-transformer-save-attendance-register"
   save-project-task-topic: "ba-save-project-task-topic"
   update-project-task-topic: "ba-update-project-task-topic"
   transformer-producer-bulk-project-task-index-v1-topic: "ba-transformer-producer-bulk-project-task-index-v1-topic"
@@ -278,7 +283,7 @@ excel-ingestion:
   central-instance-name: egov
   central-instance-build: true
   central-instance-enabled: false
-  project-factory-host: ba-project-facotry
+  project-factory-host: ba-project-factory
   excel-ingestion-generation-save-topic: "ba-save-generated-file"
   excel-ingestion-generation-update-topic: "ba-update-generated-file"
   excel-ingestion-processing-save-topic: "ba-save-processing-file"
@@ -289,15 +294,13 @@ excel-ingestion:
 
 dashboard-analytics:
   namespace: bauchi
-  context: /ba-dashboard-analytics
   ingress:
     name: bauchi-dashboard-analytics
     namespace: egov
-    rewritePath: ba-dashboard-analytics
   healthChecks:
     enabled: true
-    livenessProbePath: "/ba-dashboard-analytics/health"
-    readinessProbePath: "/ba-dashboard-analytics/health"
+    livenessProbePath: "/dashboard-analytics/health"
+    readinessProbePath: "/dashboard-analytics/health"
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
@@ -313,7 +316,7 @@ dashboard-analytics:
       enabled: true
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
       branch: "CENTRAL-UAT"
-  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ke/dashboard-analytics/*.json"
+  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ba/dashboard-analytics/*.json"
 
 auth-proxy:
   heap: "-Xmx192m -Xms192m"
