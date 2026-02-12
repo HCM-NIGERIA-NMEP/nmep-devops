@@ -101,7 +101,7 @@ module "eks" {
   iam_role_arn    = "arn:aws:iam::022499048165:role/ng-upgrade-uat2025040205302058500000000b"
   endpoint_public_access  = true
   endpoint_private_access = true
-  endpoint_public_access_cidrs = ["13.244.166.52/32", "45.118.156.19/32"]
+  endpoint_public_access_cidrs = ["0.0.0.0/0", "13.244.166.52/32", "14.143.10.98/32", "3.6.20.68/32"]
   authentication_mode = "API_AND_CONFIG_MAP"
   subnet_ids      = concat(module.network.private_subnets, module.network.public_subnets)
   node_security_group_additional_rules = {
@@ -191,7 +191,7 @@ module "eks_managed_node_group" {
 }
 
 module "ebs_csi_driver_irsa" {
-  depends_on = [module.eks]
+  # depends_on = [module.eks]
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.20"
   role_name_prefix = "ebs-csi-driver-"
@@ -439,6 +439,11 @@ resource "helm_release" "karpenter-crd" {
   version             = "1.8.1"
   wait                = true
   values = []
+  depends_on = [
+    module.eks,
+    module.eks_managed_node_group
+  ]
+
 }
 
 resource "helm_release" "karpenter" {
@@ -556,28 +561,117 @@ resource "kubectl_manifest" "karpenter_node_pool" {
   ]
 }
 
-module "eks-cluster-autoscaler" {
-  count = var.enable_ClusterAutoscaler ? 1 : 0
-  source  = "lablabs/eks-cluster-autoscaler/aws"
-  version = "3.1.0"
-  cluster_name = var.cluster_name
-  cluster_identity_oidc_issuer = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
-  cluster_identity_oidc_issuer_arn = data.aws_iam_openid_connect_provider.oidc_arn.arn
-  irsa_role_name = var.cluster_name
-  namespace = "autoscaler"
-  service_account_name = "cluster-autoscaler"
-  service_account_namespace = "autoscaler"
-  values = yamlencode({
-    extraArgs = {
-      logtostderr: true
-      stderrthreshold: "info"
-      v: 4
-      scale-down-utilization-threshold: 0.6
-    }
-  })
+resource "kubectl_manifest" "karpenter_arm64_node_class" {
+  count = var.enable_karpenter ? 1 : 0
+  yaml_body = <<-YAML
+    apiVersion: karpenter.k8s.aws/v1
+    kind: EC2NodeClass
+    metadata:
+      name: arm64-node-class
+    spec:
+      amiFamily: AL2023
+      amiSelectorTerms:
+      - id: ami-00803372c8c8abc8b
+      role: ${module.eks_managed_node_group.iam_role_name}
+      subnetSelectorTerms:
+        - tags:
+            karpenter.sh/discovery: ${module.eks.cluster_name}
+      securityGroupSelectorTerms:
+        - tags:
+            karpenter.sh/discovery: ${module.eks.cluster_name}
+      tags:
+        KubernetesCluster: ${var.cluster_name}
+        karpenter.sh/discovery: ${module.eks.cluster_name}
+  YAML
+
+  depends_on = [
+    helm_release.karpenter
+  ]
+}
+
+resource "kubectl_manifest" "karpenter_arm64_node_pool" {
+  count = var.enable_karpenter ? 1 : 0
+  yaml_body = <<-YAML
+    apiVersion: karpenter.sh/v1
+    kind: NodePool
+    metadata:
+      name: arm64-node-pool
+    spec:
+      template:
+        metadata:
+          labels:
+            "kubernetes.io/arch": "arm64"
+            "architecture": "arm64"
+        spec:
+          taints:
+          - key: "arm64-only"
+            value: "true"
+            effect: NoSchedule
+          nodeClassRef:
+            name: arm64-node-class
+            group: karpenter.k8s.aws  # Updated since only a single version will be served
+            kind: EC2NodeClass
+          requirements:
+            - key: "karpenter.k8s.aws/instance-category"
+              operator: In
+              values: ["r"]
+            - key: "karpenter.k8s.aws/instance-family"
+              operator: In
+              values: ["r6g"]
+            - key: "node.kubernetes.io/instance-type"
+              operator: Exists
+              values: ["r6g.large"]
+            - key: "karpenter.k8s.aws/instance-cpu"
+              operator: In
+              values: ["2"]
+            - key: "kubernetes.io/arch"
+              operator: In
+              values: ["arm64"]
+            - key: "karpenter.sh/capacity-type"
+              operator: In
+              values: ["on-demand"]
+            - key: "karpenter.k8s.aws/instance-generation"
+              operator: In
+              values: ["6"]
+      disruption:
+        consolidationPolicy: WhenEmptyOrUnderutilized
+        consolidateAfter: 1m
+        budgets:
+        - nodes: "80%"
+          reasons: 
+          - "Empty"
+          - "Drifted"
+        - nodes: "50%"
+          reasons: 
+          - "Underutilized"
+  YAML
+
+  depends_on = [
+    kubectl_manifest.karpenter_node_class
+  ]
 }
 
 
+# module "eks-cluster-autoscaler" {
+#   count = var.enable_ClusterAutoscaler ? 1 : 0
+#   source  = "lablabs/eks-cluster-autoscaler/aws"
+#   version = "3.1.0"
+#   cluster_name = var.cluster_name
+#   cluster_identity_oidc_issuer = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+#   cluster_identity_oidc_issuer_arn = data.aws_iam_openid_connect_provider.oidc_arn.arn
+#   irsa_role_name = var.cluster_name
+#   namespace = "autoscaler"
+#   service_account_name = "cluster-autoscaler"
+#   service_account_namespace = "autoscaler"
+#   values = yamlencode({
+#     extraArgs = {
+#       logtostderr: true
+#       stderrthreshold: "info"
+#       v: 4
+#       scale-down-utilization-threshold: 0.6
+#     }
+#   })
+# }
 
 
 module "es-master" {
