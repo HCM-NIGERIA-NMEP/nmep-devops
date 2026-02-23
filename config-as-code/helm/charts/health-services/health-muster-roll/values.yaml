@@ -200,5 +200,16 @@ env: |
     value: {{ index .Values "musterroll-kafka-status-update-topic" | default "muster-roll-status-update" | quote }}
   - name: MUSTERROLL_PERIOD_LOCKING_ENABLED
     value: {{ index .Values "musterroll-period-locking-enabled" | default "true" | quote }}
+  - name: MUSTER_ROLL_ATTENDANCE_REPORT_GENERATE_TOPIC
+    value: generate-attendance-report
+  - name: MUSTER_ROLL_ATTENDANCE_REPORT_UPDATE_TOPIC
+    value: attendance-report-update
+  - name: EGOV_FILESTORE_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-filestore
+  - name: EGOV_FILESTORE_ENDPOINT
+    value: filestore/v1/files
 
   
