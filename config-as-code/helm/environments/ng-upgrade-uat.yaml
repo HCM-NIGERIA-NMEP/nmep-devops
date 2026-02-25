@@ -163,7 +163,7 @@ mdms-v2:
   cpu_requests: 200m
   memory_requests: 256Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
+  memory_limits: 1Gi
 
 egov-accesscontrol:
   heap: "-Xmx192m -Xms192m"
