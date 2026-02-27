@@ -116,7 +116,7 @@ cluster-configs:
         boundary-management: 'http://boundary-management:8080/'
         ke-excel-ingestion: 'http://excel-ingestion.kebbi:8080/'
         ba-excel-ingestion: 'http://excel-ingestion.bauchi:8080/'
-
+        worker-registry-host: 'http://worker-registry.egov:8080/'
     hcm-moz-impl:
       data:
         dhis2-host: "https://ccu.misau.gov.mz/ccu"

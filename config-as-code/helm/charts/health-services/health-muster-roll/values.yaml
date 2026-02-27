@@ -211,5 +211,26 @@ env: |
         key: egov-filestore
   - name: EGOV_FILESTORE_ENDPOINT
     value: filestore/v1/files
-
+  - name: ELASTICSEARCH_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: es-client
+  - name: ELASTICSEARCH_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: elastic
+        key: username
+  - name: ELASTICSEARCH_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elastic
+        key: password
+  - name: EGOV_WORKER_REGISTRY_ENABLED
+    value: "false"
+  - name: EGOV_WORKER_REGISTRY_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: worker-registry-host
   
