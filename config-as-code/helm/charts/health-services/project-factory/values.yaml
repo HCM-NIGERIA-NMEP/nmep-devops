@@ -382,3 +382,14 @@ env: |
       value: {{ .Values.localizationModule | default "hcm-admin-schemas" }}
     - name: KAFKAJS_GROUP_ID
       value: {{ .Values.groupId | default "project-factory" }}
+    - name: EGOV_WORKER_REGISTRY_HOST
+      valueFrom:
+        configMapKeyRef:
+            name: egov-service-host
+            key: worker-registry-host
+    - name: EGOV_WORKER_REGISTRY_BULK_CREATE
+      value: {{ .Values.workerRegistryBulkCreate | default "worker/v1/bulk/_create" }}
+    - name: EGOV_WORKER_REGISTRY_BULK_UPDATE
+      value: {{ .Values.workerRegistryBulkUpdate | default "worker/v1/bulk/_update" }}
+    - name: EGOV_WORKER_REGISTRY_SEARCH
+      value: {{ .Values.workerRegistrySearch | default "worker/v1/_search" }}
