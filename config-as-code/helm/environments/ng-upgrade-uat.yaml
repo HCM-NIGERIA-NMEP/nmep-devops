@@ -216,6 +216,9 @@ boundary-service:
 egov-user:
   central-instance-build: true
   heap: "-Xmx256m -Xms192m"
+  ingress:
+    replenishRate: "1"
+    burstCapacity: "2"
   hpa:
     enabled: false
     minReplicas: 1
