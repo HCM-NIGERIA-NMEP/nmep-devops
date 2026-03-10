@@ -393,3 +393,12 @@ env: |
       value: {{ .Values.workerRegistryBulkUpdate | default "worker/v1/bulk/_update" }}
     - name: EGOV_WORKER_REGISTRY_SEARCH
       value: {{ .Values.workerRegistrySearch | default "worker/v1/_search" }}
+    - name: ATTENDANCE_REGISTER_HOST
+      valueFrom:
+        configMapKeyRef:
+            name: egov-service-host
+            key: attendance-service
+    - name: ATTENDANCE_REGISTER_CREATE_PATH
+      value: attendance/v1/_create
+    - name: ATTENDANCE_REGISTER_SEARCH_PATH
+      value: attendance/v1/_search
