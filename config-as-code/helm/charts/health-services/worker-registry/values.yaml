@@ -50,6 +50,17 @@ env: |
     value: /worker
   - name: SERVER_SERVLET_CONTEXT-PATH
     value: /worker
+  - name: INDIVIDUAL_SERVICE_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: individual
+  - name: INDIVIDUAL_VALIDATION_ENABLED
+    value: "true"
+  - name: INDIVIDUAL_SERVICE_SEARCH_URL
+    value: "individual/v1/_search"
+  - name: INDIVIDUAL_SERVICE_SEARCH_LIMIT
+    value: "200"
   - name: EGOV_IDGEN_HOST
     valueFrom:
       configMapKeyRef:
