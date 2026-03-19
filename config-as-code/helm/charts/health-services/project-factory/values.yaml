@@ -393,7 +393,7 @@ env: |
       value: {{ .Values.workerRegistryBulkUpdate | default "worker/v1/bulk/_update" }}
     - name: EGOV_WORKER_REGISTRY_SEARCH
       value: {{ .Values.workerRegistrySearch | default "worker/v1/_search" }}
-    - name: ATTENDANCE_REGISTER_HOST
+    - name: EGOV_ATTENDANCE_HOST
       valueFrom:
         configMapKeyRef:
             name: egov-service-host
@@ -402,3 +402,13 @@ env: |
       value: attendance/v1/_create
     - name: ATTENDANCE_REGISTER_SEARCH_PATH
       value: attendance/v1/_search
+    - name: ATTENDANCE_ATTENDEE_CREATE_PATH
+      value: {{ .Values.attendanceAttendeeCreatePath | default "attendance/attendee/v1/_create" }}
+    - name: ATTENDANCE_ATTENDEE_DELETE_PATH
+      value: {{ .Values.attendanceAttendeeDeletePath | default "attendance/attendee/v1/_delete" }}
+    - name: ATTENDANCE_ATTENDEE_UPDATE_TAG_PATH
+      value: {{ .Values.attendanceAttendeeUpdateTagPath | default "attendance/attendee/v1/_updateTag" }}
+    - name: ATTENDANCE_STAFF_CREATE_PATH
+      value: {{ .Values.attendanceStaffCreatePath | default "attendance/staff/v1/_create" }}
+    - name: ATTENDANCE_STAFF_DELETE_PATH
+      value: {{ .Values.attendanceStaffDeletePath | default "attendance/staff/v1/_delete" }}
