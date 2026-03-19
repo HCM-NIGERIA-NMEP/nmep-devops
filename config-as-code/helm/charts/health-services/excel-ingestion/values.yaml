@@ -86,8 +86,8 @@ env: |
   - name: EGOV_ATTENDANCE_HOST
     valueFrom:
       configMapKeyRef:
-          name: egov-service-host
-          key: attendance-service
+        name: egov-service-host
+        key: attendance-service
   - name: EGOV_ATTENDANCE_REGISTER_SEARCH_PATH
     value: attendance/v1/_search
   - name: EGOV_CAMPAIGN_DATA_SEARCH_PATH
