@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: central-uat-osun-appset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: digit-ui
+
+  template:
+    metadata:
+      name: 'osun-{{name}}'
+
+    spec:
+      project: osun-project
+
+      source:
+        repoURL: https://github.com/HCM-KEBBI/kebbi-devops.git
+        targetRevision: osun-argo-check
+        path: config-as-code/helm/charts/*/{{name}}
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../osun/osun-central-uat.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: osun
+
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        retry:
+          limit: 100
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m0s
