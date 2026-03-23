@@ -177,12 +177,27 @@ env: |
   - name: NOTIFICATION_SCHEDULER_MAX_FETCH
     value: "10000"
   - name: STATE_LEVEL_TENANT_ID
-    value: "ba"
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: egov-state-level-tenant-id
   - name: STATE_LEVEL_TENANTID_LENGTH
-    value: "1"
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-level-tenantid-length
   - name: STATE_SCHEMA_INDEX_POSITION_TENANTID
-    value: "0"
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-schema-index-position-tenantid
   - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
-    value: "false"
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: is-environment-central-instance
   - name: KAFKA_TENANT_ID_PATTERN
-    value: "ba-"
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: kafka-tenant-id-pattern

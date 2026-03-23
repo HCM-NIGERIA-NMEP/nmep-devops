@@ -73,6 +73,31 @@ env: |
     value: "/opt/egov/fcm-service-account.json"
   - name: FCM_BATCH_SIZE
     value: "500"
+  - name: STATE_LEVEL_TENANT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: egov-state-level-tenant-id
+  - name: STATE_LEVEL_TENANTID_LENGTH
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-level-tenantid-length
+  - name: STATE_SCHEMA_INDEX_POSITION_TENANTID
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-schema-index-position-tenantid
+  - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: is-environment-central-instance
+  - name: KAFKA_TENANT_ID_PATTERN
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: kafka-tenant-id-pattern
   - name: TRACER_KAFKAMESSAGELOGGINGENABLED
     value: "true"
   - name: TRACER_ERRORSTOPIC

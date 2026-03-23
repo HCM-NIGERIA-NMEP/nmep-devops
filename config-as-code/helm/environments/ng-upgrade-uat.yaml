@@ -37,6 +37,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
         egov-state-level-tenant-id: "ba"
         state-level-tenant-id: "ba"
+        kafka-tenant-id-pattern: "ba-|ke-"
         s3-assets-bucket: "(central-instance-uat-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
@@ -117,6 +118,8 @@ cluster-configs:
         ke-excel-ingestion: 'http://excel-ingestion.kebbi:8080/'
         ba-excel-ingestion: 'http://excel-ingestion.bauchi:8080/'
         worker-registry-host: 'http://worker-registry.egov:8080/'
+        health-notification-service: "http://health-notification-service.egov:8080/"
+        egov-notification-push: "http://egov-notification-push.egov:8080/"
     hcm-moz-impl:
       data:
         dhis2-host: "https://ccu.misau.gov.mz/ccu"
