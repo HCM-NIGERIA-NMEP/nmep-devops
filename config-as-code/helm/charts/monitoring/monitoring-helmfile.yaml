@@ -2,9 +2,9 @@ environments:
   env:
     values:
       - namespace: monitoring
-      - ../../environments/ng-central-uat.yaml
+      - ../../environments/ng-upgrade-uat.yaml
     secrets:
-      - ../../environments/ng-central-uat-secrets.yaml
+      - ../../environments/ng-upgrade-uat-secrets-kebbi-aws-account-alertmanager.yaml
 ---
 
 repositories:
@@ -17,29 +17,9 @@ repositories:
 
 releases:
 
-- name: loki-stack
-  installed: false
-  namespace: {{ .Values.namespace | default "default-namespace" }}
-  chart: grafana/loki-stack
-  version: 2.10.1
-  values:
-  - ./values/loki-stack.yaml
-  - loki:
-      persistence: {{ .Values.loki.persistence | toYaml | nindent 8 }}
-      {{- if .Values.loki.additionalConfigs }}
-      config:
-        schema_config: {{ .Values.loki.additionalConfigs.schema_config | toYaml | nindent 10 }}
-        storage_config: {{ .Values.loki.additionalConfigs.storage_config | toYaml | nindent 10 }}
-        compactor: {{ .Values.loki.additionalConfigs.compactor | toYaml | nindent 10 }}
-        table_manager: {{ .Values.loki.additionalConfigs.table_manager | toYaml | nindent 10 }}
-      {{- end }}
-      {{- if .Values.loki.serviceAccount.annotations }}
-      serviceAccount:
-        annotations: {{ .Values.loki.serviceAccount.annotations | toYaml | nindent 10 }}
-      {{- end }}
 
 - name: kube-prometheus-stack
-  installed: false
+  installed: true
   namespace: {{ .Values.namespace | default "default-namespace" }}
   chart: prometheus-community/kube-prometheus-stack
   version: 56.6.2
@@ -71,7 +51,7 @@ releases:
     value: "{{ .Values.global.domain }}"
 
 - name: grafana
-  installed: false
+  installed: true
   namespace: {{ .Values.namespace | default "default-namespace" }}
   chart: grafana/grafana
   version: 7.3.0
@@ -86,7 +66,7 @@ releases:
     value: "{{ .Values.global.domain }}-tls-certs"
 
 - name: blackbox
-  installed: false
+  installed: true
   namespace: {{ .Values.namespace | default "default-namespace" }}
   chart: ../backbone-services/prometheus-blackbox-exporter
   version: 8.2.0
