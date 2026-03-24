@@ -47,6 +47,10 @@ cluster-configs:
       namespace: egov
       name: egov-notification-sms
 
+    egov-notification-push:
+      namespace: egov
+      name: egov-notification-push
+
     egov-filestore: 
       namespace: egov
       name: egov-filestore     
