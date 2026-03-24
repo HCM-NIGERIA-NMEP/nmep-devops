@@ -106,6 +106,10 @@ digit-ui:
       sub_filter  '<head>' '<head>
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfig-si.js type=text/javascript></script>
       ';"
+  cpu_requests: 200m
+  memory_requests: 256Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
     
 workbench-ui:
   namespace: sierraleone
