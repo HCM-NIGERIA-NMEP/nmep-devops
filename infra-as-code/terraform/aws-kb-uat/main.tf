@@ -28,8 +28,8 @@ locals {
   az_to_find           = var.availability_zones[0] 
   az_index_in_network  = index(var.network_availability_zones, local.az_to_find)
   ami_type_map = {
-    x86_64 = "BOTTLEROCKET_x86_64"
-    arm64  = "BOTTLEROCKET_ARM_64"
+    x86_64 = "AL2023_x86_64_STANDARD"
+    arm64  = "AL2023_x86_64_STANDARD"
   }
 
   # Use user-specified instance_types if provided, else choose from map
@@ -478,9 +478,9 @@ resource "kubectl_manifest" "karpenter_node_class" {
     metadata:
       name: default
     spec:
-      amiFamily: Bottlerocket
+      amiFamily: AL2023
       amiSelectorTerms:
-      - id: ami-004f5306b98d06eff
+      - id: ami-05d6e6507daff912f
       role: ${module.eks_managed_node_group.iam_role_name}
       subnetSelectorTerms:
         - tags:

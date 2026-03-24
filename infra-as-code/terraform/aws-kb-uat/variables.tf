@@ -26,7 +26,7 @@ variable "availability_zones" {
 
 variable "kubernetes_version" {
   description = "kubernetes version"
-  default = "1.32"
+  default = "1.33"
 }
 variable "architecture" {
   description = "Architecture for worker nodes (x86_64 or arm64)"
@@ -68,10 +68,25 @@ variable "max_worker_nodes" {
 }
 
 variable "ami_id" {
+  description = "Provide the AMI ID that supports your eks version for karpenter"
+  default = {
+    id   = "ami-05d6e6507daff912f"
+    name = "amazon-eks-node-al2023-x86_64-standard-1.33-v20260304"
+  }
+}
+
+variable "ami_family" {
+  description = "Provide the AMI Family which is compatible with your ami_id provisioned by karpenter"
+  default = {
+    name = "AL2023" #Replace if needed
+  }
+}
+
+variable "ami_arm64_id" {
   description = "Provide the AMI ID that supports your eks version"
   default = {
-    id   = "ami-004f5306b98d06eff"
-    name = "bottlerocket-aws-k8s-1.32-x86_64-v1.49.0-713f44ce"
+    id   = "ami-0ba2e0687cb63afc8"
+    name = "amazon-eks-arm64-node-1.32-v20251209"
   }
 }
 
