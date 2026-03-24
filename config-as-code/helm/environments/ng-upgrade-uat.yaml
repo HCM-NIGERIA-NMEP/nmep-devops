@@ -169,7 +169,31 @@ egov-idgen:
 
 mdms-v2:
   central-instance-build: true
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx768m -Xms512m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 256Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+
+health-notification-service:
+  central-instance-build: true
+  heap: "-Xmx768m -Xms512m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 256Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+
+egov-notification-push:
+  central-instance-build: true
+  heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: false
     minReplicas: 1
