@@ -69,8 +69,11 @@ env: |
     value: "delete-push-device-token"
   - name: FCM_ENABLED
     value: "true"
-  - name: FCM_SERVICE_ACCOUNT_KEY_PATH
-    value: "/opt/egov/fcm-service-account.json"
+  - name: FCM_SERVICE_ACCOUNT_KEY_JSON                                                                                                                                                                                   
+    valueFrom:
+      secretKeyRef:
+        name: egov-notification-push                                                                                                                                                                                       
+        key: fcm-service-account-key-json
   - name: FCM_BATCH_SIZE
     value: "500"
   - name: STATE_LEVEL_TENANT_ID
