@@ -71,7 +71,12 @@ transformer:
   update-stock-reconciliation-topic: "ba-update-stock-reconciliation-topic"
   transformer-producer-stock-recon-index-v1-topic: "ba-transformer-producer-stock-recon-index-v1-topic"
   health-transformer: "ba-health-transformer"
-
+  transformer-consumer-error-tracer-topic: "error-details-indexer-topic"
+  transformer-producer-error-details-index-v1-topic: "ba-transformed-errors-topic"
+  transformer-error-skip-error-messages: "UPLOAD_ERROR_FROM_APP"
+  transformer-error-skip-error-codes: "DUPLICATE_ENTITY,INDIVIDUAL_ALREADY_MEMBER_OF_HOUSEHOLD,HOUSEHOLD_ALREADY_HAS_HEAD"
+  transformer-error-skip-url-contains: "facility,resource"
+  state-level-tenantid: "ba"
 # hcm-moz-impl:
 #   namespace: bauchi
 #   replicas: 1

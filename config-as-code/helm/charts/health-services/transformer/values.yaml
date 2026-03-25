@@ -330,6 +330,20 @@ env: |
     value: {{ index .Values "transformer-save-attendance-log-topic" | default "transformer-save-attendance-log" | quote }}
   - name: TRANSFORMER_PRODUCER_ATTENDANCE_REGISTER_INDEX_V1_TOPIC
     value: {{ index .Values "transformer-save-attendance-register-topic" | default "transformer-save-attendance-register" | quote }}
+  
+  - name: STATE_LEVEL_TENANTID
+    value: {{ index .Values "state-level-tenantid" | default "ng" | quote }}
+  - name: TRANSFORMER_CONSUMER_ERROR_TRACER_TOPIC
+    value: {{ index .Values "transformer-consumer-error-tracer-topic" | default "error-details-indexer-topic" | quote }}
+  - name: TRANSFORMER_PRODUCER_ERROR_DETAILS_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-producer-error-details-index-v1-topic" | default "transformed-errors-topic" | quote }}
+  - name: TRANSFORMER_ERROR_SKIP_ERROR_MESSAGES
+    value: {{ index .Values "transformer-error-skip-error-messages" | default "UPLOAD_ERROR_FROM_APP" | quote }}
+  - name: TRANSFORMER_ERROR_SKIP_ERROR_CODES
+    value: {{ index .Values "transformer-error-skip-error-codes" | default "" | quote }}
+  - name: TRANSFORMER_ERROR_SKIP_URL_CONTAINS
+    value: {{ index .Values "transformer-error-skip-url-contains" | default "facility,resource" | quote }}
+  
   - name: EGOV_LOCALIZATION_LOCALE_CODE
     value: en_MZ
   - name: EGOV_LOCALIZATION_MODULE_NAME
