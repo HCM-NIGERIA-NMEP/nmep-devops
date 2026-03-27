@@ -10,7 +10,7 @@ httpPort: 8080
 appType: ""
 
 central-instance-build: false
-central-instance-enabled: true
+central-instance-enabled: false
 db-schema-names: "ba"
 
 ingress:
@@ -246,7 +246,11 @@ extraEnv:
               name: egov-config
               key: spring-jpa-show-sql
         - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+        {{- if and (index .Values "central-instance-build" | default false) (index .Values "central-instance-enabled" | default false) }}
           value: "true"
+        {{- else }}
+          value: "false"
+        {{- end }}
         - name: STATE_SCHEMA_INDEX_POSITION_TENANTID
           valueFrom:
             configMapKeyRef:
