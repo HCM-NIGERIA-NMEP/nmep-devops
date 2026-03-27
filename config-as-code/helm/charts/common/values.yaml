@@ -64,7 +64,9 @@ initContainers:
               {{- else if eq .Values.namespace "bauchi" }}
               value: "ba"
               {{- else if eq .Values.namespace "kebbi" }}
-              value: "ke"                  
+              value: "ke"
+              {{- else if eq .Values.namespace "sierraleone" }}
+              value: "si"
               {{- else }}
               value: "public"
               {{- end }}
