@@ -53,8 +53,6 @@ env: |
           key: mdms-v2      
     - name: EGOV_MDMS_SEARCH_ENDPOINT
       value: "mdms-v2/v1/_search"
-    - name: EGOV_MDMS_V1_SEARCH_ENDPOINT
-      value: "mdms-v2/v1/_search"
     - name: EGOV_MDMS_PATH
       value: "mdms-v2/v1/_search"
     - name: MDMS_PATH
@@ -277,9 +275,7 @@ env: |
     - name: USER_TAB_NAME
       value: "HCM_ADMIN_CONSOLE_USER_LIST"
     - name: LOCALE
-      value: {{ .Values.defaultLocale | default "en_MZ" }} 
-    - name: LOCALIZATION_MODULE
-      value: "hcm-admin-schemas"
+      value: {{ .Values.defaultLocale | default "en_MZ" }}
     - name: MODULE_NAME
       value: "HCM-ADMIN-CONSOLE"
     - name: FORM_CONFIG_TEMPLATE_NAME
@@ -367,7 +363,19 @@ env: |
     - name: KAFKA_SAVE_PROJECT_CAMPAIGN_DETAILS_TOPIC
       value: {{ .Values.saveProjectCampaignDetailsTopic | default "save-project-campaign-details" }}
     - name: KAFKA_UPDATE_PROJECT_CAMPAIGN_DETAILS_TOPIC
-      value: {{ .Values.updateProjectCampaignDetailsTopic | default "update-project-campaign-details" }} 
+      value: {{ .Values.updateProjectCampaignDetailsTopic | default "update-project-campaign-details" }}
+    - name: KAFKA_TEST_TOPIC
+      value: {{ .Values.testTopic | default "test-topic-project-factory" }}
+    - name: KAFKA_HCM_PROCESSING_RESULT_TOPIC
+      value: {{ .Values.hcmProcessingResultTopic | default "hcm-processing-result" }}
+    - name: KAFKA_FACILITY_CREATE_BATCH_TOPIC
+      value: {{ .Values.facilityCreateBatchTopic | default "hcm-facility-create-batch" }}
+    - name: KAFKA_USER_CREATE_BATCH_TOPIC
+      value: {{ .Values.userCreateBatchTopic | default "hcm-user-create-batch" }}
+    - name: KAFKA_MAPPING_BATCH_TOPIC
+      value: {{ .Values.mappingBatchTopic | default "hcm-mapping-batch" }}
+    - name: KAFKA_CAMPAIGN_MARK_FAILED_TOPIC
+      value: {{ .Values.campaignMarkFailedTopic | default "hcm-campaign-mark-failed" }}
     - name: USER_MAIN_BOUNDARY
       value: {{ .Values.userMainBoundary | default "mz" }}
     - name: USER_MAIN_BOUNDARY_TYPE
@@ -412,3 +420,45 @@ env: |
       value: {{ .Values.attendanceStaffCreatePath | default "attendance/staff/v1/_create" }}
     - name: ATTENDANCE_STAFF_DELETE_PATH
       value: {{ .Values.attendanceStaffDeletePath | default "attendance/staff/v1/_delete" }}
+    - name: ATTENDANCE_REGISTER_UPDATE_PATH
+      value: {{ .Values.attendanceRegisterUpdatePath | default "attendance/v1/_update" }}
+    - name: ATTENDANCE_ATTENDEE_UPDATE_PATH
+      value: {{ .Values.attendanceAttendeeUpdatePath | default "attendance/attendee/v1/_update" }}
+    - name: ATTENDANCE_STAFF_UPDATE_PATH
+      value: {{ .Values.attendanceStaffUpdatePath | default "attendance/staff/v1/_update" }}
+    - name: ATTENDANCE_REGISTER_DEFAULT_EVENT_TYPE
+      value: {{ .Values.attendanceRegisterDefaultEventType | default "Training" }}
+    - name: ATTENDANCE_REGISTER_DEFAULT_SESSIONS
+      value: {{ .Values.attendanceRegisterDefaultSessions | default "1" | quote }}
+    - name: ATTENDANCE_BATCH_SIZE
+      value: {{ .Values.attendanceBatchSize | default "50" | quote }}
+    - name: ATTENDANCE_SERVICE_CODE_PARALLEL_SEARCH_LIMIT
+      value: {{ .Values.attendanceServiceCodeParallelSearchLimit | default "50" | quote }}
+    - name: KAFKA_CONSUMER_TOPIC_PREFIX
+      value: {{ .Values.kafkaConsumerTopicPrefix | default "" | quote }}
+    - name: BOUNDARY_CODE_HEADER_NAME
+      value: {{ .Values.boundaryCodeHeaderName | default "HCM_ADMIN_CONSOLE_BOUNDARY_CODE" }}
+    - name: BOUNDARY_CODE_HEADER_NAME_FACILITY_MICROPLAN
+      value: {{ .Values.boundaryCodeHeaderNameFacilityMicroplan | default "HCM_ADMIN_CONSOLE_RESIDING_BOUNDARY_CODE_MICROPLAN" }}
+    - name: PHONE_NUMBER_LENGTH
+      value: {{ .Values.phoneNumberLength | default "10" | quote }}
+    - name: HRMS_PARALLEL_SEARCH_LIMIT
+      value: {{ .Values.hrmsParallelSearchLimit | default "100" | quote }}
+    - name: APP_PORT
+      value: {{ .Values.appPort | default "8080" | quote }}
+    - name: EGOV_LOCALIZATION_SEARCH
+      value: {{ .Values.egovLocalizationSearch | default "localization/messages/v1/_search" }}
+    - name: CACHE_BURST
+      value: {{ .Values.cacheBurst | default "localization/messages/cache-bust" }}
+    - name: EGOV_FACILITY_CREATE_PATH
+      value: {{ .Values.egovFacilityCreatePath | default "facility/v1/_create" }}
+    - name: SKIP_PARENT_PROJECT_CONFIRMATION
+      value: {{ .Values.skipParentProjectConfirmation | default "false" | quote }}
+    - name: UNFROZE_TILL_ROW
+      value: {{ .Values.unfrozeTillRow | default "5010" | quote }}
+    - name: UNFROZE_TILL_COLUMN
+      value: {{ .Values.unfrozeTillColumn | default "26" | quote }}
+    - name: MAX_HTTP_RETRIES
+      value: {{ .Values.maxHttpRetries | default "4" | quote }}
+    - name: LAT_LONG_SUBSTRINGS
+      value: {{ .Values.latLongSubstrings | default "HCM_ADMIN_CONSOLE_FACILITY_LATITUDE_OPTIONAL_MICROPLAN,HCM_ADMIN_CONSOLE_FACILITY_LONGITUDE_OPTIONAL_MICROPLAN,HCM_ADMIN_CONSOLE_TARGET_LAT_OPT,HCM_ADMIN_CONSOLE_TARGET_LONG_OPT" }}

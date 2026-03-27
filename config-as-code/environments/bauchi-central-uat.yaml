@@ -214,7 +214,7 @@ project-factory:
   central-instance-enabled: false
   central-instance-build: true
   namespace: bauchi
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx768m -Xms512m"
   replicas: 2
   hpa:
     enabled: false
@@ -259,6 +259,12 @@ project-factory:
   startAdminConsoleTaskTopic: "ba-start-admin-console-task"
   startAdminConsoleMappingTaskTopic: "ba-start-admin-console-mapping-task"
   notificationEmailTopic: "ba-egov.core.notification.email"
+  testTopic: "ba-test-topic-project-factory"
+  hcmProcessingResultTopic: "ba-hcm-processing-result"
+  facilityCreateBatchTopic: "ba-hcm-facility-create-batch"
+  userCreateBatchTopic: "ba-hcm-user-create-batch"
+  mappingBatchTopic: "ba-hcm-mapping-batch"
+  campaignMarkFailedTopic: "ba-hcm-campaign-mark-failed"
   userMainBoundary: "MICROPLAN_MO"
   userMainBoundaryType: "COUNTRY"
   maxResourceCreationAttempts: "10"
@@ -334,7 +340,6 @@ auth-proxy:
     name: auth-proxy
     namespace: bauchi
     context: kibana-upgrade
-    rewritePath: kibana-upgrade
   cpu_requests: 100m
   memory_requests: 256Mi
   cpu_limits: 200m

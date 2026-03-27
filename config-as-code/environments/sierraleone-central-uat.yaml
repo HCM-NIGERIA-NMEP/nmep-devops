@@ -209,7 +209,7 @@ project-factory:
   central-instance-enabled: false
   central-instance-build: true
   namespace: sierraleone
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx768m -Xms512m"
   replicas: 2
   hpa:
     enabled: false
@@ -254,6 +254,12 @@ project-factory:
   startAdminConsoleTaskTopic: "si-start-admin-console-task"
   startAdminConsoleMappingTaskTopic: "si-start-admin-console-mapping-task"
   notificationEmailTopic: "si-egov.core.notification.email"
+  testTopic: "si-test-topic-project-factory"
+  hcmProcessingResultTopic: "si-hcm-processing-result"
+  facilityCreateBatchTopic: "si-hcm-facility-create-batch"
+  userCreateBatchTopic: "si-hcm-user-create-batch"
+  mappingBatchTopic: "si-hcm-mapping-batch"
+  campaignMarkFailedTopic: "si-hcm-campaign-mark-failed"
   userMainBoundary: "MICROPLAN_MO"
   userMainBoundaryType: "COUNTRY"
   maxResourceCreationAttempts: "10"
