@@ -860,7 +860,7 @@ boundary-management:
   validateCampaignIdInMetadata: 'false'
   central-instance-name: egov
   central-instance-build: true
-  central-instance-enabled: false
+  central-instance-enabled: true
 
 worker-registry:
   central-instance-build: true
