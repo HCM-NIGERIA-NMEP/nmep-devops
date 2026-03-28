@@ -1,5 +1,5 @@
 {{- $envOverrides := index .Values (tpl .Chart.Name .) -}} 
-{{- $_ := set . "Values" (merge $envOverrides .Values) -}}
+{{- $_ := set . "Values" (merge .Values $envOverrides) -}}
 {{- if index .Values "custom-js-injection" -}}
 apiVersion: v1
 kind: ConfigMap
