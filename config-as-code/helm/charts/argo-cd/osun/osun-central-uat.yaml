@@ -102,15 +102,6 @@ digit-ui:
   image:
     repository: egovio/digit-ui
     tag: health-dashboard-digit-ui-8a3b8bbd1b-850
-  extraVolumes: |
-    - name: js-injection
-      configMap:
-        name: digit-ui-js-injection
-
-  extraVolumeMounts: |
-    - mountPath: /etc/nginx/conf.d/sub_filter.conf
-      name: js-injection
-      subPath: sub_filter.conf
   custom-js-injection: |
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
@@ -119,9 +110,9 @@ digit-ui:
     
 workbench-ui:
   namespace: osun
-  image:
-    repository: egovio/workbench-ui
-    tag: go_deep_attendee_mapping-0a43cd2
+  # image:
+  #   repository: egovio/workbench-ui
+  #   tag: go_deep_attendee_mapping-0a43cd2
   custom-js-injection: |
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
