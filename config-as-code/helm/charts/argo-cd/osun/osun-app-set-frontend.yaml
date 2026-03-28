@@ -8,6 +8,7 @@ spec:
     - list:
         elements:
           - name: digit-ui
+          - name: workbench-ui
 
   template:
     metadata:
