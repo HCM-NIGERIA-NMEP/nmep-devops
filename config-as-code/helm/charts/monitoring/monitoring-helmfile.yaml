@@ -4,7 +4,7 @@ environments:
       - namespace: monitoring
       - ../../environments/ng-upgrade-uat.yaml
     secrets:
-      - ../../environments/ng-upgrade-uat-secrets-kebbi-aws-account-alertmanager.yaml
+      - ../../environments/ng-upgrade-uat-secrets.yaml
 ---
 
 repositories:
@@ -17,6 +17,26 @@ repositories:
 
 releases:
 
+- name: loki-stack
+  installed: true
+  namespace: {{ .Values.namespace | default "default-namespace" }}
+  chart: grafana/loki-stack
+  version: 2.10.1
+  values:
+  - ./values/loki-stack.yaml
+  - loki:
+      persistence: {{ .Values.loki.persistence | toYaml | nindent 8 }}
+      {{- if .Values.loki.additionalConfigs }}
+      config:
+        schema_config: {{ .Values.loki.additionalConfigs.schema_config | toYaml | nindent 10 }}
+        storage_config: {{ .Values.loki.additionalConfigs.storage_config | toYaml | nindent 10 }}
+        compactor: {{ .Values.loki.additionalConfigs.compactor | toYaml | nindent 10 }}
+        table_manager: {{ .Values.loki.additionalConfigs.table_manager | toYaml | nindent 10 }}
+      {{- end }}
+      {{- if .Values.loki.serviceAccount.annotations }}
+      serviceAccount:
+        annotations: {{ .Values.loki.serviceAccount.annotations | toYaml | nindent 10 }}
+      {{- end }}
 
 - name: kube-prometheus-stack
   installed: true
