@@ -32,7 +32,7 @@ appType: "java-spring"
 tracing-enabled: true
 memory_limits: "3072Mi"
 cpu_limits: "500m"
-heap: "-Xmx2900m -Xms256m"
+heap: -Xms256m -Xmx2048m
 java-args: ""
 egov-mdms-service-host-key: "mdms-v2"
 egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
@@ -44,6 +44,8 @@ java-debug-port: 5005
 env: |
   - name: SERVER_PORT
     value: "8080"
+  - name: JAVA_OPTS
+    value: {{ index .Values "heap" | quote }}
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
     value: {{ index .Values "group-id" | default "excel-ingestion" }}
   - name: SERVER_SERVLET_CONTEXT_PATH
