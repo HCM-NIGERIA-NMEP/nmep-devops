@@ -54,6 +54,8 @@ initContainers:
                   key: ke-db-url
                   {{- else if eq .Values.namespace "sierraleone" }}
                   key: si-db-url
+                  {{- else if eq .Values.namespace "osun" }}
+                  key: os-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -69,6 +71,8 @@ initContainers:
               value: "ke"
               {{- else if eq .Values.namespace "sierraleone" }}
               value: "si"
+              {{- else if eq .Values.namespace "osun" }}
+              value: "os"
               {{- else }}
               value: "public"
               {{- end }}
@@ -160,6 +164,8 @@ extraEnv:
               key: ke-db-url
               {{- else if eq .Values.namespace "sierraleone" }}
               key: si-db-url
+              {{- else if eq .Values.namespace "osun" }}
+              key: os-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -184,6 +190,8 @@ extraEnv:
               key: ke-db-url
               {{- else if eq .Values.namespace "sierraleone" }}
               key: si-db-url
+              {{- else if eq .Values.namespace "osun" }}
+              key: os-db-url
               {{- else }}
               key: db-url
               {{- end }}
