@@ -15,7 +15,7 @@ spec:
       name: 'osun-{{name}}'
 
     spec:
-      project: default
+      project: osun-project
 
       source:
         repoURL: git@github.com:HCM-KEBBI/kebbi-devops.git
@@ -28,11 +28,11 @@ spec:
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: osun
+        namespace: '*'
 
       syncPolicy:
         automated:
-          prune: false
+          prune: true
           selfHeal: true
         syncOptions:
           - ApplyOutOfSyncOnly=true

@@ -16,7 +16,7 @@ spec:
       name: 'osun-{{name}}'
 
     spec:
-      project: default
+      project: osun-project
 
       source:
         repoURL: git@github.com:HCM-KEBBI/kebbi-devops.git
