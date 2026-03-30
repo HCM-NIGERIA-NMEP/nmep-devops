@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: central-uat-sierraleone-appset-frontend
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: digit-ui
+          - name: workbench-ui
+          - name: dashboard-ui
+          - name: microplan-ui
+
+  template:
+    metadata:
+      name: 'sierraleone-{{name}}'
+
+    spec:
+      project: sierraleone-project
+
+      source:
+        repoURL: git@github.com:HCM-KEBBI/kebbi-devops.git
+        targetRevision: central-uat-build
+        path: config-as-code/helm/charts/frontend/{{name}}
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../../../../environments/sierraleone-central-uat.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: sierraleone
+
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        retry:
+          limit: 100
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m0s
