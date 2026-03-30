@@ -72,6 +72,11 @@ env: |
         key: project
   - name: EGOV_PROJECT_STAFF_SEARCH_ENDPOINT
     value: project/staff/v1/_search
+  - name: EGOV_FILESTORE_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-filestore
   {{- if index .Values "java-enable-debug" }}
   - name: JAVA_ENABLE_DEBUG
     value: "true"
