@@ -20,8 +20,7 @@ healthChecks:
   enabled: true
   livenessProbePath: "/digit-ui/"
   readinessProbePath: "/digit-ui/"
-
-namespace: egov    
+ 
 extraVolumes: |
   - name: js-injection
     configMap:

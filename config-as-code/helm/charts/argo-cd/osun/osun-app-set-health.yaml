@@ -8,6 +8,7 @@ spec:
     - list:
         elements:
           - name: transformer
+          - name: excel-ingestion
 
   template:
     metadata:
@@ -18,12 +19,12 @@ spec:
 
       source:
         repoURL: git@github.com:HCM-KEBBI/kebbi-devops.git
-        targetRevision: osun-argo-check
+        targetRevision: central-uat-build
         path: config-as-code/helm/charts/health-services/{{name}}
         helm:
           valueFiles:
             - values.yaml
-            - ../../argo-cd/osun/osun-central-uat.yaml
+            - ../../../../../environments/osun-central-uat.yaml
 
       destination:
         server: https://kubernetes.default.svc
