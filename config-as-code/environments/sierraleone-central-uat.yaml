@@ -105,7 +105,7 @@ transformer:
 digit-ui:
   image:
     repository: egovio/digit-ui
-    tag: health-dashboard-digit-ui-8a3b8bbd1b-850
+    tag: sierraleone-8d603dc4
   namespace: sierraleone
   custom-js-injection: |
     sub_filter.conf: "
