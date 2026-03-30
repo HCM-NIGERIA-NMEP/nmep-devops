@@ -139,7 +139,7 @@ project-factory:
         tag: project-factory-changes-sierraleone-82f83ba1fc-590
   image:
     repository: egovio/project-factory
-    tag: HDDF-4931-95f2adc
+    tag: project-factory-changes-sierraleone-82f83ba1fc-590
   central-instance-enabled: false
   central-instance-build: true
   namespace: sierraleone
