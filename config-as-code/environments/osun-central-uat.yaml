@@ -105,6 +105,11 @@ workbench-ui:
   memory_limits: 512Mi
 
 excel-ingestion:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "excel-ingestion-db"
+        tag: nigeria-go-deep-2-312dd54
   image:
     repository: egovio/excel-ingestion
     tag: nigeria-go-deep-2-312dd54
