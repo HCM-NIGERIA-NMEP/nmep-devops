@@ -201,6 +201,8 @@ env: |
     value: "100"
   - name: REFERRALMANAGEMENT.SEARCH.MAX.LIMIT
     value: "200"
+  - name: EGOV.HF.REFERRAL.SEARCH.BATCH.SIZE
+    value: "200"
   - name: EGOV.IDGEN.PROJECT.NUMBER.NAME
     value: "project.number"
   - name: PROJECT.RESOURCE.IDGEN.ID.FORMAT
