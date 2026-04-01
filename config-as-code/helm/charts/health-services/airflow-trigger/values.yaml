@@ -14,6 +14,7 @@ ingress:
   namespace: egov
   enabled: true
   zuul: true
+  reWritePath: true
   context: "airflow-trigger-api"
 
 # Init Containers Configs
