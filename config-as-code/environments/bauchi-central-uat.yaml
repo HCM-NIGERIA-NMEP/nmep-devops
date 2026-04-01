@@ -265,7 +265,7 @@ project-factory:
   userCreateBatchTopic: "ba-hcm-user-create-batch"
   mappingBatchTopic: "ba-hcm-mapping-batch"
   campaignMarkFailedTopic: "ba-hcm-campaign-mark-failed"
-  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundary: "NIGERIA_NI"
   userMainBoundaryType: "COUNTRY"
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
