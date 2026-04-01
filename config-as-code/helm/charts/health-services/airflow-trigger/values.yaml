@@ -57,8 +57,10 @@ image:
 replicas: "1"
 healthChecks:
   enabled: true
-  livenessProbePath: "/airflow-trigger-api/health"
-  readinessProbePath: "/airflow-trigger-api/health"
+  livenessProbePath: "/health"
+  readinessProbePath: "/health"
+imagePullSecrets: |
+  - name: docker-registry-secret
 #appType: "java-spring"
 #tracing-enabled: true
 #heap: "-Xmx192m -Xms192m"
