@@ -8,7 +8,7 @@ metadata:
   namespace: {{ .Values.ingress.namespace | default .Values.namespace }}
   annotations:
   {{- if and .Values.ingress .Values.ingress.rewriteEnable }}
-    nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}/$2
+    nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}$2
     nginx.ingress.kubernetes.io/use-regex: "true"
   {{- end }}
   {{- with .Values.ingress.annotations }}
