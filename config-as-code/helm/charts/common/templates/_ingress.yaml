@@ -9,6 +9,7 @@ metadata:
   annotations:
   {{- if and .Values.ingress .Values.ingress.rewritePath }}
     nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}/$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
   {{- end }}
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
