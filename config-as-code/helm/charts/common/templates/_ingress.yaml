@@ -7,7 +7,7 @@ metadata:
   name: {{ default (include "common.name" .) .Values.ingress.name }}
   namespace: {{ .Values.ingress.namespace | default .Values.namespace }}
   annotations:
-  {{- if and .Values.ingress .Values.ingress.rewritePath }}
+  {{- if not (kindIs "invalid" .Values.ingress.rewritePath) }}
     nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}/$2
     nginx.ingress.kubernetes.io/use-regex: "true"
   {{- end }}
@@ -31,7 +31,7 @@ spec:
     - host: {{ . }}
       http:
         paths:
-          - path: /{{ $.Values.ingress.context }}{{ if and $.Values.ingress $.Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+          - path: /{{ $.Values.ingress.context }}{{ if not (kindIs "invalid" .Values.ingress.rewritePath) }}(/|$)(.*){{ end }}
             pathType: ImplementationSpecific
             backend:
               service:
