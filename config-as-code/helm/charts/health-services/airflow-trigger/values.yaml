@@ -14,7 +14,7 @@ ingress:
   namespace: egov
   enabled: true
   zuul: true
-  rewriteEnable: true
+  rewriteEnable: false
   rewritePath: ""
   context: "airflow-trigger-api"
 
