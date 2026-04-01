@@ -7,7 +7,7 @@ metadata:
   name: {{ default (include "common.name" .) .Values.ingress.name }}
   namespace: {{ .Values.ingress.namespace | default .Values.namespace }}
   annotations:
-  {{- if not (kindIs "invalid" .Values.ingress.rewritePath) }}
+  {{- if and .Values.ingress .Values.ingress.rewriteEnable }}
     nginx.ingress.kubernetes.io/rewrite-target: /{{ .Values.ingress.rewritePath }}/$2
     nginx.ingress.kubernetes.io/use-regex: "true"
   {{- end }}
@@ -31,7 +31,7 @@ spec:
     - host: {{ . }}
       http:
         paths:
-          - path: /{{ $.Values.ingress.context }}{{ if not (kindIs "invalid" .Values.ingress.rewritePath) }}(/|$)(.*){{ end }}
+          - path: /{{ $.Values.ingress.context }}{{ if and $.Values.ingress $.Values.ingress.rewriteEnable }}(/|$)(.*){{ end }}
             pathType: ImplementationSpecific
             backend:
               service:
@@ -43,7 +43,7 @@ spec:
     - host: {{ .Values.global.domain | default "example.com" }}
       http:
         paths:
-          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewriteEnable }}(/|$)(.*){{ end }}
             pathType: ImplementationSpecific
             backend:
               service:
@@ -55,7 +55,7 @@ spec:
     - host: {{ .Values.global.domain }}
       http:
         paths:
-          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewritePath }}(/|$)(.*){{ end }}
+          - path: /{{ .Values.ingress.context }}{{ if and .Values.ingress .Values.ingress.rewriteEnable }}(/|$)(.*){{ end }}
             pathType: ImplementationSpecific
             backend:
               service:
