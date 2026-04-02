@@ -193,7 +193,6 @@ mdms-v2:
 
 health-notification-service:
   central-instance-build: true
-  central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: false
@@ -206,7 +205,6 @@ health-notification-service:
 
 egov-notification-push:
   central-instance-build: true
-  central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: false
