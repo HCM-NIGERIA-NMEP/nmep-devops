@@ -120,7 +120,7 @@ digit-ui:
 workbench-ui:
   image:
     repository: egovio/workbench-ui
-    tag: HDDF-4931-95f2adc
+    tag: HDDF-4931-9823414
   namespace: sierraleone
   custom-js-injection: |
     sub_filter.conf: "
