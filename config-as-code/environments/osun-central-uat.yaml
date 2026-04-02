@@ -78,7 +78,7 @@ transformer:
 digit-ui:
   image:
     repository: egovio/digit-ui
-    tag: health-dashboard-digit-ui-8a3b8bbd1b-850
+    tag: sierraleone-536ecebb
   namespace: osun
   custom-js-injection: |
     sub_filter.conf: "
@@ -103,6 +103,83 @@ workbench-ui:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 512Mi
+
+project-factory:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "project-factory-db"
+        tag: project-factory-changes-sierraleone-82f83ba1fc-590
+  image:
+    repository: egovio/project-factory
+    tag: project-factory-changes-sierraleone-82f83ba1fc-590
+  central-instance-enabled: false
+  central-instance-build: true
+  namespace: osun
+  heap: "-Xmx768m -Xms512m"
+  replicas: 2
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  groupId: "os-project-factory"
+  ingress:
+    name: osun-project-factory
+    namespace: egov
+  logLevel: 'debug'
+  maxDebugChar: '2000'
+  mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
+  mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  plan-service: os-plan-service
+  census-service: os-census-service
+  excel-ingestion-host: os-excel-ingestion
+  IS_ENVIRONMENT_CENTRAL_INSTANCE: false
+  DB_SCHEMA: os
+  defaultTenantId: os
+  saveCampaignDetails: "os-save-campaign-details"
+  updateCampaignDetails: "os-update-campaign-details"
+  saveProjectCampaignDetailsTopic: "os-save-project-campaign-details"
+  updateProjectCampaignDetailsTopic: "os-update-project-campaign-details"
+  startCampaignMappingTopic: "os-start-campaign-mapping"
+  createResourceDetailsTopic: "os-create-resource-details"
+  updateResourceDetailsTopic: "os-update-resource-details"
+  createResourceActivityTopic: "os-create-resource-activity"
+  updateGeneratedResourceDetailsTopic: "os-update-generated-resource-details"
+  createGeneratedResourceDetailsTopic: "os-create-generated-resource-details"
+  savePlanFacilityTopic: "os-project-factory-save-plan-facility"
+  saveSheetDataTopic: "os-save-sheet-data"
+  updateSheetDataTopic: "os-update-sheet-data"
+  saveMappingDataTopic: "os-save-mapping-data"
+  updateMappingDataTopic: "os-update-mapping-data"
+  deleteMappingDataTopic: "os-delete-mapping-data"
+  saveProcessDataTopic: "os-save-process-data"
+  updateProcessDataTopic: "os-update-process-data"
+  startAdminConsoleTaskTopic: "os-start-admin-console-task"
+  startAdminConsoleMappingTaskTopic: "os-start-admin-console-mapping-task"
+  notificationEmailTopic: "os-egov.core.notification.email"
+  testTopic: "os-test-topic-project-factory"
+  hcmProcessingResultTopic: "os-hcm-processing-result"
+  facilityCreateBatchTopic: "os-hcm-facility-create-batch"
+  userCreateBatchTopic: "os-hcm-user-create-batch"
+  mappingBatchTopic: "os-hcm-mapping-batch"
+  campaignMarkFailedTopic: "os-hcm-campaign-mark-failed"
+  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundaryType: "COUNTRY"
+  maxResourceCreationAttempts: "10"
+  waitTimeOfEachAttemptMs: "20000"
+  retryTillResourceCreationCompletes: "5"
+  command: |
+    - sh
+    - -c
+  args: |
+    - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      yarn prod
 
 excel-ingestion:
   initContainers:
