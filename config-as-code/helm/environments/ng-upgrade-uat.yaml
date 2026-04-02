@@ -636,9 +636,9 @@ individual:
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 20
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -662,9 +662,9 @@ household:
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 20
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -675,9 +675,9 @@ project:
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 20
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -818,9 +818,9 @@ beneficiary-idgen:
 gateway:
   replicas: 1
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 4
+    maxReplicas: 20
   custom-filter-property: "false"
   central-instance-enabled: false
   cpu_requests: 200m
