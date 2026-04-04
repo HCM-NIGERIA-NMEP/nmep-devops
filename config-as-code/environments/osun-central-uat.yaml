@@ -78,7 +78,7 @@ transformer:
 digit-ui:
   image:
     repository: egovio/digit-ui
-    tag: sierraleone-536ecebb
+    tag: sierraleone-db752f2d
   namespace: osun
   custom-js-injection: |
     sub_filter.conf: "
