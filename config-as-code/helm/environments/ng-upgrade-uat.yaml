@@ -562,7 +562,6 @@ oauth2-proxy:
         configFile: |-
             email_domains = [ "*" ]
             github_org = "HCM-KEBBI"
-            github_team = "hcm-kebbi-impl"
             upstreams = [ "file:///dev/null" ]
 
 facility:
