@@ -215,15 +215,15 @@ project-factory:
   central-instance-build: true
   namespace: bauchi
   heap: "-Xmx768m -Xms512m"
-  replicas: 2
+  replicas: 1
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
+  cpu_limits: 1000m
+  memory_limits: 2Gi
   groupId: "ba-project-factory"
   ingress:
     name: bauchi-project-factory
@@ -270,13 +270,16 @@ project-factory:
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
   retryTillResourceCreationCompletes: "5"
+  serverTimezone: "UTC"
+  attendanceAttendeeSearchPageSize: "100"
+  attendanceStaffSearchPageSize: "100"
   command: |
     - sh
     - -c
   args: |
     - |
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
-      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
 
 
