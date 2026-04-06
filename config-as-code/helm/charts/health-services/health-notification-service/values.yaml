@@ -195,11 +195,6 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: state-schema-index-position-tenantid
-  - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
-    valueFrom:
-      configMapKeyRef:
-        name: egov-config
-        key: is-environment-central-instance
   - name: KAFKA_TENANT_ID_PATTERN
     valueFrom:
       configMapKeyRef:
