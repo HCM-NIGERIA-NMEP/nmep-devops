@@ -888,6 +888,15 @@ worker-registry:
   tracing-enabled: false
   java-enable-debug: false
 
+egov-malware-detection:
+  namespace: egov
+  heap: "-Xmx512m -Xms512m"
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 500m
+  memory_limits: 768Mi
+  mail-alert-recipients: "divij.goyal@equidhi.org"
+
 ### Prometheus & Alertmanager >>>>>>>>>>>>>>>>>>>>
 prometheus:
   retention: 90d
