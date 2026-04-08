@@ -28,7 +28,7 @@ initContainers:
       - name: "OUTPUT_FILE_PATH"
         value: "/etc/zuul/routes.properties" 
       - name: "NAMESPACE"
-        value: "egov,kebbi,bauchi,sierraleone,osun"         
+        value: "egov,kebbi,bauchi,sierraleone,osun,dev"         
       volumeMounts:
       - name: zuul-routes
         mountPath: /etc/zuul

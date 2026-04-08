@@ -56,6 +56,8 @@ initContainers:
                   key: si-db-url
                   {{- else if eq .Values.namespace "osun" }}
                   key: os-db-url
+                  {{- else if eq .Values.namespace "dev" }}
+                  key: dev-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -73,6 +75,8 @@ initContainers:
               value: "si"
               {{- else if eq .Values.namespace "osun" }}
               value: "os"
+              {{- else if eq .Values.namespace "dev" }}
+              value: "dev"
               {{- else }}
               value: "public"
               {{- end }}
@@ -166,6 +170,8 @@ extraEnv:
               key: si-db-url
               {{- else if eq .Values.namespace "osun" }}
               key: os-db-url
+              {{- else if eq .Values.namespace "dev" }}
+              key: dev-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -192,6 +198,8 @@ extraEnv:
               key: si-db-url
               {{- else if eq .Values.namespace "osun" }}
               key: os-db-url
+              {{- else if eq .Values.namespace "dev" }}
+              key: dev-db-url
               {{- else }}
               key: db-url
               {{- end }}
