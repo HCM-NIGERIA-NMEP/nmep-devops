@@ -221,3 +221,5 @@ env: |
   - name: MUSTERROLL_WORKFLOW_BUSINESS_SERVICE
     value: {{ index .Values "musterroll-workflow-business-service" | quote }}
   {{- end }}  
+  - name: ATTENDANCE_KAFKA_TENANT_ID_PATTERN
+    value: {{ .Values.tenantIdPattern | default "" }}

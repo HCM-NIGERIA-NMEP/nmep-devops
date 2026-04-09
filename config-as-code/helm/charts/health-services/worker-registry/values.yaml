@@ -112,4 +112,4 @@ env: |
   - name: ATTENDANCE_LOG_KAFKA_FIRST_SIGNATURE_TOPIC
     value: {{ .Values.firstAttendanceTopic | default "ba-first-attendance-log" }}
   - name: ATTENDANCE_KAFKA_TENANT_ID_PATTERN
-    value:
+    value: {{ .Values.tenantIdPattern | default "" }}
