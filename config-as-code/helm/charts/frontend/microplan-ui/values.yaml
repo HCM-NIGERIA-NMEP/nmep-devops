@@ -3,8 +3,6 @@ labels:
   app: "microplan-ui"
   group: "web"
 
-namespace: egov    
-
 # Ingress Configs
 ingress:
   enabled: true
