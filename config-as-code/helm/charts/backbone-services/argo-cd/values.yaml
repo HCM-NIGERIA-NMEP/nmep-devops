@@ -454,11 +454,25 @@ configs:
 
     # -- The name of the default role which Argo CD will falls back to, when authorizing API requests (optional).
     # If omitted or empty, users may be still be able to login, but will see no apps, projects, etc...
-    policy.default: ''
+    policy.default: 'role:readonly'
 
     # -- File containing user-defined policies and role definitions.
     # @default -- `''` (See [values.yaml])
-    policy.csv: ''
+    policy.csv: |
+      # Admins
+      p, role:admin, *, *, *, allow
+      g, argocd-central-uat-admin-access, role:admin
+
+      # Devs (restart/sync apps)
+      p, role:dev, applications, get, *, allow
+      p, role:dev, applications, sync, *, allow
+      g, argocd-central-uat-dev-access, role:dev
+
+      # Readonly
+      p, role:readonly, applications, get, *, allow
+      p, role:readonly, applications, sync, *, deny
+      p, role:readonly, applications, delete, *, deny
+      g, argocd-central-uat-readonly-access, role:readonly
     # Policy rules are in the form:
     #  p, subject, resource, action, object, effect
     # Role definitions and bindings are in the form:
@@ -918,13 +932,13 @@ controller:
   podLabels: {}
 
   # -- Resource limits and requests for the application controller pods
-  resources: {}
-  #  limits:
-  #    cpu: 500m
-  #    memory: 512Mi
-  #  requests:
-  #    cpu: 250m
-  #    memory: 256Mi
+  resources:
+   limits:
+     cpu: 500m
+     memory: 512Mi
+   requests:
+     cpu: 250m
+     memory: 256Mi
 
   # Application controller container ports
   containerPorts:
@@ -1120,7 +1134,7 @@ controller:
 ## Dex
 dex:
   # -- Enable dex
-  enabled: true
+  enabled: false
   # -- Dex name
   name: dex-server
 
@@ -1210,13 +1224,13 @@ dex:
     imagePullPolicy: ""
     # -- Argo CD init image resources
     # @default -- `{}` (defaults to dex.resources)
-    resources: {}
-    #  requests:
-    #    cpu: 5m
-    #    memory: 96Mi
-    #  limits:
-    #    cpu: 10m
-    #    memory: 144Mi
+    resources:
+     requests:
+       cpu: 5m
+       memory: 96Mi
+     limits:
+       cpu: 10m
+       memory: 144Mi
 
   # -- Environment variables to pass to the Dex server
   env: []
@@ -1280,13 +1294,13 @@ dex:
   podLabels: {}
 
   # -- Resource limits and requests for dex
-  resources: {}
-  #  limits:
-  #    cpu: 50m
-  #    memory: 64Mi
-  #  requests:
-  #    cpu: 10m
-  #    memory: 32Mi
+  resources:
+   limits:
+     cpu: 50m
+     memory: 64Mi
+   requests:
+     cpu: 10m
+     memory: 32Mi
 
   # Dex container ports
   # NOTE: These ports are currently hardcoded and cannot be changed
@@ -1527,13 +1541,13 @@ redis:
       failureThreshold: 5
 
     # -- Resource limits and requests for redis-exporter sidecar
-    resources: {}
-      # limits:
-      #   cpu: 50m
-      #   memory: 64Mi
-      # requests:
-      #   cpu: 10m
-      #   memory: 32Mi
+    resources:
+      limits:
+        cpu: 50m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
 
   # -- Secrets with credentials to pull images from a private registry
   # @default -- `[]` (defaults to global.imagePullSecrets)
@@ -1611,13 +1625,13 @@ redis:
   podLabels: {}
 
   # -- Resource limits and requests for redis
-  resources: {}
-  #  limits:
-  #    cpu: 200m
-  #    memory: 128Mi
-  #  requests:
-  #    cpu: 100m
-  #    memory: 64Mi
+  resources:
+   limits:
+     cpu: 200m
+     memory: 128Mi
+   requests:
+     cpu: 100m
+     memory: 64Mi
 
   # -- Redis pod-level security context
   # @default -- See [values.yaml]
@@ -1900,13 +1914,13 @@ redisSecretInit:
   podLabels: {}
 
   # -- Resource limits and requests for Redis secret-init Job
-  resources: {}
-  #  limits:
-  #    cpu: 200m
-  #    memory: 128Mi
-  #  requests:
-  #    cpu: 100m
-  #    memory: 64Mi
+  resources:
+   limits:
+     cpu: 200m
+     memory: 128Mi
+   requests:
+     cpu: 100m
+     memory: 64Mi
 
   # -- Application controller container-level security context
   # @default -- See [values.yaml]
@@ -2028,6 +2042,7 @@ server:
     - /argocd
     - --rootpath
     - /argocd
+    - --disable-auth
 
   # -- Environment variables to pass to Argo CD server
   env: []
@@ -2087,13 +2102,13 @@ server:
         - ALL
 
     # -- Resource limits and requests for the argocd-extensions container
-    resources: {}
-    #  limits:
-    #    cpu: 50m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 10m
-    #    memory: 64Mi
+    resources:
+     limits:
+       cpu: 50m
+       memory: 128Mi
+     requests:
+       cpu: 10m
+       memory: 64Mi
 
   # -- Additional containers to be added to the server pod
   ## Note: Supports use of custom Helm templates
@@ -2166,13 +2181,13 @@ server:
   podLabels: {}
 
   # -- Resource limits and requests for the Argo CD server
-  resources: {}
-  #  limits:
-  #    cpu: 100m
-  #    memory: 128Mi
-  #  requests:
-  #    cpu: 50m
-  #    memory: 64Mi
+  resources:
+   limits:
+     cpu: 100m
+     memory: 128Mi
+   requests:
+     cpu: 50m
+     memory: 64Mi
 
   # Server container ports
   containerPorts:
@@ -2444,6 +2459,12 @@ server:
       nginx.ingress.kubernetes.io/lua-resty-waf-allow-unknown-content-types: "true"
       nginx.ingress.kubernetes.io/lua-resty-waf-process-multipart-body: "false"
       nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/auth-signin:  https://$host/oauth2/start?rd=$escaped_request_uri
+      nginx.ingress.kubernetes.io/auth-url:     https://$host/oauth2/auth
+      nginx.ingress.kubernetes.io/auth-response-headers: |
+        X-Auth-Request-User,
+        X-Auth-Request-Email,
+        X-Auth-Request-Groups
 
     # -- Defines which ingress controller will implement the resource
     ingressClassName: "nginx"
@@ -2888,13 +2909,13 @@ repoServer:
 
   copyutil:
     # -- Resource limits and requests for the repo server copyutil initContainer
-    resources: {}
-    #  limits:
-    #    cpu: 100m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 50m
-    #    memory: 64Mi
+    resources:
+     limits:
+       cpu: 100m
+       memory: 128Mi
+     requests:
+       cpu: 50m
+       memory: 64Mi
 
   # -- Additional volumeMounts to the repo server main container
   volumeMounts: []
@@ -2948,13 +2969,13 @@ repoServer:
   podLabels: {}
 
   # -- Resource limits and requests for the repo server pods
-  resources: {}
-  #  limits:
-  #    cpu: 50m
-  #    memory: 128Mi
-  #  requests:
-  #    cpu: 10m
-  #    memory: 64Mi
+  resources:
+   limits:
+     cpu: 50m
+     memory: 128Mi
+   requests:
+     cpu: 10m
+     memory: 64Mi
 
   # Repo server container ports
   containerPorts:
@@ -3333,13 +3354,13 @@ applicationSet:
   podLabels: {}
 
   # -- Resource limits and requests for the ApplicationSet controller pods.
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
   # ApplicationSet controller container ports
   containerPorts:
@@ -3725,13 +3746,13 @@ notifications:
   podLabels: {}
 
   # -- Resource limits and requests for the notifications controller
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
   # Notification controller container ports
   containerPorts:
@@ -4221,13 +4242,13 @@ commitServer:
   podLabels: {}
 
   # -- Resource limits and requests for the commit server pods.
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
   # -- [DNS configuration]
   dnsConfig: {}
