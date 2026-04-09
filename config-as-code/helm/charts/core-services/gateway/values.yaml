@@ -154,3 +154,5 @@ env: |
     value: "4194304"
   - name: SPRING_CLOUD_GATEWAY_DEFAULT_FILTERS_0_NAME
     value: RequestRateLimiter
+  - name: SPRING_DATA_REDIS_RATELIMIT_ENABLED
+    value: {{ index .Values "spring-data-redis-ratelimit-enabled" | quote }}
