@@ -167,7 +167,7 @@ egov-filestore:
   allowed-file-formats: "jpg,jpeg,png,doc,docx,pdf,odt,ods,text,dxf,xls,xlsx"
   filestore-url-validity: 3600
   fixed-bucketname: ng-central-uat-filestore  ## Add filestore bucket name
-  heap: "-Xmx256m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   memory_requests: "512Mi"
   cpu_requests: "200m"
   memory_limits: "768Mi"
@@ -179,7 +179,7 @@ egov-idgen:
   idformat-from-mdms: "true"
   java-args: -Dspring.profiles.active=monitoring
   autocreate-new-seq: "true"
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -188,19 +188,21 @@ egov-idgen:
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
 
 mdms-v2:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx1296m -Xms512m"
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 256Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 1Gi
+  memory_limits: 1.5Gi
+  replicas: 2
 
 health-notification-service:
   central-instance-build: true
@@ -214,6 +216,7 @@ health-notification-service:
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
 
 egov-notification-push:
   central-instance-build: true
@@ -227,17 +230,19 @@ egov-notification-push:
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
 
 egov-accesscontrol:
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 256Mi
+  memory_requests: 512Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
+  memory_limits: 768Mi
+  replicas: 2
 
 pgr-services:
   central-instance-build: true
@@ -251,9 +256,10 @@ pgr-services:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  replicas: 2
 
 egov-enc-service:
-  heap: "-Xmx256m -Xms192m"
+  heap: "-Xmx368m -Xms192m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -262,6 +268,7 @@ egov-enc-service:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
 
 boundary-service:
   # internal-routing: "true"
@@ -275,12 +282,13 @@ boundary-service:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
       
 
 egov-user:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx256m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   ingress:
     replenishRate: "1"
     burstCapacity: "2"
@@ -289,9 +297,10 @@ egov-user:
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 300m
-  memory_requests: 368Mi
+  memory_requests: 512Mi
   cpu_limits: 400m
-  memory_limits: 512Mi
+  memory_limits: 768Mi
+  replicas: 2
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
@@ -323,7 +332,7 @@ audit-service:
   memory_limits: 512Mi
 
 egov-indexer:
-  heap: "-Xmx368m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -332,6 +341,7 @@ egov-indexer:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  replicas: 2
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"        ##### Change repo url with Your fork Repo url
@@ -340,7 +350,7 @@ egov-indexer:
 
 egov-persister:
   kafka-consumer-group-id: "egov-infra-persist"
-  heap: "-Xmx368m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -349,6 +359,7 @@ egov-persister:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  replicas: 2
   images:
     - egovio/egov-persister
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/ba,/work-dir/health-campaign-config/egov-persister/ke,/work-dir/health-campaign-config/egov-persister/si,/work-dir/health-campaign-config/egov-persister/os,/work-dir/health-campaign-config/egov-persister/dev"
@@ -362,7 +373,7 @@ egov-persister:
 nginx-ingress:
     images:
         - quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1
-    replicas: 1
+    replicas: 3
     default-backend-service: "egov/nginx"
     namespace: egov
     cert-issuer: "letsencrypt-prod"
@@ -403,7 +414,7 @@ zuul:
   egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/property-services/property/_search,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/boundary-service/boundary-relationships/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
 
 health-expense:
-  heap: "-Xmx256m -Xms256m"
+  heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -412,6 +423,7 @@ health-expense:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   tracing-enabled: false
@@ -425,7 +437,7 @@ health-expense:
   expense-v2-periodic-billing-enabled: "true"
 
 health-muster-roll:
-  heap: "-Xmx256m -Xms256m"
+  heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -434,6 +446,7 @@ health-muster-roll:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   tracing-enabled: false
@@ -462,7 +475,7 @@ health-muster-roll:
   egov-mdms-service-endpoint-key: "mdms-v2/v1/_search"
 
 egov-workflow-v2:
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -471,6 +484,7 @@ egov-workflow-v2:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   logging-level: "DEBUG"
@@ -480,7 +494,7 @@ egov-workflow-v2:
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
 
 egov-hrms:
-  heap: "-Xmx512m -Xms512m"
+  heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -489,6 +503,7 @@ egov-hrms:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   java-args: -Dspring.profiles.active=monitoring
@@ -501,6 +516,7 @@ egov-otp:
   memory_limits: "256Mi"
   cpu_requests: 100m
   cpu_limits: 200m
+  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   java-args: -Dspring.profiles.active=monitoring
@@ -578,7 +594,7 @@ oauth2-proxy:
 facility:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx256m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -586,7 +602,8 @@ facility:
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
-  memory_limits: 756Mi
+  memory_limits: 768Mi
+  replicas: 2
 
 egov-url-shortening:
   heap: "-Xmx192m -Xms192m"
@@ -601,11 +618,12 @@ egov-url-shortening:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
+  replicas: 2
 
 product:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx256m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -614,6 +632,7 @@ product:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  replicas: 2
 
 egov-notification-mail:
   heap: "-Xmx192m -Xms192m"
@@ -625,26 +644,27 @@ egov-notification-mail:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
-
+  replicas: 2
 
 egov-localization:
   namespace: "egov"
   # internal-routing: "true"
   # db-url: "jdbc:postgresql://ng-central-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngcentralprd?currentSchema=ba"
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 768Mi
+  memory_requests: 1024Mi
   cpu_limits: 300m
-  memory_limits: 1Gi
+  memory_limits: 1596Mi
+  replicas: 2
 
 individual:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx768m -Xms256m"
   hpa:
     enabled: true
     minReplicas: 2
@@ -653,6 +673,7 @@ individual:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
 
 stock:
   central-instance-build: true
@@ -666,11 +687,12 @@ stock:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
 
 household:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: true
     minReplicas: 2
@@ -679,11 +701,12 @@ household:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  replicas: 2
 
 project:
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
     minReplicas: 2
@@ -692,13 +715,14 @@ project:
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
+  replicas: 2
 
 referralmanagement:
   downsync-services-enabled: true
   central-instance-build: true
   central-instance-enabled: true
-  replicas: 1
-  heap: "-Xmx768m -Xms512m"
+  replicas: 2
+  heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: false
     minReplicas: 1
@@ -720,6 +744,7 @@ service-request:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  replicas: 2
 
 error-handler:
   heap: "-Xmx192m -Xms192m"
@@ -731,20 +756,22 @@ error-handler:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
+  replicas: 2
       
 health-attendance:
   central-instance-build: true
   central-instance-enabled: true
   java-enable-debug: true
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 256Mi
+  memory_requests: 512Mi
   cpu_limits: 300m
-  memory_limits: 368Mi  
+  memory_limits: 768Mi
+  replicas: 2
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-expense-calculator-billing-period-search-endpoint: "health-expense-calculator/billing-config/v1/periods/_search"
@@ -760,6 +787,7 @@ pdf-service:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
+  replicas: 2
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"    
@@ -770,7 +798,7 @@ pdf-service:
 beneficiary-idgen:
   namespace: egov
   heap: "-Xmx384m -Xms384m"
-  replicas: 1
+  replicas: 2
   hpa:
     enabled: false
     minReplicas: 1
@@ -826,7 +854,7 @@ beneficiary-idgen:
       buffer: 5
 
 gateway:
-  replicas: 1
+  replicas: 2
   hpa:
     enabled: true
     minReplicas: 4
@@ -854,6 +882,7 @@ user-otp:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
+  replicas: 2
 
 auth-proxy:
   heap: "-Xmx192m -Xms192m"
@@ -866,6 +895,7 @@ auth-proxy:
   cpu_limits: 200m
   memory_limits: 368Mi
   namespace: egov
+  replicas: 2
   kibanaBasePath: "/kibana-upgrade"
 
 boundary-management:
@@ -882,6 +912,7 @@ boundary-management:
   central-instance-name: egov
   central-instance-build: true
   central-instance-enabled: true
+  replicas: 2
 
 worker-registry:
   central-instance-build: true
@@ -898,6 +929,7 @@ worker-registry:
   memory_limits: 768Mi
   tracing-enabled: false
   java-enable-debug: false
+  replicas: 2
 
 egov-malware-detection:
   namespace: egov
@@ -907,6 +939,7 @@ egov-malware-detection:
   cpu_limits: 500m
   memory_limits: 768Mi
   mail-alert-recipients: "divij.goyal@equidhi.org"
+  replicas: 2
 
 ### Prometheus & Alertmanager >>>>>>>>>>>>>>>>>>>>
 prometheus:
