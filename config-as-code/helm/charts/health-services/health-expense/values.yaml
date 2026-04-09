@@ -130,4 +130,18 @@ env: |
   - name: IS_HEALTH_CONTEXT_ENABLED
     value: "true"
   - name: EXPENSE_V2_PERIODIC_BILLING_ENABLED
-    value: {{ index .Values "expense-v2-periodic-billing-enabled" | default "false" | quote }} 
+    value: {{ index .Values "expense-v2-periodic-billing-enabled" | default "false" | quote }}
+  - name: EXPENSE_KAFKA_TENANT_ID_PATTERN
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: kafka-tenant-id-pattern
+  - name: EXPENSE_TASK_STATUS_CHECK_TOPIC
+    value: expense-task-status-check
+  - name: EXPENSE_TASK_STATUS_CHECK_DLT_TOPIC
+    value: expense-task-status-check-dlt
+  - name: EXPENSE_TASK_STATUS_CHECK_RETRY_DELAY_MS
+    value: {{ index .Values "expense-task-status-check-retry-delay-ms" | default "60000" | quote }}
+  - name: EXPENSE_TASK_STATUS_CHECK_MAX_RETRIES
+    value: {{ index .Values "expense-task-status-check-max-retries" | default "200" | quote }}
+
