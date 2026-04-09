@@ -110,7 +110,7 @@ env: |
   - name: IS_CENTRAL_INSTANCE_ENABLED
     value: "true"
 
-resources:
+resources: |
   requests:
     cpu: "100m"
     memory: "256Mi"
