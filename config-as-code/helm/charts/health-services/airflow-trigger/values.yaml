@@ -109,3 +109,11 @@ env: |
         key: password
   - name: IS_CENTRAL_INSTANCE_ENABLED
     value: "true"
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "200m"
+    memory: "512Mi"
