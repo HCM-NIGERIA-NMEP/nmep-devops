@@ -222,4 +222,7 @@ env: |
     value: {{ index .Values "musterroll-workflow-business-service" | quote }}
   {{- end }}  
   - name: ATTENDANCE_KAFKA_TENANT_ID_PATTERN
-    value: {{ .Values.tenantIdPattern | default "" }}
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: kafka-tenant-id-pattern

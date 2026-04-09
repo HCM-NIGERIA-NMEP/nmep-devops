@@ -733,7 +733,6 @@ error-handler:
   memory_limits: 512Mi
       
 health-attendance:
-  tenantIdPattern: "ba-|dev-"
   central-instance-build: true
   central-instance-enabled: true
   java-enable-debug: true
@@ -888,7 +887,6 @@ worker-registry:
   central-instance-build: true
   central-instance-enabled: true
   central-instance-name: egov
-  tenantIdPattern: "ba-|dev-"
   heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: false
