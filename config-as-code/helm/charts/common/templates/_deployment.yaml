@@ -61,6 +61,10 @@ spec:
       {{- with .Values.extraVolumes }}
         {{- tpl . $ | nindent 6 }}
       {{- end }}     
+    {{- end }}
+    {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
     {{- end }}        
     {{- if .Values.affinity.preferSpreadAcrossAZ }}
       affinity:

@@ -13,6 +13,8 @@ central-instance-build: false
 central-instance-enabled: false
 db-schema-names: "ba"
 
+imagePullSecrets: "docker-registry-secret"
+
 ingress:
     enabled: false
     zuul: false
