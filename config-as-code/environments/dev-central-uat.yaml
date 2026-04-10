@@ -152,15 +152,120 @@ payments-ui:
   cpu_limits: 100m
   memory_limits: 256Mi
 
+census-service:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "census-service-db"
+        tag: v1.0.1-ddae2629dc-105
+  image:
+    repository: egovio/census-service
+    tag: v1.0.1-ddae2629dc-105
+  namespace: "dev"
+  group-id: "dev-census-service"
+  ingress:
+    name: dev-census-service
+    namespace: egov
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  replicas: 2
+  plan-service-host: "dev-plan-service"
+  egov-plan-employee-assignment-search-endpoint: "/plan-service/employee/_search"
+  census-create-topic: "dev-census-create-topic"
+  census-update-topic: "dev-census-update-topic"
+  census-bulk-update-topic: "dev-census-bulk-update-topic"
+  resource-census-create-topic: "dev-resource-census-create-topic"
+  update-plan-facility: "dev-update-plan-facility"
+
+plan-service:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "plan-service-db"
+        tag: v1.0.2-0ea4104b4b-303
+  image:
+    repository: egovio/plan-service
+    tag: v1.0.2-0ea4104b4b-303
+  namespace: "dev"
+  group-id: "dev-plan-service"
+  ingress:
+    name: dev-plan-service
+    namespace: egov
+  heap: "-Xmx512m -Xms256m"
+  replicas: 2
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  census-service: dev-census-service
+  project-factory: dev-project-factory
+  plan-config-create-topic: dev-plan-config-create-topic
+  plan-config-update-topic: dev-plan-config-update-topic
+  plan-create-topic: dev-save-plan
+  plan-update-topic: dev-update-plan
+  plan-bulk-update-topic: dev-bulk-update-plan
+  plan-facility-create-topic: dev-save-plan-facility
+  plan-facility-update-topic: dev-update-plan-facility
+  plan-employee-assignment-create-topic: dev-plan-employee-assignment-create-topic
+  plan-employee-assignment-update-topic: dev-plan-employee-assignment-update-topic
+  resource-microplan-create-topic: dev-resource-microplan-create-topic
+  resource-plan-config-update-topic: dev-resource-plan-config-update-topic
+  project-factory-save-plan-facility: dev-project-factory-save-plan-facility
+
+resource-generator:
+  image:
+    repository: egovio/resource-generator
+    tag: v1.0.2-b8bfac27c7-142
+  namespace: "dev"
+  group-id: "dev-resource-generator"
+  ingress:
+    name: dev-resource-generator
+    namespace: egov
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  replicas: 2
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  egov-mdms-service-v2-endpoint-key: "/mdms-v2/v2/_search"
+  plan-service: dev-plan-service
+  census-service: dev-census-service
+  project-factory: dev-project-factory
+  plan-config-create-topic: dev-plan-config-create-topic
+  plan-config-update-topic: dev-plan-config-update-topic
+  resource-microplan-create-topic: dev-resource-microplan-create-topic
+  resource-plan-config-update-topic: dev-resource-plan-config-update-topic
+  resource-census-create-topic: dev-resource-census-create-topic
+
 project-factory:
   initContainers:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: project-factory-changes-sierraleone-82f83ba1fc-590
+        tag: nigeria-go-deep-2-efb90d1
   image:
     repository: egovio/project-factory
-    tag: project-factory-changes-sierraleone-82f83ba1fc-590
+    tag: nigeria-go-deep-2-efb90d1
   central-instance-enabled: false
   central-instance-build: true
   namespace: dev
@@ -172,8 +277,8 @@ project-factory:
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
+  cpu_limits: 1000m
+  memory_limits: 2Gi
   groupId: "dev-project-factory"
   ingress:
     name: dev-project-factory
@@ -215,18 +320,21 @@ project-factory:
   userCreateBatchTopic: "dev-hcm-user-create-batch"
   mappingBatchTopic: "dev-hcm-mapping-batch"
   campaignMarkFailedTopic: "dev-hcm-campaign-mark-failed"
-  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundary: "NIGERIA_NI"
   userMainBoundaryType: "COUNTRY"
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
   retryTillResourceCreationCompletes: "5"
+  serverTimezone: "UTC"
+  attendanceAttendeeSearchPageSize: "100"
+  attendanceStaffSearchPageSize: "100"
   command: |
     - sh
     - -c
   args: |
     - |
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
-      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
 
 
@@ -235,10 +343,10 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nigeria-go-deep-2-312dd54
+        tag: nigeria-go-deep-2-61c328e
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-312dd54
+    tag: nigeria-go-deep-2-61c328e
   namespace: dev
   ingress:
     name: dev-excel-ingestion
@@ -246,6 +354,7 @@ excel-ingestion:
   group-id: "dev-excel-ingestion"
   cpu_requests: 200m
   memory_requests: 768Mi
+  replicas: 2
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
   defaultLocale: 'en_MZ'
@@ -290,6 +399,28 @@ dashboard-analytics:
       branch: "dev"
   config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/dev/dashboard-analytics/*.json"
 
+auth-proxy:
+  image:
+    repository: egovio/auth-proxy
+    tag: auth-proxy-user-fail-fix-2-a92d71909d-41
+  heap: "-Xmx192m -Xms192m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  ingress:
+    enabled: "true"
+    name: auth-proxy
+    namespace: dev
+    context: kibana-upgrade
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 368Mi
+  replicas: 2
+  namespace: dev
+  kibanaBasePath: "/kibana-upgrade"
+
 microplan-ui:
   image:
     repository: egovio/microplan-ui
@@ -319,3 +450,54 @@ dashboard-ui:
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsDashboard-dev.js type=text/javascript></script>';"
+
+health-expense-calculator:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "health-expense-calculator-db"
+        tag: master-89c74d7
+  image:
+    repository: egovio/health-expense-calculator
+    tag: master-89c74d7
+  namespace: dev
+  heap: "-Xmx256m -Xms256m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  ingress:
+    name: dev-expense-calculator
+    namespace: egov
+  cpu_requests: 200m
+  memory_requests: 368Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+  replicas: 2
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  report-header-title: "Health Campaign Payment Report"
+  report-date-time-format: "dd/MM/yyyy HH:mm:ss z"
+  is-attendance-approval-required: "true"
+  register-batch-size: 15
+  tenantId: "dev"
+  calculate-musterroll-health: dev-calculate-musterroll-health
+  calculate-error-health: dev-calculate-error-health
+  calculate-billmeta-health: dev-calculate-billmeta-health
+  report-error-queue-topic: dev-report-error-queue-topic
+  report-retry-queue-topic: dev-report-retry-queue-topic
+  report-generation-trigger-topic: dev-report-generation-trigger-topic
+  report-generation-retry-trigger-topic: dev-report-generation-retry-trigger-topic
+  bill-generation-async-topic: dev-bill-generation-async-topic
+  bill-generation-async-enabled: "true"
+  expense-bill-create-topic: dev-expense-bill-create-health
+  expense-bill-update-topic: dev-expense-bill-update-health
+  expense-bill-index-topic: dev-expense-bill-index-health
+  payment-pdf-key: "health-bill-payment-dev"
+  billing-frequency-custom-minimum-days: "1"
+  billing-config-v2-enabled: "true"
+  billing-config-create-topic: dev-billing-config-create
+  billing-config-update-topic: dev-billing-config-update
+  billing-period-status-update-topic: dev-billing-period-status-update
+  billing-period-generation-enabled: "true"
+  billing-muster-roll-period-aware-enabled: "true"
+  egov-musterroll-search-endpoint: "/health-muster-roll/v1/_search"
