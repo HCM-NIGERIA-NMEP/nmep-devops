@@ -435,6 +435,7 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
   expense-v2-periodic-billing-enabled: "true"
+  task-scheduler-bootstrap-tenants: "ba,ke,si,os,dev"
 
 health-muster-roll:
   heap: "-Xmx368m -Xms256m"
