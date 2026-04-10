@@ -90,6 +90,7 @@ cluster-configs:
         egov-localization: "http://egov-localization.egov:8080/"
         egov-idgen: "http://egov-idgen.egov:8080/"
         kibana: "http://release-name-kibana.es-cluster-v8:5601"
+        internal-gateway: "http://internal-gateway.egov:8080"
         egov-otp: "http://egov-otp.egov:8080/"
         mdms-v2: "http://mdms-v2.egov:8080/"
         egov-workflow-v2: "http://egov-workflow-v2.egov:8080/"
@@ -136,7 +137,7 @@ cluster-configs:
         os-census-service: 'http://census-service.osun:8080/'
         dev-census-service: 'http://census-service.dev:8080/'
         health-muster-roll: 'http://health-muster-roll.egov:8080/'
-        health-expense-calculator: 'http://health-expense-calculator.egov:8080/'
+        health-expense-calculator: 'http://internal-gateway.egov:8080/'
         health-expense: 'http://health-expense.egov:8080/'
         jaeger-collector: 'http://jaeger-collector.tracing:80/'
         ke-inbox: 'http://inbox.kebbi:8080/'
@@ -347,6 +348,23 @@ egov-indexer:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"        ##### Change repo url with Your fork Repo url
       branch: "CENTRAL-UAT"
   egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/ba,/work-dir/health-campaign-config/egov-indexer/ke,/work-dir/health-campaign-config/egov-indexer/si,/work-dir/health-campaign-config/egov-indexer/os,/work-dir/health-campaign-config/egov-indexer/dev"
+
+internal-gateway-scg:
+  kafka-consumer-group-id: "internal-gateway"
+  heap: "-Xmx512m -Xms512m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 512Mi
+  cpu_limits: 300m
+  memory_limits: 768Mi
+  internal-gateway-json-path: "/work-dir/health-campaign-config/internal-gateway/internal-gateway.json"
+  initContainers:
+    gitSync:
+      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
+      branch: "CENTRAL-UAT"
 
 egov-persister:
   kafka-consumer-group-id: "egov-infra-persist"
