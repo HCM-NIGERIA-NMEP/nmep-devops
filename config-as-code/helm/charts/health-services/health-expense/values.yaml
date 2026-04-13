@@ -138,3 +138,13 @@ env: |
         key: kafka-tenant-id-pattern
   - name: TASK_SCHEDULER-BOOTSTRAP_TENANTS
     value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "mz" | quote}}
+  - name: WORKS_WORKER_REGISTRY_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: worker-registry-host
+  - name: WORKS_WORKER_REGISTRY_ENDPOINT
+    value: "/worker/v1/_search"
+  - name: WORKS_WORKER_REGISTRY_SEARCH_PAGE_SIZE
+    value: "100"
+
