@@ -56,7 +56,7 @@ httpPort: 8000
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
   tag: "central3"
-replicas: "0"
+replicas: "1"
 healthChecks:
   enabled: true
   livenessProbePath: "/health"
