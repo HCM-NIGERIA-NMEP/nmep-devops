@@ -4,6 +4,8 @@ global:
     - bauchi-hcm-uat.digit.org
     - kebbi-hcm-uat.digit.org
 
+disableAnnotationTimestamp: true
+
 # Common Labels
 labels:
   app: "airflow-trigger-api"
