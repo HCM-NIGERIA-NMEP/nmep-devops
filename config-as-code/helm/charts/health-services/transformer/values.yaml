@@ -77,6 +77,7 @@ save-stock-reconciliation-topic: "save-stock-reconciliation-topic"
 update-stock-reconciliation-topic: "update-stock-reconciliation-topic"
 transformer-producer-stock-recon-index-v1-topic: "transformer-producer-stock-recon-index-v1-topic"
 health-transformer: "health-transformer"
+boundary-hierarchy-name: "boundary-hierarchy"
 # Additional Container Envs
 env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
@@ -303,7 +304,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-config
-        key: boundary-hierarchy
+        key: {{ index .Values "boundary-hierarchy-name" | quote }}
   - name: PROJECT_STAFF_ROLE_MDMS_MODULE
     value: HCM-PROJECT-STAFF-ROLES
   - name: EGOV_SEARCH_HOUSEHOLD_URL

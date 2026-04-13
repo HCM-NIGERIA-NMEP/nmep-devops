@@ -66,6 +66,7 @@ cluster-configs:
         tracer-errors-provideexceptionindetails: "true"
         egov-env: "DEMO"
         boundary-hierarchy: "NIGERIAUAT"
+        boundary-hierarchy-admin: "ADMIN"
         ba-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
         ke-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
         si-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
