@@ -360,7 +360,7 @@ internal-gateway-scg:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  internal-gateway-json-path: "/work-dir/health-campaign-config/internal-gateway/internal-gateway.json"
+  internal-gateway-json-path: "file:///work-dir/health-campaign-config/internal-gateway/internal-gateway.json"
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
