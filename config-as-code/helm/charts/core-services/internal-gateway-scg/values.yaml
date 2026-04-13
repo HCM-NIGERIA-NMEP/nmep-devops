@@ -60,9 +60,11 @@ extraVolumes: |
   - name: workdir
     emptyDir: {}
 
-extraVolumeMounts: |     
+extraVolumeMounts: |
   - name: zuul-routes
     mountPath: "/etc/zuul"
+  - name: workdir
+    mountPath: "/work-dir"
 
 # Container Configs
 image:
