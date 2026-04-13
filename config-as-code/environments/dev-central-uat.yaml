@@ -322,7 +322,7 @@ project-factory:
   userCreateBatchTopic: "dev-hcm-user-create-batch"
   mappingBatchTopic: "dev-hcm-mapping-batch"
   campaignMarkFailedTopic: "dev-hcm-campaign-mark-failed"
-  userMainBoundary: "NIGERIA_NI"
+  userMainBoundary: "NIGERIAUAT_NI"
   userMainBoundaryType: "COUNTRY"
   maxResourceCreationAttempts: "10"
   waitTimeOfEachAttemptMs: "20000"
