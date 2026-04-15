@@ -50,6 +50,9 @@ resource "google_container_node_pool" "primary_nodes" {
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
     ]
+    workload_metadata_config {
+      node_metadata = "SECURE"
+    }
 
     labels = {
       env = "${var.project_id}"
