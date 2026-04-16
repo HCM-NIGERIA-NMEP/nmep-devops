@@ -10,6 +10,12 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   }"
 }
 
+resource "aws_kms_key" "rds" {
+  description             = "${var.environment} RDS encryption key"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+}
+
 resource "aws_db_instance" "rds_postgres" {
   allocated_storage       = "${var.storage_gb}"
   storage_type            = "${var.storage_type}"
@@ -27,6 +33,7 @@ resource "aws_db_instance" "rds_postgres" {
   copy_tags_to_snapshot   = "true"
   skip_final_snapshot     = "true"
   storage_encrypted       = "true"
+  kms_key_id              = aws_kms_key.rds.arn
 
     tags = "${
     tomap({
