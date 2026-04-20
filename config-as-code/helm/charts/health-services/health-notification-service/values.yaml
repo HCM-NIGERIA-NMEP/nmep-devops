@@ -94,6 +94,15 @@ env: |
     value: "/household/v1/_search"
   - name: EGOV_HOUSEHOLD_MEMBER_SEARCH_URL
     value: "/household/member/v1/_search"
+  - name: EGOV_USER_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-user
+  - name: EGOV_USER_SEARCH_URL
+    value: "/user/_search"
+  - name: EGOV_USER_INTEGRATION_ENABLED
+    value: "true"
   - name: EGOV_INDIVIDUAL_HOST
     valueFrom:
       configMapKeyRef:
