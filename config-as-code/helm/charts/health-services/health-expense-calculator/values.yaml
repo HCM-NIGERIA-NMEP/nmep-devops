@@ -214,6 +214,8 @@ env: |
     value: redis.backbone
   - name: SPRING_DATA_REDIS_PORT
     value: "6379"
+  - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+    value: {{ index .Values "spring-kafka-consumer-group-id" | quote }}
   {{- if index .Values "spring-kafka-producer-properties-max-request-size" }}
   - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE
     value: {{ index .Values "spring-kafka-producer-properties-max-request-size" | quote }} 

@@ -380,6 +380,7 @@ dashboard-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsDashboard-ba.js type=text/javascript></script>';"
 
 health-expense-calculator:
+  spring-kafka-consumer-group-id: "ba-health-expense-calculator"
   namespace: bauchi
   heap: "-Xmx256m -Xms256m"
   hpa:
@@ -391,7 +392,7 @@ health-expense-calculator:
     namespace: egov
   cpu_requests: 200m
   memory_requests: 368Mi
-  cpu_limits: 300m
+  cpu_limits: 600m
   memory_limits: 512Mi
   replicas: 2
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
@@ -400,6 +401,7 @@ health-expense-calculator:
   is-attendance-approval-required: "true"
   register-batch-size: 15
   tenantId: "ba"
+  excell-state-level-tenant-id: "ba"
   calculate-musterroll-health: ba-calculate-musterroll-health
   calculate-error-health: ba-calculate-error-health
   calculate-billmeta-health: ba-calculate-billmeta-health

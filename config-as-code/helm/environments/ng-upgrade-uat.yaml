@@ -447,7 +447,7 @@ health-expense:
   central-instance-enabled: true
   tracing-enabled: false
   java-enable-debug: false
-  business-workflow-status-map: "{'EXPENSE.WAGES':'true','EXPENSE.PURCHASE':'false','EXPENSE.SUPERVISION':'true','PAYMENTS.BILL':'true','PAYMENTS.BILLDETAILS':'true'}"
+  business-workflow-status-map: "{'EXPENSE.WAGES':'false','EXPENSE.PURCHASE':'false','EXPENSE.SUPERVISION':'false','PAYMENTS.BILL':'true','PAYMENTS.BILLDETAILS':'true'}"
   expense-billing-default-offset: 0
   expense-billing-default-limit: 100
   expense-billing-search-max-limit: 200
