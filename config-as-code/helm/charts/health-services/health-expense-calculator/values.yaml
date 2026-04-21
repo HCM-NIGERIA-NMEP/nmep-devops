@@ -248,4 +248,6 @@ env: |
     value: {{ index .Values "billing-muster-roll-period-aware-enabled" | default "false" | quote }}
   - name: BILLING_V2_BATCH_PROCESSING_ENABLED
     value: "false"
+  - name: PROJECT_MANAGEMENT_SYSTEM_KAFKA_UPDATE_TOPIC
+    value: {{ index .Values "project-management-system-kafka-update-topic" | default "update-project" | quote }}
   

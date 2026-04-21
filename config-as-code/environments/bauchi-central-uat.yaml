@@ -423,6 +423,7 @@ health-expense-calculator:
   billing-period-generation-enabled: "true"
   billing-muster-roll-period-aware-enabled: "true"
   egov-musterroll-search-endpoint: "/health-muster-roll/v1/_search"
+  project-management-system-kafka-update-topic: ba-update-project
 
 inbox:
   namespace: bauchi
