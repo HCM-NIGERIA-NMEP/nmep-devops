@@ -8,3 +8,9 @@ variable "cluster_name" {
 variable "availability_zones" {
   default = ["af-south-1a", "af-south-1b", "af-south-1c"]
 }
+
+variable "flow_logs" {
+  description = "Enable VPC Flow Logs for the VPC"
+  type        = bool
+  default     = false
+}

@@ -124,6 +124,30 @@ variable "enable_ClusterAutoscaler" {
   default     = false
 }
 
+variable "flow_logs" {
+  description = "Enable VPC Flow Logs for the AWS VPC"
+  type        = bool
+  default     = true
+}
+
+variable "eks_control_plane_logging" {
+  description = "Enable EKS control plane logging"
+  type        = bool
+  default     = false
+}
+
+variable "eks_control_plane_log_types" {
+  description = "EKS control plane log types to enable when control plane logging is turned on"
+  type        = list(string)
+  default     = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+}
+
+variable "eks_control_plane_log_retention_in_days" {
+  description = "Retention in days for the EKS control plane CloudWatch log group"
+  type        = number
+  default     = 30
+}
+
 #DO NOT fill in here. This will be asked at runtime
 variable "db_password" {}
 

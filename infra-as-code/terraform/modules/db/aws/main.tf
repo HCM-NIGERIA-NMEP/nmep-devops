@@ -25,6 +25,8 @@ resource "aws_db_instance" "rds_postgres" {
   instance_class          = "${var.instance_class}"
   identifier              = "${var.identifier}"
   availability_zone       = "${var.availability_zone}"
+  deletion_protection     = true
+  iam_database_authentication_enabled = true
   username                = "${var.administrator_login}"
   password                = "${var.administrator_login_password}"
   vpc_security_group_ids  = "${var.vpc_security_group_ids}"
@@ -34,6 +36,8 @@ resource "aws_db_instance" "rds_postgres" {
   skip_final_snapshot     = "true"
   storage_encrypted       = "true"
   kms_key_id              = aws_kms_key.rds.arn
+  performance_insights_enabled          = true
+  performance_insights_retention_period = 7
 
     tags = "${
     tomap({
@@ -43,4 +47,3 @@ resource "aws_db_instance" "rds_postgres" {
     })
   }"  
 }
-

@@ -153,8 +153,63 @@ resource "aws_iam_user_policy_attachment" "filestore_attachment" {
   policy_arn = "${aws_iam_policy.filestore_policy.arn}" # Reference the policy
 }
 
-resource "aws_ebs_encryption_by_default" "ebs_encrypt" {
-  enabled = true
+resource "aws_iam_service_linked_role" "autoscaling" {
+  aws_service_name = "autoscaling.amazonaws.com"
+}
+
+resource "aws_kms_key" "ebs" {
+  description             = "${var.cluster_name} EBS encryption key"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "EnableRootPermissions"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Action   = "kms:*"
+        Resource = "*"
+      },
+      {
+        Sid    = "AllowAutoScalingUseOfKey"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_service_linked_role.autoscaling.arn
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "AllowAutoScalingGrantCreation"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_service_linked_role.autoscaling.arn
+        }
+        Action   = "kms:CreateGrant"
+        Resource = "*"
+        Condition = {
+          Bool = {
+            "kms:GrantIsForAWSResource" = true
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_kms_alias" "ebs" {
+  name          = "alias/${var.cluster_name}-ebs"
+  target_key_id = aws_kms_key.ebs.key_id
 }
 
 module "network" {
@@ -162,6 +217,7 @@ module "network" {
   vpc_cidr_block     = "${var.vpc_cidr_block}"
   cluster_name       = "${var.cluster_name}"
   availability_zones = "${var.network_availability_zones}"
+  flow_logs          = var.flow_logs
 }
 
 # PostGres DB
@@ -194,7 +250,9 @@ module "eks" {
   endpoint_public_access  = true
   endpoint_private_access = true
   authentication_mode = "API_AND_CONFIG_MAP"
-  create_cloudwatch_log_group = false
+  cluster_enabled_log_types = var.eks_control_plane_logging ? var.eks_control_plane_log_types : []
+  create_cloudwatch_log_group = var.eks_control_plane_logging
+  cloudwatch_log_group_retention_in_days = var.eks_control_plane_log_retention_in_days
   subnet_ids      = concat(module.network.private_subnets, module.network.public_subnets)
   node_security_group_additional_rules = {
     ingress_self_ephemeral = {
@@ -249,6 +307,8 @@ module "eks_managed_node_group" {
     xvda = {
       device_name = "/dev/xvda"
       ebs = {
+        encrypted             = true
+        kms_key_id            = aws_kms_key.ebs.arn
         volume_size           = 100
         volume_type           = "gp3"
         delete_on_termination = true
@@ -298,6 +358,47 @@ module "ebs_csi_driver_irsa" {
     "KubernetesCluster" = var.cluster_name
     "Name"              = var.cluster_name
   }
+}
+
+resource "aws_iam_policy" "ebs_csi_kms" {
+  name        = "${var.cluster_name}-ebs-csi-kms-policy"
+  description = "Allow the EBS CSI driver to use the customer managed KMS key for EBS volumes"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:CreateGrant",
+          "kms:ListGrants",
+          "kms:RevokeGrant"
+        ]
+        Resource = aws_kms_key.ebs.arn
+        Condition = {
+          Bool = {
+            "kms:GrantIsForAWSResource" = "true"
+          }
+        }
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = aws_kms_key.ebs.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_kms" {
+  role       = module.ebs_csi_driver_irsa.iam_role_name
+  policy_arn = aws_iam_policy.ebs_csi_kms.arn
 }
 
 resource "aws_security_group_rule" "rds_db_ingress_workers" {
@@ -380,6 +481,7 @@ resource "kubernetes_storage_class" "ebs_csi_encrypted_gp3_storage_class" {
   parameters = {
     fsType    = "ext4"
     encrypted = true
+    kmsKeyId  = aws_kms_key.ebs.arn
     type      = "gp3"
   }
 }

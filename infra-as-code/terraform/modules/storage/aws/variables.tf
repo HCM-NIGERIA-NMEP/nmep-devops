@@ -3,6 +3,7 @@ variable "disk_prefix" {}
 variable "availability_zones" {}
 variable "storage_sku" {}
 variable "disk_size_gb" {}
+variable "kms_key_id" {}
 
 variable "storage_count" {}
 
