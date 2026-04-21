@@ -79,3 +79,27 @@ variable "db_max_connections" {
 variable "force_peering_cleanup" {
   default = false
 }
+
+variable "flow_logs" {
+  default = false
+}
+
+variable "flow_logs_sampling" {
+  default = 0.5
+}
+
+variable "flow_logs_metadata" {
+  default = "INCLUDE_ALL_METADATA"
+}
+
+variable "cluster_resource_labels" {
+  default = {}
+}
+
+variable "gke_cmek_storage_class_name" {
+  default = "gke-cmek-rwo"
+}
+
+variable "gke_cmek_disk_type" {
+  default = "pd-standard"
+}

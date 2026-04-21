@@ -10,6 +10,7 @@ resource "google_container_cluster" "gke_cluster" {
 
   min_master_version = var.k8s_version
   deletion_protection = false
+  resource_labels     = var.cluster_resource_labels
 
   ip_allocation_policy {}
 }
@@ -20,7 +21,10 @@ resource "google_container_node_pool" "primary_nodes" {
   location   = var.zone
 
   node_config {
-    machine_type = var.node_machine_type
+    machine_type      = var.node_machine_type
+    image_type        = "COS_CONTAINERD"
+    disk_type         = var.node_disk_type
+    boot_disk_kms_key = var.boot_disk_kms_key
     oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
     tags         = ["${var.cluster_name}-gke-node"]
     disk_size_gb = var.node_disk_size_gb
@@ -35,6 +39,11 @@ resource "google_container_node_pool" "primary_nodes" {
   autoscaling {
     min_node_count = var.min_node_count
     max_node_count = var.max_node_count
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
   }
 
   initial_node_count = var.desired_node_count

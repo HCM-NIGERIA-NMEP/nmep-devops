@@ -8,3 +8,13 @@ variable "max_node_count" {}
 variable "node_disk_size_gb" {}
 variable "vpc_id" {}
 variable "subnet_id" {}
+variable "cluster_resource_labels" {
+  type    = map(string)
+  default = {}
+}
+variable "node_disk_type" {
+  default = "pd-standard"
+}
+variable "boot_disk_kms_key" {
+  default = null
+}

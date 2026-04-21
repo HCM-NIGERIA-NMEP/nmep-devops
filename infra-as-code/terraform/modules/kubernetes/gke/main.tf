@@ -10,6 +10,15 @@ resource "google_compute_subnetwork" "subnet" {
   region        = "${var.region}"
   network       = "${google_compute_network.vpc.name}"
   ip_cidr_range = "${var.cidr_range}"
+
+  dynamic "log_config" {
+    for_each = var.flow_logs ? [1] : []
+    content {
+      aggregation_interval = "INTERVAL_5_SEC"
+      flow_sampling        = var.flow_logs_sampling
+      metadata             = var.flow_logs_metadata
+    }
+  }
 }
 
 # GKE cluster
@@ -22,6 +31,9 @@ resource "google_container_cluster" "primary" {
 
   network    = "${google_compute_network.vpc.name}"
   subnetwork = "${google_compute_subnetwork.subnet.name}"
+  resource_labels = var.cluster_resource_labels
+
+  ip_allocation_policy {}
 
   master_auth {
     username = "${var.gke_username}"
@@ -46,6 +58,9 @@ resource "google_container_node_pool" "primary_nodes" {
   }
 
   node_config {
+    image_type        = "COS_CONTAINERD"
+    disk_type         = var.node_disk_type
+    boot_disk_kms_key = var.boot_disk_kms_key
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
@@ -63,5 +78,10 @@ resource "google_container_node_pool" "primary_nodes" {
     metadata = {
       disable-legacy-endpoints = "true"
     }
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
   }
 }

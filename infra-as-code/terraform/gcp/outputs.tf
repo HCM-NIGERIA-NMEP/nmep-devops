@@ -42,3 +42,11 @@ output "db_password" {
 output "sops_key" {
   value = "projects/${var.project_id}/locations/${var.region}/keyRings/${google_kms_key_ring.sops_ring.name}/cryptoKeys/${google_kms_crypto_key.sops_key.name}"
 }
+
+output "gke_storage_cmek_key" {
+  value = google_kms_crypto_key.gke_storage_key.id
+}
+
+output "gke_cmek_storage_class_name" {
+  value = kubernetes_storage_class.gke_cmek_pd.metadata[0].name
+}
