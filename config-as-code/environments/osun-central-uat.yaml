@@ -10,7 +10,7 @@ namespace: osun
 transformer:
   image:
     repository: egovio/transformer
-    tag: HDDF-1277-8d30a8e
+    tag: HDDF-1277-osun-c5c6e416b0-411
   namespace: "osun"
   heap: "-Xmx768m -Xms512m"
   hpa:
