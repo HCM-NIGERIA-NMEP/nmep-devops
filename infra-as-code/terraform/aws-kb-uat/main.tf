@@ -530,10 +530,10 @@ resource "kubectl_manifest" "karpenter_node_pool" {
               values: ["r6i"]
             - key: "node.kubernetes.io/instance-type"
               operator: Exists
-              values: ["r6i.large"]
+              values: ["r6i.xlarge"]
             - key: "karpenter.k8s.aws/instance-cpu"
               operator: In
-              values: ["2"]
+              values: ["4"]
             - key: "kubernetes.io/arch"
               operator: In
               values: ["amd64"]
@@ -544,16 +544,13 @@ resource "kubectl_manifest" "karpenter_node_pool" {
               operator: In
               values: ["6"]
       disruption:
-        consolidationPolicy: WhenEmptyOrUnderutilized
+        consolidationPolicy: WhenEmpty
         consolidateAfter: 1m
         budgets:
-        - nodes: "80%"
+        - nodes: "1"
           reasons: 
           - "Empty"
           - "Drifted"
-        - nodes: "50%"
-          reasons: 
-          - "Underutilized"
   YAML
 
   depends_on = [
@@ -571,7 +568,7 @@ resource "kubectl_manifest" "karpenter_arm64_node_class" {
     spec:
       amiFamily: AL2023
       amiSelectorTerms:
-      - id: ami-00803372c8c8abc8b
+      - id: ami-09c1b8d4561f5973d
       role: ${module.eks_managed_node_group.iam_role_name}
       subnetSelectorTerms:
         - tags:

@@ -43,7 +43,7 @@ variable "instance_types_map" {
   description = "Map of instance types per architecture"
   type = map(list(string))
   default = {
-    x86_64 = ["r6i.large"]
+    x86_64 = ["r6i.xlarge"]
   }
 }
 
