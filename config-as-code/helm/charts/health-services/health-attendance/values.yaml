@@ -33,6 +33,17 @@ java-args: ""
 egov-mdms-service-host-key: "mdms-v2"
 egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
 
+attendance-log-kafka-create-topic: save-attendance-log
+attendance-log-kafka-update-topic: update-attendance-log
+attendance-register-kafka-create-topic: save-attendance
+attendance-register-kafka-update-topic: update-attendance
+attendance-staff-kafka-create-topic: save-staff
+attendance-staff-kafka-update-topic: update-staff
+attendance-attendee-kafka-create-topic: save-attendee
+attendance-attendee-kafka-update-topic: update-attendee
+project-staff-attendance-topic: project-staff-attendance-topic
+project-management-system-kafka-update-topic: update-project
+
 # Additional Container Envs
 env: |
   - name: SERVER_PORT
@@ -113,25 +124,25 @@ env: |
         name: egov-service-host
         key: egov-idgen
   - name: ATTENDANCE_LOG_KAFKA_CREATE_TOPIC
-    value: "save-attendance-log"
+    value: {{ index .Values "attendance-log-kafka-create-topic" | quote}}
   - name: ATTENDANCE_LOG_KAFKA_UPDATE_TOPIC
-    value: "update-attendance-log"
+    value: {{ index .Values "attendance-log-kafka-update-topic" | quote}}
   - name: ATTENDANCE_REGISTER_KAFKA_CREATE_TOPIC
-    value: "save-attendance"
+    value: {{ index .Values "attendance-register-kafka-create-topic" | quote}}
   - name: ATTENDANCE_REGISTER_KAFKA_UPDATE_TOPIC
-    value: "update-attendance"
+    value: {{ index .Values "attendance-register-kafka-update-topic" | quote}}
   - name: ATTENDANCE_STAFF_KAFKA_CREATE_TOPIC
-    value: "save-staff"
+    value: {{ index .Values "attendance-staff-kafka-create-topic" | quote}}
   - name: ATTENDANCE_STAFF_KAFKA_UPDATE_TOPIC
-    value: "update-staff"
+    value: {{ index .Values "attendance-staff-kafka-update-topic" | quote}}
   - name: ATTENDANCE_ATTENDEE_KAFKA_CREATE_TOPIC
-    value: "save-attendee"
+    value: {{ index .Values "attendance-attendee-kafka-create-topic" | quote}}
   - name: ATTENDANCE_ATTENDEE_KAFKA_UPDATE_TOPIC
-    value: "update-attendee"
+    value: {{ index .Values "attendance-attendee-kafka-update-topic" | quote}}
   - name: WORKS_INDIVIDUAL_SEARCH_ENDPOINT
     value: individual/v1/_search
   - name: PROJECT.STAFF.ATTENDANCE.TOPIC
-    value: "project-staff-attendance-topic"
+    value: {{ index .Values "project-staff-attendance-topic" | quote}}
   - name: SPRING_REDIS_HOST
     valueFrom:
       configMapKeyRef:
@@ -155,7 +166,7 @@ env: |
   - name: EGOV_PROJECT_SEARCH_ENDPOINT
     value: "project/v1/_search"
   - name: PROJECT_MANAGEMENT_SYSTEM_KAFKA_UPDATE_TOPIC
-    value: "update-project"
+    value: {{ index .Values "project-management-system-kafka-update-topic" | quote}}
   - name: ATTENDANCE_REGISTER_FIRST_STAFF_INSERT_ENABLED
     value: "true"
   - name: ATTENDANCE_REGISTER_OPEN_SEARCH_ENABLED_ROLES

@@ -24,7 +24,7 @@ cluster-configs:
     cert-issuer: letsencrypt-prod
   configmaps:
     egov-config:
-      namespace: [egov, monitoring, bauchi, kebbi, sierraleone, osun, dev ]
+      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev ]
       data:
         db-host: "ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
         db-name: "ngupgradeuat" ## Add db-name
@@ -46,7 +46,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
         egov-state-level-tenant-id: "ba"
         state-level-tenant-id: "ba"
-        kafka-tenant-id-pattern: "ba-|ke-|si-|os-|dev-"
+        kafka-tenant-id-pattern: "ba-|si-|os-|dev-"
         s3-assets-bucket: "(central-instance-uat-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
@@ -75,7 +75,7 @@ cluster-configs:
         host-map: "{'ba':'https://bauchi-hcm-uat.digit.org/', 'ke':'https://kebbi-hcm-uat.digit.org/', 'si':'https://sierraleone-hcm-uat.digit.org/', 'os':'https://osun-hcm-uat.digit.org/', 'dev': 'https://dev-hcm-uat.digit.org/'}"
         db-schema-names: "ba,ke,si,os,dev"
     egov-service-host:
-      namespace: [egov, monitoring, bauchi, kebbi, sierraleone, osun, dev ]
+      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev ]
       data:
         ke-dashboard-analytics: "http://dashboard-analytics.kebbi:8080/"
         ba-dashboard-analytics: "http://dashboard-analytics.bauchi:8080/"
@@ -454,7 +454,9 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
   expense-v2-periodic-billing-enabled: "true"
-  task-scheduler-bootstrap-tenants: "ba,ke,si,os,dev"
+  task-scheduler-bootstrap-tenants: "ba,si,os,dev"
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 health-muster-roll:
   heap: "-Xmx368m -Xms256m"
@@ -493,6 +495,8 @@ health-muster-roll:
   musterroll-validate-attendance-register-enabled: "true"
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v1/_search"
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-workflow-v2:
   heap: "-Xmx368m -Xms256m"
@@ -694,6 +698,8 @@ individual:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 stock:
   central-instance-build: true
@@ -722,8 +728,8 @@ household:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
-  schemaNameExclude: [ "dev" ]
-  hostExclude: ["dev-hcm-uat.digit.org"]
+  schemaNameExclude: [ "dev", "ke" ]
+  hostExclude: ["dev-hcm-uat.digit.org", "kebbi-hcm-uat.digit.org"]
 
 project:
   central-instance-build: true
@@ -798,6 +804,8 @@ health-attendance:
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-expense-calculator-billing-period-search-endpoint: "health-expense-calculator/billing-config/v1/periods/_search"
   egov-muster-roll-search-endpoint: "health-muster-roll/v1/_search"
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 pdf-service:
   heap: "-Xmx192m -Xms192m"

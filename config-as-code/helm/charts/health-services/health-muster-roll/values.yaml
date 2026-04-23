@@ -34,6 +34,12 @@ heap: "-Xmx256m -Xms256m"
 memory_limits: 512Mi
 java-args: ""
 
+musterroll-kafka-create-topic: save-musterroll-health
+musterroll-kafka-update-topic: update-musterroll-health
+musterroll-kafka-calculate-topic: calculate-musterroll-health
+musterroll-attendance-report-generate-topic: generate-attendance-report
+musterroll-attendance-report-update-topic: attendance-report-update
+
 # Additional Container Envs
 env: |
   - name: SERVER_PORT
@@ -94,11 +100,11 @@ env: |
         name: egov-config
         key: timezone
   - name: MUSTERROLL_KAFKA_CREATE_TOPIC
-    value: "save-musterroll-health"
+    value: {{ index .Values "musterroll-kafka-create-topic" | quote }}
   - name: MUSTERROLL_KAFKA_UPDATE_TOPIC
-    value: "update-musterroll-health"
+    value: {{ index .Values "musterroll-kafka-update-topic" | quote }}
   - name: MUSTERROLL_KAFKA_CALCULATE_TOPIC
-    value: "calculate-musterroll-health"
+    value: {{ index .Values "musterroll-kafka-calculate-topic" | quote }}
   - name: KAFKA_TOPICS_NOTIFICATION_SMS
     value: "egov.core.notification.sms"
   - name: EGOV_USER_CONTEXT_PATH
@@ -201,9 +207,9 @@ env: |
   - name: MUSTERROLL_PERIOD_LOCKING_ENABLED
     value: {{ index .Values "musterroll-period-locking-enabled" | default "true" | quote }}
   - name: MUSTER_ROLL_ATTENDANCE_REPORT_GENERATE_TOPIC
-    value: generate-attendance-report
+    value: {{ index .Values "musterroll-attendance-report-generate-topic" }}
   - name: MUSTER_ROLL_ATTENDANCE_REPORT_UPDATE_TOPIC
-    value: attendance-report-update
+    value: {{ index .Values "musterroll-attendance-report-update-topic" }}
   - name: EGOV_FILESTORE_HOST
     valueFrom:
       configMapKeyRef:
