@@ -722,6 +722,8 @@ household:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
+  schemaNameExclude: [ "dev" ]
+  hostExclude: ["dev-hcm-uat.digit.org"]
 
 project:
   central-instance-build: true

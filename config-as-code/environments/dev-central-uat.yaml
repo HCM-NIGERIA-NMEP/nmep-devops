@@ -1,6 +1,115 @@
 global:
   domain: dev-hcm-uat.digit.org
 
+cluster-configs:
+  namespaces:
+    create: true
+    values: [ dev ]
+
+  configmaps:
+    egov-config:
+      namespace: [ dev ]
+      data:
+        db-host: "ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
+        db-name: "ngupgradeuat" ## Add db-name
+        db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat"
+        dev-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=dev"
+        domain: "dev-hcm-uat.digit.org" ## Add your Domain Name
+        redis-host: "redis.backbone"
+        redis-downsync-host: ""
+        egov-services-fqdn-name: "https://dev-hcm-uat.digit.org/" ## Add your Domain Name
+        state-level-tenantid-length: "1"
+        state-schema-index-position-tenantid: "0"
+        is-environment-central-instance: "true"
+        aws-cluster-ip: "https://F0E97DA6D373EA719BCDECD45CBD7782.sk1.af-south-1.eks.amazonaws.com"
+        aws-region: "af-south-1"
+        aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
+        egov-state-level-tenant-id: "dev"
+        state-level-tenant-id: "dev"
+        kafka-tenant-id-pattern: "dev-"
+        s3-assets-bucket: "(central-instance-uat-assets)"
+        es-host: "elasticsearch-data.es-cluster-v8"
+        es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
+        flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
+        kafka-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
+        kafka-infra-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
+        logging-level-jdbc: "DEBUG"
+        mobile-validation-workaround: "true"
+        serializers-timezone-in-ist: "true"
+        server-tomcat-max-connections: "500"
+        server-tomcat-max-threads: "10"
+        sms-enabled: "true"
+        spring-datasource-tomcat-initialSize: "1"
+        spring-datasource-tomcat-max-active: "2"
+        spring-jpa-show-sql: "true"
+        timezone: "UTC"
+        tracer-errors-provideexceptionindetails: "true"
+        egov-env: "DEMO"
+        boundary-hierarchy: "NIGERIAUAT"
+        boundary-hierarchy-admin: "ADMIN"
+        dev-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
+        host-map: "{'dev': 'https://dev-hcm-uat.digit.org/'}"
+        db-schema-names: "dev"
+    egov-service-host:
+      namespace: [ dev ]
+      data:
+        dev-dashboard-analytics: "http://dashboard-analytics.dev:8080/"
+        beneficiary-idgen: "http://beneficiary-idgen.egov:8080/"
+        egov-enc-service: "http://egov-enc-service.egov:8080/"
+        egov-accesscontrol: "http://egov-accesscontrol.egov:8080/"
+        egov-user: "http://egov-user.egov:8080/"
+        egov-user-egov: "http://egov-user.egov:8080/"
+        egov-filestore: "http://egov-filestore.egov:8080/"
+        egov-localization: "http://egov-localization.egov:8080/"
+        egov-idgen: "http://egov-idgen.egov:8080/"
+        kibana: "http://release-name-kibana.es-cluster-v8:5601"
+        internal-gateway: "http://internal-gateway.egov:8080"
+        egov-otp: "http://egov-otp.egov:8080/"
+        mdms-v2: "http://mdms-v2.egov:8080/"
+        egov-workflow-v2: "http://egov-workflow-v2.egov:8080/"
+        egov-indexer: "http://egov-indexer:8080/"
+        egov-hrms: "http://egov-hrms.egov:8080/"
+        es-client: "https://elasticsearch-data.es-cluster-v8:9200"
+        pdf-service: "http://pdf-service.egov:8080/"
+        user-otp: "http://user-otp.egov:8080/"
+        minio-url: "https://minio-uat.digit.org/"
+        zuul: "http://zuul.egov:8080/"
+        egov-url-shortening: "http://egov-url-shortening.egov:8080/"
+        pgr-services: "http://pgr-services.egov:8080/"
+        project: "http://project.egov:8080/"
+        project-referral: "http://project-referral.egov:8080/"
+        product: "http://product.egov:8080/"
+        household: "http://household.dev:8080/"
+        household-referral: "http://household-referral.egov:8080/"
+        boundary-service: "http://boundary-service.egov:8080/"
+        individual: "http://individual.egov:8080/"
+        individual-referral: "http://individual-referral.egov:8080/"
+        stock: "http://stock.egov:8080/"
+        facility: "http://facility.egov:8080/"
+        service-request: "http://service-request.egov:8080/"
+        attendance-service: "http://health-attendance.egov:8080/"
+        audit-service: "http://audit-service.egov:8080/"
+        dev-project-factory: 'http://project-factory.dev:8080/'
+        dev-resource-generator: 'http://resource-generator.dev:8080/'
+        dev-plan-service: 'http://plan-service.dev:8080/'
+        dev-census-service: 'http://census-service.dev:8080/'
+        health-muster-roll: 'http://health-muster-roll.egov:8080/'
+        health-expense-calculator: 'http://internal-gateway.egov:8080/'
+        health-expense: 'http://health-expense.egov:8080/'
+        jaeger-collector: 'http://jaeger-collector.tracing:80/'
+        dev-inbox: 'http://inbox.dev:8080/'
+        boundary-management: 'http://boundary-management:8080/'
+        dev-excel-ingestion: 'http://excel-ingestion.dev:8080/'
+        worker-registry-host: 'http://worker-registry.egov:8080/'
+        health-notification-service: "http://health-notification-service.egov:8080/"
+        egov-notification-push: "http://egov-notification-push.egov:8080/"
+    hcm-moz-impl:
+      data:
+        dhis2-host: "https://ccu.misau.gov.mz/ccu"
+
+
+
+
 service:
   additionalAnnotations: |
     zuul/route-host: dev-hcm-uat.digit.org
@@ -125,6 +234,46 @@ digit-ui:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 512Mi
+
+household:
+  central-instance-build: true
+  central-instance-enabled: false
+  initContainers:
+    dbMigration:
+      image:
+        repository: "household-db"
+        tag: household-sierraleone-changes-3a241e18d1-82
+  image:
+    repository: egovio/household
+    tag: household-sierraleone-changes-3a241e18d1-82
+  ingress:
+    name: dev-household
+    namespace: egov
+  namespace: "dev"
+  heap: "-Xmx768m -Xms512m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  replicas: 2
+  kafka-consumer-group-id: dev-health-household
+  household-member-kafka-create-topic: dev-save-household-member-topic
+  household-member-kafka-update-topic: dev-update-household-member-topic
+  household-member-kafka-delete-topic: dev-delete-household-member-topic
+  household-member-cosumer-bulk-create-topic: dev-household-member-consumer-bulk-create-topic
+  household-member-cosumer-bulk-update-topic: dev-household-member-consumer-bulk-update-topic
+  household-member-cosumer-bulk-delete-topic: dev-household-member-consumer-bulk-delete-topic
+  household-consumer-bulk-delete-topic: dev-delete-household-bulk-topic
+  household-cosumer-bulk-create-topic: dev-create-household-bulk-topic
+  household-consumer-bulk-update-topic: dev-update-household-bulk-topic
+  household-kafka-create-topic: dev-save-household-topic
+  household-kafka-update-topic: dev-update-household-topic
+  household-kafka-delete-topic: dev-delete-household-topic
+
     
 workbench-ui:
   image:

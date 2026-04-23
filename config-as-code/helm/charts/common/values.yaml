@@ -64,7 +64,15 @@ initContainers:
                   key: db-url
                   {{- end }}            
             - name: SCHEMA_NAME
-              {{- if and (index .Values "central-instance-build" | default false) (index .Values "central-instance-enabled" | default false) }}            
+              {{- if and .Values.schemaNameExclude .Values.global.schema }}
+              {{- $all := .Values.global.schema }}
+              {{- $exclude := .Values.schemaNameExclude }}
+              {{- $filtered := $all }}
+              {{- range $exclude }}
+                {{- $filtered = without $filtered . }}
+              {{- end }}
+              value: "{{ join "," $filtered }}"
+              {{- else if and (index .Values "central-instance-build" | default false) (index .Values "central-instance-enabled" | default false) }}
               valueFrom:
                 configMapKeyRef:
                   name: egov-config

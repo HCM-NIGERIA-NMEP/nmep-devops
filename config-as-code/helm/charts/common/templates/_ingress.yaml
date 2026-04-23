@@ -27,7 +27,13 @@ spec:
   rules:
   {{- if .Values.ingress.zuul }}
     {{- if .Values.global.hosts }}
-      {{- range .Values.global.hosts }}
+      {{- $hosts := .Values.global.hosts }}
+      {{- $exclude := .Values.hostExclude | default (list) }}
+      {{- $filtered := $hosts }}
+      {{- range $exclude }}
+        {{- $filtered = without $filtered . }}
+      {{- end }}
+      {{- range $filtered }}
     - host: {{ . }}
       http:
         paths:
@@ -66,7 +72,13 @@ spec:
   tls:
   {{- if .Values.ingress.zuul }}
     {{- if .Values.global.hosts }}
-      {{- range .Values.global.hosts }}
+      {{- $hosts := .Values.global.hosts }}
+      {{- $exclude := .Values.hostExclude | default (list) }}
+      {{- $filtered := $hosts }}
+      {{- range $exclude }}
+        {{- $filtered = without $filtered . }}
+      {{- end }}
+      {{- range $filtered }}
     - secretName: {{ . }}-tls-certs
       hosts:
         - {{ . }}
