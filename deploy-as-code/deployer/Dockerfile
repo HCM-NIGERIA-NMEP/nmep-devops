@@ -1,5 +1,5 @@
 
-FROM golang:1.13-alpine as build
+FROM golang:1.24-alpine as build
 
 ENV GO111MODULE=on
 ENV GOCACHE=/tmp
@@ -38,4 +38,12 @@ RUN wget https://storage.googleapis.com/kubernetes-release/release/$KUBECTL_VERS
     && mv ./kubectl ./aws-iam-authenticator ./sops ./linux-amd64/helm /usr/local/bin \
     && rm -rf ./linux-amd64 && rm -f /var/cache/apk/*
 
-# USER egov
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+  CMD test -x /opt/egov/egov-deployer \
+    && test -x /usr/local/bin/kubectl \
+    && test -x /usr/local/bin/aws-iam-authenticator \
+    && test -x /usr/local/bin/sops \
+    && test -x /usr/local/bin/helm \
+    || exit 1
+
+USER egov
