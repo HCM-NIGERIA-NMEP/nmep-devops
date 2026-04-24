@@ -773,6 +773,8 @@ service-request:
   cpu_limits: 300m
   memory_limits: 768Mi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 error-handler:
   heap: "-Xmx192m -Xms192m"
