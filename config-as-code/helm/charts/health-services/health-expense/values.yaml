@@ -115,13 +115,18 @@ env: |
   - name: EXPENSE_BILLING_SEARCH_MAX_LIMIT
     value: {{ index .Values "expense-billing-search-max-limit" | quote }} 
   {{- end }}
-  - name: PROJECT_SERVICE_HOST
+  - name: WORKS_PROJECT_HOST
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
         key: project
-  - name: PROJECT_SEARCH_PATH
-    value: "project/v1/_search"
+  - name: WORKS_PROJECT_STAFF_ENDPOINT
+    value: "project/staff/v1/_search"
+  - name: SPRING_DATA_REDIS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: redis-host
   {{- if index .Values "spring-kafka-producer-properties-max-request-size" }}
   - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE
     value: {{ index .Values "spring-kafka-producer-properties-max-request-size" | quote }} 
@@ -159,4 +164,6 @@ env: |
         key: egov-filestore
   - name: MTN_API_MOCK_ENABLED
     value: {{ index .Values "mtn-api-mock-enabled" | default "true" | quote }}
+  - name: TASK_SCHEDULER_BOOTSTRAP_TENANTS
+    value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "ba" | quote}}
 
