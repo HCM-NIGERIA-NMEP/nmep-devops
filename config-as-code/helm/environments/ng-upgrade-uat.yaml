@@ -9,22 +9,24 @@ global:
     - sierraleone-hcm-uat.digit.org
     - osun-hcm-uat.digit.org
     - dev-hcm-uat.digit.org
+    - kwara-hcm-uat.digit.org
   schema:
     - ba
     - ke
     - si
     - os
     - dev
+    - kw
 cluster-configs:
   namespaces:
     create: true
-    values: [ backbone, cert-manager, egov, es-cluster, kafka-cluster, logging, monitoring, playground, zookeeper-cluster, es-cluster-v8, jupyter, jhub, bauchi, kebbi, sierraleone, osun, dev ]
+    values: [ backbone, cert-manager, egov, es-cluster, kafka-cluster, logging, monitoring, playground, zookeeper-cluster, es-cluster-v8, jupyter, jhub, bauchi, kebbi, sierraleone, osun, dev, kwara ]
 
   root-ingress:
     cert-issuer: letsencrypt-prod
   configmaps:
     egov-config:
-      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev ]
+      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev, kwara ]
       data:
         db-host: "ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
         db-name: "ngupgradeuat" ## Add db-name
@@ -34,6 +36,7 @@ cluster-configs:
         si-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=si"
         os-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=os"
         dev-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=dev"
+        kw-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=kw"
         domain: "mc-nigeria-uat.digit.org" ## Add your Domain Name
         redis-host: "redis.backbone"
         redis-downsync-host: ""
@@ -46,7 +49,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
         egov-state-level-tenant-id: "ba"
         state-level-tenant-id: "ba"
-        kafka-tenant-id-pattern: "ba-|si-|os-|dev-"
+        kafka-tenant-id-pattern: "ba-|si-|os-|dev-|kw-"
         s3-assets-bucket: "(central-instance-uat-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
@@ -72,16 +75,18 @@ cluster-configs:
         si-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
         os-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
         dev-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
-        host-map: "{'ba':'https://bauchi-hcm-uat.digit.org/', 'ke':'https://kebbi-hcm-uat.digit.org/', 'si':'https://sierraleone-hcm-uat.digit.org/', 'os':'https://osun-hcm-uat.digit.org/', 'dev': 'https://dev-hcm-uat.digit.org/'}"
-        db-schema-names: "ba,ke,si,os,dev"
+        kw-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
+        host-map: "{'ba':'https://bauchi-hcm-uat.digit.org/', 'ke':'https://kebbi-hcm-uat.digit.org/', 'si':'https://sierraleone-hcm-uat.digit.org/', 'os':'https://osun-hcm-uat.digit.org/', 'dev': 'https://dev-hcm-uat.digit.org/', 'kw': 'https://kwara-hcm-uat.digit.org/'}"
+        db-schema-names: "ba,ke,si,os,dev,kw"
     egov-service-host:
-      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev ]
+      namespace: [egov, monitoring, bauchi, sierraleone, osun, dev, kwara ]
       data:
         ke-dashboard-analytics: "http://dashboard-analytics.kebbi:8080/"
         ba-dashboard-analytics: "http://dashboard-analytics.bauchi:8080/"
         si-dashboard-analytics: "http://dashboard-analytics.sierraleone:8080/"
         os-dashboard-analytics: "http://dashboard-analytics.osun:8080/"
         dev-dashboard-analytics: "http://dashboard-analytics.dev:8080/"
+        kw-dashboard-analytics: "http://dashboard-analytics.kwara:8080/"
         beneficiary-idgen: "http://beneficiary-idgen.egov:8080/"
         egov-enc-service: "http://egov-enc-service.egov:8080/"
         egov-accesscontrol: "http://egov-accesscontrol.egov:8080/"
@@ -122,21 +127,25 @@ cluster-configs:
         si-project-factory: 'http://project-factory.sierraleone:8080/'
         os-project-factory: 'http://project-factory.osun:8080/'
         dev-project-factory: 'http://project-factory.dev:8080/'
+        kw-project-factory: 'http://project-factory.kwara:8080/'
         ke-resource-generator: 'http://resource-generator.kebbi:8080/'
         ba-resource-generator: 'http://resource-generator.bauchi:8080/'
         si-resource-generator: 'http://resource-generator.sierraleone:8080/'
         os-resource-generator: 'http://resource-generator.osun:8080/'
         dev-resource-generator: 'http://resource-generator.dev:8080/'
+        kw-resource-generator: 'http://resource-generator.kwara:8080/'
         ke-plan-service: 'http://plan-service.kebbi:8080/'
         ba-plan-service: 'http://plan-service.bauchi:8080/'
         si-plan-service: 'http://plan-service.sierraleone:8080/'
         os-plan-service: 'http://plan-service.osun:8080/'
         dev-plan-service: 'http://plan-service.dev:8080/'
+        kw-plan-service: 'http://plan-service.kwara:8080/'
         ke-census-service: 'http://census-service.kebbi:8080/'
         ba-census-service: 'http://census-service.bauchi:8080/'
         si-census-service: 'http://census-service.sierraleone:8080/'
         os-census-service: 'http://census-service.osun:8080/'
         dev-census-service: 'http://census-service.dev:8080/'
+        kw-census-service: 'http://census-service.kwara:8080/'
         health-muster-roll: 'http://health-muster-roll.egov:8080/'
         health-expense-calculator: 'http://internal-gateway.egov:8080/'
         health-expense: 'http://health-expense.egov:8080/'
@@ -146,12 +155,14 @@ cluster-configs:
         si-inbox: 'http://inbox.sierraleone:8080/'
         os-inbox: 'http://inbox.osun:8080/'
         dev-inbox: 'http://inbox.dev:8080/'
+        kw-inbox: 'http://inbox.kwara:8080/'
         boundary-management: 'http://boundary-management:8080/'
         ke-excel-ingestion: 'http://excel-ingestion.kebbi:8080/'
         ba-excel-ingestion: 'http://excel-ingestion.bauchi:8080/'
         si-excel-ingestion: 'http://excel-ingestion.sierraleone:8080/'
         os-excel-ingestion: 'http://excel-ingestion.osun:8080/'
         dev-excel-ingestion: 'http://excel-ingestion.dev:8080/'
+        kw-excel-ingestion: 'http://excel-ingestion.kwara:8080/'
         worker-registry-host: 'http://worker-registry.egov:8080/'
         health-notification-service: "http://health-notification-service.egov:8080/"
         egov-notification-push: "http://egov-notification-push.egov:8080/"
@@ -318,7 +329,7 @@ egov-user:
   decryption-abac-enabled: "false"
 
 audit-service:
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/ba/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-persister.yml,/work-dir/health-campaign-config/egov-persister/si/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/si/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/si/household-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/si/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/si/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/si/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-persister.yml,/work-dir/health-campaign-config/egov-persister/os/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/os/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/os/household-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/os/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/os/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/os/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/household-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-persister.yml"
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/ba/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-persister.yml,/work-dir/health-campaign-config/egov-persister/si/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/si/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/si/household-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/si/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/si/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/si/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-persister.yml,/work-dir/health-campaign-config/egov-persister/os/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/os/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/os/household-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/os/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/os/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/os/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/household-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/household-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/project-persister.yml"
   initContainers:
     gitSync:
       enabled: "true"
@@ -348,7 +359,7 @@ egov-indexer:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"        ##### Change repo url with Your fork Repo url
       branch: "CENTRAL-UAT"
-  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/ba,/work-dir/health-campaign-config/egov-indexer/ke,/work-dir/health-campaign-config/egov-indexer/si,/work-dir/health-campaign-config/egov-indexer/os,/work-dir/health-campaign-config/egov-indexer/dev"
+  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/ba,/work-dir/health-campaign-config/egov-indexer/ke,/work-dir/health-campaign-config/egov-indexer/si,/work-dir/health-campaign-config/egov-indexer/os,/work-dir/health-campaign-config/egov-indexer/dev,/work-dir/health-campaign-config/egov-indexer/kw"
 
 internal-gateway-scg:
   kafka-consumer-group-id: "internal-gateway"
@@ -381,7 +392,7 @@ egov-persister:
   replicas: 2
   images:
     - egovio/egov-persister
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/ba,/work-dir/health-campaign-config/egov-persister/ke,/work-dir/health-campaign-config/egov-persister/si,/work-dir/health-campaign-config/egov-persister/os,/work-dir/health-campaign-config/egov-persister/dev"
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/ba,/work-dir/health-campaign-config/egov-persister/ke,/work-dir/health-campaign-config/egov-persister/si,/work-dir/health-campaign-config/egov-persister/os,/work-dir/health-campaign-config/egov-persister/dev,/work-dir/health-campaign-config/egov-persister/kw"
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"      ##### Change repo url with Your fork Repo url
@@ -454,7 +465,7 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
   expense-v2-periodic-billing-enabled: "true"
-  task-scheduler-bootstrap-tenants: "ba,si,os,dev"
+  task-scheduler-bootstrap-tenants: "ba,si,os,dev,kw"
   schemaNameExclude: [ "ke" ]
   hostExclude: ["kebbi-hcm-uat.digit.org"]
 

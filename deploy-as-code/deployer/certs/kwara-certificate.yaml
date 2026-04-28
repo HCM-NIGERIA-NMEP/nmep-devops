@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kwara-hcm-uat.digit.org-tls-certs
+  namespace: egov
+spec:
+  secretName: kwara-hcm-uat.digit.org-tls-certs
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: kwara-hcm-uat.digit.org
+  dnsNames:
+  - kwara-hcm-uat.digit.org
