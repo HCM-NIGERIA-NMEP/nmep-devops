@@ -60,6 +60,8 @@ initContainers:
                   key: os-db-url
                   {{- else if eq .Values.namespace "dev" }}
                   key: dev-db-url
+                  {{- else if eq .Values.namespace "kwara" }}
+                  key: kw-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -87,6 +89,8 @@ initContainers:
               value: "os"
               {{- else if eq .Values.namespace "dev" }}
               value: "dev"
+              {{- else if eq .Values.namespace "kwara" }}
+              value: "kw"
               {{- else }}
               value: "public"
               {{- end }}
@@ -182,6 +186,8 @@ extraEnv:
               key: os-db-url
               {{- else if eq .Values.namespace "dev" }}
               key: dev-db-url
+              {{- else if eq .Values.namespace "kwara" }}
+              key: kw-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -210,6 +216,8 @@ extraEnv:
               key: os-db-url
               {{- else if eq .Values.namespace "dev" }}
               key: dev-db-url
+              {{- else if eq .Values.namespace "kwara" }}
+              key: kw-db-url
               {{- else }}
               key: db-url
               {{- end }}
