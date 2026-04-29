@@ -725,6 +725,8 @@ stock:
   cpu_limits: 300m
   memory_limits: 512Mi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 household:
   central-instance-build: true
@@ -755,6 +757,8 @@ project:
   cpu_limits: 300m
   memory_limits: 1.5Gi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 referralmanagement:
   downsync-services-enabled: true
@@ -770,6 +774,8 @@ referralmanagement:
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 service-request:
   central-instance-build: true
