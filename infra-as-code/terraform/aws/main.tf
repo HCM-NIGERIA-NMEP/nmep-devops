@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
-    bucket = <terraform_state_bucket_name>
+    bucket = "<terraform_state_bucket_name>"
     key    = "terraform-setup/terraform.tfstate"
     region = "ap-south-1"
     # The below line is optional depending on whether you are using DynamoDB for state locking and consistency
-    dynamodb_table = <terraform_state_bucket_name>
+    dynamodb_table = "<terraform_state_bucket_name>"
     # The below line is optional if your S3 bucket is encrypted
     encrypt = true
   }
@@ -27,6 +27,7 @@ terraform {
 locals {
   az_to_find           = var.availability_zones[0] 
   az_index_in_network  = index(var.network_availability_zones, local.az_to_find)
+  autoscaling_service_linked_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
   ami_type_map = {
     x86_64 = "AL2023_x86_64_STANDARD"
     arm64  = "AL2023_ARM_64_STANDARD"
@@ -153,10 +154,6 @@ resource "aws_iam_user_policy_attachment" "filestore_attachment" {
   policy_arn = "${aws_iam_policy.filestore_policy.arn}" # Reference the policy
 }
 
-resource "aws_iam_service_linked_role" "autoscaling" {
-  aws_service_name = "autoscaling.amazonaws.com"
-}
-
 resource "aws_kms_key" "ebs" {
   description             = "${var.cluster_name} EBS encryption key"
   deletion_window_in_days = 7
@@ -178,7 +175,7 @@ resource "aws_kms_key" "ebs" {
         Sid    = "AllowAutoScalingUseOfKey"
         Effect = "Allow"
         Principal = {
-          AWS = aws_iam_service_linked_role.autoscaling.arn
+          AWS = local.autoscaling_service_linked_role_arn
         }
         Action = [
           "kms:Encrypt",
@@ -193,7 +190,7 @@ resource "aws_kms_key" "ebs" {
         Sid    = "AllowAutoScalingGrantCreation"
         Effect = "Allow"
         Principal = {
-          AWS = aws_iam_service_linked_role.autoscaling.arn
+          AWS = local.autoscaling_service_linked_role_arn
         }
         Action   = "kms:CreateGrant"
         Resource = "*"
@@ -250,7 +247,7 @@ module "eks" {
   endpoint_public_access  = true
   endpoint_private_access = true
   authentication_mode = "API_AND_CONFIG_MAP"
-  cluster_enabled_log_types = var.eks_control_plane_logging ? var.eks_control_plane_log_types : []
+  enabled_log_types = var.eks_control_plane_logging ? var.eks_control_plane_log_types : []
   create_cloudwatch_log_group = var.eks_control_plane_logging
   cloudwatch_log_group_retention_in_days = var.eks_control_plane_log_retention_in_days
   subnet_ids      = concat(module.network.private_subnets, module.network.public_subnets)

@@ -4,7 +4,7 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_kms_key" "s3statekey" {
+resource "aws_kms_key" "s3statekey" {
   description             = "This key is used to encrypt bucket objects"
   deletion_window_in_days = 10
 }
@@ -85,7 +85,7 @@ resource "aws_s3_bucket" "terraform_state_logs" {
   bucket = "${var.bucket_name}-access-logs"
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

@@ -5,7 +5,7 @@
 
 variable "cluster_name" {
   description = "Name of the Kubernetes cluster"
-  default = <cluster_name> #REPLACE
+  default = "<cluster_name>" #REPLACE
 }
 
 variable "vpc_cidr_block" {
@@ -84,12 +84,12 @@ variable "max_worker_nodes" {
 
 variable "db_name" {
   description = "RDS DB name. Make sure there are no hyphens or other special characters in the DB name. Else, DB creation will fail"
-  default = <db_name> #REPLACE
+  default = "<db_name>" #REPLACE
 }
 
 variable "db_username" {
   description = "RDS database user name"
-  default = <db_username> #REPLACE
+  default = "<db_username>" #REPLACE
 }
 
 variable "ami_id" {
@@ -133,7 +133,7 @@ variable "flow_logs" {
 variable "eks_control_plane_logging" {
   description = "Enable EKS control plane logging"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "eks_control_plane_log_types" {
