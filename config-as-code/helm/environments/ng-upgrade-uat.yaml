@@ -639,6 +639,8 @@ facility:
   cpu_limits: 300m
   memory_limits: 768Mi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-url-shortening:
   heap: "-Xmx192m -Xms192m"
@@ -668,6 +670,8 @@ product:
   cpu_limits: 300m
   memory_limits: 768Mi
   replicas: 2
+  schemaNameExclude: [ "ke" ]
+  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-notification-mail:
   heap: "-Xmx192m -Xms192m"
