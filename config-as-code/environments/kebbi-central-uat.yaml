@@ -419,6 +419,52 @@ project:
   project-location-capture-kafka-create-topic: ke-save-location-capture-project-topic
   project-location-capture-consumer-bulk-create-topic: ke-save-location-capture-project-bulk-topic
 
+facility:
+  central-instance-build: true
+  central-instance-enabled: false
+  heap: "-Xmx512m -Xms256m"
+  ingress:
+    name: kebbi-facility
+    namespace: egov
+  namespace: "kebbi"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 512Mi
+  cpu_limits: 300m
+  memory_limits: 768Mi
+  replicas: 1
+  facility-kafka-create-topic: ke-save-facility-topic
+  facility-kafka-update-topic: ke-update-facility-topic
+  facility-kafka-delete-topic: ke-delete-facility-topic
+  facility-consumer-bulk-delete-topic: ke-delete-facility-bulk-topic
+  facility-consumer-bulk-create-topic: ke-create-facility-bulk-topic
+  facility-consumer-bulk-update-topic: ke-update-facility-bulk-topic
+
+product:
+  central-instance-build: true
+  central-instance-enabled: false
+  heap: "-Xmx512m -Xms256m"
+  ingress:
+    name: kebbi-product
+    namespace: egov
+  namespace: "kebbi"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 512Mi
+  cpu_limits: 300m
+  memory_limits: 768Mi
+  replicas: 1
+  product-kafka-create-topic: ke-save-product-topic
+  product-kafka-update-topic: ke-update-product-topic
+  product-variant-kafka-create-topic: ke-save-product-variant-topic
+  product-variant-kafka-update-topic: ke-update-product-variant-topic
+
 transformer:
   namespace: "kebbi"
   heap: "-Xmx768m -Xms512m"
