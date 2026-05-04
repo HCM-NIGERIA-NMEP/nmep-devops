@@ -246,6 +246,7 @@ health-expense:
   expense-billing-bill-update: ke-expense-bill-update-health
 
 health-attendance:
+  spring-kafka-consumer-group-id: "ke-health-attendance"
   central-instance-build: true
   central-instance-enabled: false
   java-enable-debug: true

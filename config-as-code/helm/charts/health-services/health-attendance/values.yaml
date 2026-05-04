@@ -56,6 +56,8 @@ env: |
     value: {{ index .Values "heap" | quote }}
   - name: JAVA_ARGS
     value: {{ index .Values "java-args" | quote }}
+  - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+    value: {{ index .Values "spring-kafka-consumer-group-id" | quote }}
   - name: SERVER_CONTEXT_PATH
     value: /attendance
   - name: SERVER_SERVLET_CONTEXT-PATH
