@@ -43,6 +43,8 @@ attendance-attendee-kafka-create-topic: save-attendee
 attendance-attendee-kafka-update-topic: update-attendee
 project-staff-attendance-topic: project-staff-attendance-topic
 project-management-system-kafka-update-topic: update-project
+attendance-log-kafka-bulk-create-topic: save-attendance-log-bulk-health
+attendance-log-kafka-bulk-update-topic: update-attendance-log-bulk-health
 
 # Additional Container Envs
 env: |
@@ -229,3 +231,7 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: kafka-tenant-id-pattern
+  - name: ATTENDANCE_LOG_CONSUMER_BULK_CREATE_TOPIC
+    value: {{ index .Values "attendance-log-kafka-bulk-create-topic" | quote }}
+  - name: ATTENDANCE_LOG_CONSUMER_BULK_UPDATE_TOPIC
+    value: {{ index .Values "attendance-log-kafka-bulk-update-topic" | quote }}

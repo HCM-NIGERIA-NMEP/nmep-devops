@@ -269,6 +269,8 @@ health-attendance:
   egov-muster-roll-search-endpoint: "health-muster-roll/v1/_search"
   attendance-log-kafka-create-topic: ke-save-attendance-log
   attendance-log-kafka-update-topic: ke-update-attendance-log
+  attendance-log-kafka-bulk-create-topic: ke-save-attendance-log-bulk-health
+  attendance-log-kafka-bulk-update-topic: ke-update-attendance-log-bulk-health
   attendance-register-kafka-create-topic: ke-save-attendance
   attendance-register-kafka-update-topic: ke-update-attendance
   attendance-staff-kafka-create-topic: ke-save-staff
