@@ -450,10 +450,10 @@ health-expense-calculator:
     dbMigration:
       image:
         repository: "health-expense-calculator-db"
-        tag: nigeria-go-deep-b389eca
+        tag: nigeria-go-deep-dfa026a
   image:
     repository: egovio/health-expense-calculator
-    tag: nigeria-go-deep-b389eca
+    tag: nigeria-go-deep-dfa026a
   spring-kafka-consumer-group-id: "ba-health-expense-calculator"
   namespace: bauchi
   heap: "-Xmx256m -Xms256m"
