@@ -45,6 +45,7 @@ project-staff-attendance-topic: project-staff-attendance-topic
 project-management-system-kafka-update-topic: update-project
 attendance-log-kafka-bulk-create-topic: save-attendance-log-bulk-health
 attendance-log-kafka-bulk-update-topic: update-attendance-log-bulk-health
+attendance-register-kafka-muster-status-update-topic: muster-roll-status-update
 
 # Additional Container Envs
 env: |
@@ -237,3 +238,5 @@ env: |
     value: {{ index .Values "attendance-log-kafka-bulk-create-topic" | quote }}
   - name: ATTENDANCE_LOG_KAFKA_CONSUMER_BULK_UPDATE_TOPIC
     value: {{ index .Values "attendance-log-kafka-bulk-update-topic" | quote }}
+  - name: ATTENDANCE_REGISTER_KAFKA_MUSTER_STATUS_UPDATE_TOPIC
+    value: {{ index .Values "attendance-register-kafka-muster-status-update-topic" | quote }}

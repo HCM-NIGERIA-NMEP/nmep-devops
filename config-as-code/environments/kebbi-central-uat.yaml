@@ -280,6 +280,7 @@ health-attendance:
   attendance-attendee-kafka-update-topic: ke-update-attendee
   project-staff-attendance-topic: ke-project-staff-attendance-topic
   project-management-system-kafka-update-topic: ke-update-project
+  attendance-register-kafka-muster-status-update-topic: ke-muster-roll-status-update
 
 service-request:
   central-instance-build: true
