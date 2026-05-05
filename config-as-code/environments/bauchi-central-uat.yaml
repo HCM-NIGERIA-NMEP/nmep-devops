@@ -7,7 +7,12 @@ service:
 
 namespace: bauchi
 
+disableAnnotationTimestamp: true
+
 transformer:
+  image:
+    repository: egovio/transformer
+    tag: HDDF-5226-151bb11878-406
   namespace: "bauchi"
   heap: "-Xmx768m -Xms512m"
   hpa:
@@ -106,6 +111,9 @@ transformer:
 
 
 digit-ui:
+  image:
+    repository: egovio/digit-ui
+    tag: health-dashboard-digit-ui-8a3b8bbd1b-850
   namespace: bauchi
   custom-js-injection: |
     sub_filter.conf: "
@@ -114,6 +122,9 @@ digit-ui:
       ';"
     
 workbench-ui:
+  image:
+    repository: egovio/workbench-ui
+    tag: HDDF-4931-6fd335c
   namespace: bauchi
   custom-js-injection: |
     sub_filter.conf: "
@@ -121,6 +132,9 @@ workbench-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsWorkbench-ba.js type=text/javascript></script>';"
 
 payments-ui:
+  image:
+    repository: egovio/payments-ui
+    tag: HDDF-4931-2e2ecfd
   namespace: bauchi
   custom-js-injection: |
     sub_filter.conf: "
@@ -128,6 +142,15 @@ payments-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-ba.js type=text/javascript></script>';"
 
 census-service:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "census-service-db"
+        tag: v1.0.1-ddae2629dc-105
+  image:
+    repository: egovio/census-service
+    tag: v1.0.1-ddae2629dc-105
+
   namespace: "bauchi"
   group-id: "ba-census-service"
   ingress:
@@ -152,6 +175,15 @@ census-service:
   update-plan-facility: "ba-update-plan-facility"
 
 plan-service:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "plan-service-db"
+        tag: v1.0.2-0ea4104b4b-303
+  image:
+    repository: egovio/plan-service
+    tag: v1.0.2-0ea4104b4b-303
+
   namespace: "bauchi"
   group-id: "ba-plan-service"
   ingress:
@@ -186,6 +218,9 @@ plan-service:
   project-factory-save-plan-facility: ba-project-factory-save-plan-facility
 
 resource-generator:
+  image:
+    repository: egovio/resource-generator
+    tag: v1.0.2-b8bfac27c7-142
   namespace: "bauchi"
   group-id: "ba-resource-generator"
   ingress:
@@ -214,6 +249,15 @@ resource-generator:
   resource-census-create-topic: ba-resource-census-create-topic
 
 project-factory:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "project-factory-db"
+        tag: nigeria-go-deep-2-b897dc0
+  image:
+    repository: egovio/project-factory
+    tag: nigeria-go-deep-2-b897dc0
+
   central-instance-enabled: false
   central-instance-build: true
   namespace: bauchi
@@ -287,6 +331,15 @@ project-factory:
 
 
 excel-ingestion:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "excel-ingestion-db"
+        tag: nigeria-go-deep-2-7c86f11
+  image:
+    repository: egovio/excel-ingestion
+    tag: nigeria-go-deep-2-7c86f11
+
   namespace: bauchi
   ingress:
     name: bauchi-excel-ingestion
@@ -311,6 +364,10 @@ excel-ingestion:
   excel-ingestion-processing-result-topic: "ba-hcm-processing-result"
 
 dashboard-analytics:
+  image:
+    repository: egovio/dashboard-analytics
+    tag: analytics-raw-response-transform-499a276969-79
+
   namespace: bauchi
   ingress:
     name: bauchi-dashboard-analytics
@@ -337,6 +394,9 @@ dashboard-analytics:
   config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/ba/dashboard-analytics/*.json"
 
 auth-proxy:
+  image:
+    repository: egovio/auth-proxy
+    tag: auth-proxy-user-fail-fix-2-a92d71909d-41
   heap: "-Xmx192m -Xms192m"
   hpa:
     enabled: false
@@ -356,6 +416,9 @@ auth-proxy:
   kibanaBasePath: "/kibana-upgrade"
 
 microplan-ui:
+  image:
+    repository: egovio/microplan-ui
+    tag: v0.4.0-503b2e90fd-142
   namespace: bauchi
   replicas: 2
   cpu_requests: 50m
@@ -368,6 +431,9 @@ microplan-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsMicroplan-ba.js type=text/javascript></script>';"
 
 dashboard-ui:
+  image:
+    repository: egovio/dashboard-ui
+    tag: HDDF-4931-6873013
   namespace: bauchi
   replicas: 2
   cpu_requests: 50m
@@ -380,6 +446,14 @@ dashboard-ui:
       <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsDashboard-ba.js type=text/javascript></script>';"
 
 health-expense-calculator:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "health-expense-calculator-db"
+        tag: nigeria-go-deep-75e255b
+  image:
+    repository: egovio/health-expense-calculator
+    tag: nigeria-go-deep-75e255b
   spring-kafka-consumer-group-id: "ba-health-expense-calculator"
   namespace: bauchi
   heap: "-Xmx256m -Xms256m"
@@ -426,6 +500,9 @@ health-expense-calculator:
   project-management-system-kafka-update-topic: ba-update-project
 
 inbox:
+  image:
+    repository: egovio/inbox
+    tag: v1.4.0-bd52511479-19
   namespace: bauchi
   ingress:
     namespace: bauchi
