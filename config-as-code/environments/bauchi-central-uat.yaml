@@ -407,8 +407,8 @@ health-expense-calculator:
   calculate-billmeta-health: ba-calculate-billmeta-health
   report-error-queue-topic: ba-report-error-queue-topic
   report-retry-queue-topic: ba-report-retry-queue-topic
-  report-generation-trigger-topic: ba-report-generation-trigger-topic
-  report-generation-retry-trigger-topic: ba-report-generation-retry-trigger-topic
+  report-generation-trigger-topic: ba-report-generation-trigger
+  report-generation-retry-trigger-topic: ba-report-generation-retry-trigger
   bill-generation-async-topic: ba-bill-generation-async-topic
   bill-generation-async-enabled: "true"
   expense-bill-create-topic: ba-expense-bill-create-health

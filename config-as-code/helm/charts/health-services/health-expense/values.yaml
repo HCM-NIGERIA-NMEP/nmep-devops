@@ -37,6 +37,7 @@ cpu_limits: "300m"
 
 expense-billing-bill-create: expense-bill-create-health
 expense-billing-bill-update: expense-bill-update-health
+report-generation-trigger-topic: report-generation-trigger
 
 # Additional Container Envs
 env: |
@@ -166,4 +167,6 @@ env: |
     value: {{ index .Values "mtn-api-mock-enabled" | default "true" | quote }}
   - name: TASK_SCHEDULER_BOOTSTRAP_TENANTS
     value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "ba" | quote}}
+  - name: REPORT_GENERATION_TRIGGER_TOPIC
+    value: {{ index .Values "report-generation-trigger-topic" | quote}}
 
