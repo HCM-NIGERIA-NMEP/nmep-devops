@@ -99,6 +99,12 @@ env: |
         key: boundary-service
   - name: EGOV_BOUNDARY_SEARCH_URL
     value: {{ index .Values "egov-boundary-search-url" | default "/boundary-service/boundary-relationships/_search" }}
+  egov.boundary.hierarchy.name
+  - name: EGOV_BOUNDARY_HIERARCHY_NAME
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: boundary-hierarchy
   - name: PROJECT_SERVICE_HOST
     valueFrom:
       configMapKeyRef:
