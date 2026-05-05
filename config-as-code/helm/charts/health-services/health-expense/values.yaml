@@ -125,7 +125,7 @@ env: |
   - name: SPRING_DATA_REDIS_HOST
     valueFrom:
       configMapKeyRef:
-        name: egov-service-host
+        name: egov-config
         key: redis-host
   {{- if index .Values "spring-kafka-producer-properties-max-request-size" }}
   - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE
