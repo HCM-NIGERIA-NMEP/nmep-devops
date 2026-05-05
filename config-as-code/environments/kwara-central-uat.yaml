@@ -216,7 +216,7 @@ excel-ingestion:
 dashboard-analytics:
   image:
     repository: egovio/dashboard-analytics
-    tag: analytics-raw-response-transform-499a276969-79
+    tag: analytics-raw-response-transform-c0bd721231-76
   namespace: kwara
   ingress:
     name: kwara-dashboard-analytics
