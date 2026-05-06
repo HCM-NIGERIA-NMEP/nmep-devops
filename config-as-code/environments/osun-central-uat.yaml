@@ -94,7 +94,7 @@ digit-ui:
 workbench-ui:
   image:
     repository: egovio/workbench-ui
-    tag: HDDF-4931-95f2adc
+    tag: HDDF-4931-6fd335c
   namespace: osun
   custom-js-injection: |
     sub_filter.conf: "
