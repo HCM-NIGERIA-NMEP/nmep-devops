@@ -39,14 +39,9 @@ spec:
       securityContext:
         fsGroup: 65533 # to make SSH key readable 
     {{- end }}
-    {{- if .Values.securityContext }}
+    {{- if .Values.podSecurityContext }}
       securityContext:
-      {{- if .Values.securityContext.fsGroup }}
-        fsGroup: {{ .Values.securityContext.fsGroup }}
-      {{- end }}
-      {{- if .Values.securityContext.runAsUser }}
-        runAsUser: {{ .Values.securityContext.runAsUser }}
-      {{- end }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
     {{- end }}
     {{- if or .Values.initContainers.gitSync.enabled .Values.extraVolumes }}     
       volumes:  
@@ -120,6 +115,10 @@ spec:
         - name: {{ template "common.name" . }}
           image: {{ template "common.image" (dict "Values" $.Values "repository" .Values.image.repository "tag" .Values.image.tag) }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+      {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+      {{- end }}
       {{- if .Values.command }}
           command:
           {{- tpl  .Values.command . | nindent 12 }}

@@ -72,6 +72,7 @@ securityContext:
   runAsGroup: 65534
   runAsUser: 65534
   fsGroup: 65534
+  readOnlyRootFilesystem: true
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/

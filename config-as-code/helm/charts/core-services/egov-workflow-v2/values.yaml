@@ -33,6 +33,30 @@ heap: "-Xmx64m -Xms64m"
 java-args: "-Dspring.profiles.active=monitoring"
 workflow-statelevel: "true"
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
+extraVolumes: |
+  - name: tmp
+    emptyDir: {}
+
+extraVolumeMounts: |
+  - name: tmp
+    mountPath: /tmp
+
 # Additional Container Envs
 env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID

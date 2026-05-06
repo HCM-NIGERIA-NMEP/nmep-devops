@@ -22,6 +22,10 @@ spec:
           labels:
           {{- include "common.labels" . | nindent 12 }}              
         spec:
+        {{- if .Values.podSecurityContext }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+        {{- end }}
         {{- if .Values.extraVolumes }}     
           volumes:      
           {{- with .Values.extraVolumes }}
@@ -35,6 +39,10 @@ spec:
           - name: {{ template "common.name" . }}
             image: {{ template "common.image" (dict "Values" $.Values "repository" .Values.image.repository "tag" .Values.image.tag) }}
             imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.securityContext }}
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+          {{- end }}
           {{- if .Values.args }}            
             args:
             {{- toYaml .Values.args | nindent 12 }}

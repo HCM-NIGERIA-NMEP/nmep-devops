@@ -15,6 +15,22 @@ ingress:
   enabled: true
   context: "oauth2"  
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
 httpPort: 4180
 # Optionally specify an array of imagePullSecrets.
 # Secrets must be manually created in the namespace.

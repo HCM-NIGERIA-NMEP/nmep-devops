@@ -29,6 +29,23 @@ healthChecks:
   livenessProbePath: "/wp-login.php"
   readinessProbePath: "/wp-login.php"
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
+
 ## WordPress containers' resource requests and limits
 resources: |
   limits: 
@@ -116,4 +133,3 @@ ingress:
 
 # Init Containers Configs
 initContainers: {}
-

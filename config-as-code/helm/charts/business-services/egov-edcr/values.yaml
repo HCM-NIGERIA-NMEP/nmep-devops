@@ -226,5 +226,22 @@ ingress:
   additionalAnnotations: |
     nginx.ingress.kubernetes.io/proxy-body-size: 8m
   context: "egi"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
   
 

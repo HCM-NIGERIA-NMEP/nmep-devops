@@ -84,8 +84,24 @@ extraVolumeMounts: |
   - mountPath: /var/lib/pgadmin
     name: storage
 
+# securityContext:
+#   fsGroup: 5050
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
 securityContext:
-  fsGroup: 5050
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
 
 # Additional Container Envs
 env: |
