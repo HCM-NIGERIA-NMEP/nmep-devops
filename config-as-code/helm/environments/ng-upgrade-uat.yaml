@@ -306,8 +306,8 @@ egov-user:
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
   ingress:
-    replenishRate: "1"
-    burstCapacity: "2"
+    replenishRate: "10"
+    burstCapacity: "10"
   hpa:
     enabled: false
     minReplicas: 1
