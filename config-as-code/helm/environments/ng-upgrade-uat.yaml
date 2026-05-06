@@ -456,7 +456,7 @@ health-expense:
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
-  replicas: 2
+  replicas: 1
   central-instance-build: true
   central-instance-enabled: true
   tracing-enabled: false
