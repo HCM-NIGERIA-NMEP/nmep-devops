@@ -692,15 +692,15 @@ egov-localization:
   namespace: "egov"
   # internal-routing: "true"
   # db-url: "jdbc:postgresql://ng-central-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngcentralprd?currentSchema=ba"
-  heap: "-Xmx1024m -Xms768m"
+  heap: "-Xmx3584m -Xms1596m"
   hpa:
     enabled: false
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 1024Mi
-  cpu_limits: 300m
-  memory_limits: 1596Mi
+  memory_requests: 4096Mi
+  cpu_limits: 600m
+  memory_limits: 4096Mi
   replicas: 2
 
 individual:
