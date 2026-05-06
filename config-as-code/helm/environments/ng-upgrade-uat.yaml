@@ -213,7 +213,7 @@ mdms-v2:
     maxReplicas: 3
   ingress:
     replenishRate: "10"
-    burstCapacity: "30"
+    burstCapacity: "40"
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
