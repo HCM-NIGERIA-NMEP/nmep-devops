@@ -260,10 +260,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: nigeria-go-deep-2-b897dc0
+        tag: nigeria-go-deep-2-b3d1eb5
   image:
     repository: egovio/project-factory
-    tag: nigeria-go-deep-2-b897dc0
+    tag: nigeria-go-deep-2-b3d1eb5
 
   central-instance-enabled: false
   central-instance-build: true
@@ -342,10 +342,10 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nigeria-go-deep-2-7c86f11
+        tag: nigeria-go-deep-2-63044e6
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-7c86f11
+    tag: nigeria-go-deep-2-63044e6
 
   namespace: bauchi
   ingress:
