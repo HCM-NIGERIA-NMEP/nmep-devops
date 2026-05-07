@@ -124,7 +124,7 @@ digit-ui:
 workbench-ui:
   image:
     repository: egovio/workbench-ui
-    tag: HDDF-4931-6fd335c
+    tag: HDDF-4931-611ba92
   namespace: bauchi
   custom-js-injection: |
     sub_filter.conf: "
