@@ -260,10 +260,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: nigeria-go-deep-2-b9cc896
+        tag: nigeria-go-deep-2-f0a3e68
   image:
     repository: egovio/project-factory
-    tag: nigeria-go-deep-2-b9cc896
+    tag: nigeria-go-deep-2-f0a3e68
 
   central-instance-enabled: false
   central-instance-build: true
