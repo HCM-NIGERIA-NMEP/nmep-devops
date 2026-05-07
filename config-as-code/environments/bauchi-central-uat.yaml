@@ -260,11 +260,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: nigeria-go-deep-2-f0a3e68
+        tag: nigeria-go-deep-2-e82384e
   image:
     repository: egovio/project-factory
-    tag: nigeria-go-deep-2-f0a3e68
-
+    tag: nigeria-go-deep-2-e82384e
   central-instance-enabled: false
   central-instance-build: true
   namespace: bauchi
