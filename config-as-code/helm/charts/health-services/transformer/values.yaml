@@ -76,6 +76,13 @@ update-household-member-topic: "update-household-member-topic"
 save-stock-reconciliation-topic: "save-stock-reconciliation-topic"
 update-stock-reconciliation-topic: "update-stock-reconciliation-topic"
 transformer-producer-stock-recon-index-v1-topic: "transformer-producer-stock-recon-index-v1-topic"
+expense-bill-create-health-topic: "expense-bill-create-health"
+expense-bill-update-health-topic: "expense-bill-update-health"
+transformer-bill-index-topic: "transformer-bill-index-topic"
+transformer-billdetail-index-topic: "transformer-billdetail-index-topic"
+expense-bill-report-save-topic: "expense-bill-report-save"
+expense-bill-report-update-topic: "expense-bill-report-update"
+transformer-billreport-index-topic: "transformer-billreport-index-topic"
 health-transformer: "health-transformer"
 boundary-hierarchy-name: "boundary-hierarchy"
 # Additional Container Envs
@@ -281,6 +288,20 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: attendance-service
+  - name: EGOV_WORKFLOW_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-workflow-v2
+  - name: EGOV_WORKFLOW_PROCESS_SEARCH_URL
+    value: /egov-workflow-v2/egov-wf/process/_search
+  - name: EGOV_BILL_SERVICE_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: health-expense
+  - name: EGOV_BILL_SEARCH_URL
+    value: /health-expense/bill/v1/_search
   - name: EGOV_USER_HOST
     valueFrom:
       configMapKeyRef:
@@ -340,11 +361,26 @@ env: |
     value: {{ index .Values "transformer-error-skip-error-codes" | default "" | quote }}
   - name: TRANSFORMER_ERROR_SKIP_URL_CONTAINS
     value: {{ index .Values "transformer-error-skip-url-contains" | default "facility,resource" | quote }}
+
+  - name: TRANSFORMER_CONSUMER_SAVE_BILL_TOPIC
+    value: {{ index .Values "expense-bill-create-health-topic" | default "expense-bill-create-health" | quote }}
+  - name: TRANSFORMER_CONSUMER_UPDATE_BILL_TOPIC
+    value: {{ index .Values "expense-bill-update-health-topic" | default "expense-bill-update-health" | quote }}
+  - name: TRANSFORMER_PRODUCER_BILL_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-bill-index-topic" | default "transformer-bill-index-topic" | quote }}
+  - name: TRANSFORMER_PRODUCER_BILLDETAIL_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-billdetail-index-topic" | default "transformer-billdetail-index-topic" | quote }}
+  - name: TRANSFORMER_CONSUMER_SAVE_BILL_REPORT_TOPIC
+    value: {{ index .Values "expense-bill-report-save-topic" | default "expense-bill-report-save" | quote }}
+  - name: TRANSFORMER_CONSUMER_UPDATE_BILL_REPORT_TOPIC
+    value: {{ index .Values "expense-bill-report-update-topic" | default "expense-bill-report-update" | quote }}
+  - name: TRANSFORMER_PRODUCER_BILLREPORT_INDEX_V1_TOPIC
+    value: {{ index .Values "transformer-billreport-index-topic" | default "transformer-billreport-index-topic" | quote }}
   
   - name: EGOV_LOCALIZATION_LOCALE_CODE
     value: en_MZ
   - name: EGOV_LOCALIZATION_MODULE_NAME
-    value: hcm-boundary-microplan
+    value: hcm-boundary-nigeriauat
   - name: EGOV_PROJECT_FACTORY_HOST
     valueFrom:
       configMapKeyRef:
