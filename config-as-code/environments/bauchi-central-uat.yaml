@@ -341,10 +341,10 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nigeria-go-deep-2-2a12aa3
+        tag: nigeria-go-deep-2-8029c9a
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-2a12aa3
+    tag: nigeria-go-deep-2-8029c9a
 
   namespace: bauchi
   ingress:
