@@ -141,7 +141,7 @@ workbench-ui:
 payments-ui:
   image:
     repository: egovio/payments-ui
-    tag: HDDF-4931-1839d62
+    tag: HDDF-4931-d117084
   namespace: bauchi
   custom-js-injection: |
     sub_filter.conf: "
