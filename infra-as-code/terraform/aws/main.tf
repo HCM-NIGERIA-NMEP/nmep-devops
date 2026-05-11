@@ -215,6 +215,7 @@ module "network" {
   cluster_name       = "${var.cluster_name}"
   availability_zones = "${var.network_availability_zones}"
   flow_logs          = var.flow_logs
+  vpc_flow_logs_retention_days = var.vpc_flow_logs_retention_days
 }
 
 # PostGres DB

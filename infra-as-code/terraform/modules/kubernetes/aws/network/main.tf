@@ -162,6 +162,7 @@ resource "aws_cloudwatch_log_group" "vpc_flow_logs" {
   count = var.flow_logs ? 1 : 0
 
   name = "/aws/vpc/flow-logs/${var.cluster_name}"
+  retention_in_days = "${var.vpc_flow_logs_retention_days}"
 
   tags = {
     "Name"              = "${var.cluster_name}-vpc-flow-logs"

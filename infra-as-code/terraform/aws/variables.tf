@@ -148,6 +148,12 @@ variable "eks_control_plane_log_retention_in_days" {
   default     = 30
 }
 
+variable "vpc_flow_logs_retention_days" {
+  description = "Retention in days for the VPC flow logs CloudWatch log group"
+  type        = number
+  default     = 30
+}
+
 #DO NOT fill in here. This will be asked at runtime
 variable "db_password" {}
 

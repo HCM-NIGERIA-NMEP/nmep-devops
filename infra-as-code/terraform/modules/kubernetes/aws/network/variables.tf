@@ -14,3 +14,6 @@ variable "flow_logs" {
   type        = bool
   default     = false
 }
+
+variable "vpc_flow_logs_retention_days" {
+}
