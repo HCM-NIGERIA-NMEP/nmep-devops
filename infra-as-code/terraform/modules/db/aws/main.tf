@@ -29,7 +29,7 @@ resource "aws_db_instance" "rds_postgres" {
 
     tags = "${
     tomap({
-      "KubernetesCluster" = "ng-upgrade-uat"
+      "KubernetesCluster" = "ng-nmep-central-prd"
       "Name" =  "${var.environment}-db",
       "environment" = "${var.environment}"
     })
