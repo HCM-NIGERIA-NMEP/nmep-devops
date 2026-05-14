@@ -456,7 +456,7 @@ resource "kubectl_manifest" "karpenter_arm64_node_pool" {
               values: ["r6g.xlarge"]
             - key: "karpenter.k8s.aws/instance-cpu"
               operator: In
-              values: ["2"]
+              values: ["4"]
             - key: "kubernetes.io/arch"
               operator: In
               values: ["arm64"]
@@ -466,17 +466,18 @@ resource "kubectl_manifest" "karpenter_arm64_node_pool" {
             - key: "karpenter.k8s.aws/instance-generation"
               operator: In
               values: ["6"]
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+              - af-south-1b
       disruption:
-        consolidationPolicy: WhenEmptyOrUnderutilized
+        consolidationPolicy: WhenEmpty
         consolidateAfter: 1m
         budgets:
-        - nodes: "80%"
+        - nodes: "1"
           reasons: 
           - "Empty"
           - "Drifted"
-        - nodes: "50%"
-          reasons: 
-          - "Underutilized"
   YAML
 
   depends_on = [
