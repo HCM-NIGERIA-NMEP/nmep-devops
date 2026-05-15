@@ -518,8 +518,9 @@ kafka-config:
 # redis >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 redis:
   replicas: 1
-  images:
-    - egovio/redis:7.2.4
+  image:
+    repository: docker.io/redis
+    tag: 7.2.11
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 playground:
