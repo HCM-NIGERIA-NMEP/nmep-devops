@@ -116,7 +116,16 @@ cluster-configs:
     hcm-moz-impl:
       data:
         dhis2-host: "https://ccu.misau.gov.mz/ccu"
+
 egov-filestore:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-filestore-db"
+        tag: master-filestore-fix-5e0acbc
+  image:
+    repository: egovio/egov-filestore
+    tag: master-filestore-fix-5e0acbc
   volume: /opt/eGov/filestore
   is-bucket-fixed: "true"
   minio.url : "http://minio.backbone:9000/"
@@ -126,46 +135,62 @@ egov-filestore:
   allowed-file-formats-map: "{jpg:{'image/jpg','image/jpeg'},jpeg:{'image/jpeg','image/jpg'},png:{'image/png'},pdf:{'application/pdf'},odt:{'application/vnd.oasis.opendocument.text'},ods:{'application/vnd.oasis.opendocument.spreadsheet'},docx:{'application/x-tika-msoffice','application/x-tika-ooxml','application/vnd.oasis.opendocument.text','application/msword'},doc:{'application/x-tika-msoffice','application/x-tika-ooxml','application/vnd.oasis.opendocument.text','application/msword'},dxf:{'text/plain','application/dxf','application/octet-stream','image/vnd.dxf','image/vnd.dxf; format=ascii','image/vnd.dxf; format=binary','image/vnd.dxb'},csv:{'text/plain'},txt:{'text/plain'},xlsx:{'application/x-tika-ooxml','application/x-tika-msoffice','application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/zip'},xls:{'application/x-tika-ooxml','application/x-tika-msoffice','application/vnd.ms-excel','multipart/form-data'},zip:{'application/zip','application/octet-stream'},geojson:{'application/json','text/plain','application/geo+json','multipart/form-data'}}"
   allowed-file-formats: "jpg,jpeg,png,doc,docx,pdf,odt,ods,text,dxf,xls,xlsx"
   filestore-url-validity: 3600
-  fixed-bucketname: ng-central-uat-filestore  ## Add filestore bucket name
+  fixed-bucketname: ng-nmep-central-prd-filestore  ## Add filestore bucket name
   heap: "-Xmx512m -Xms256m"
   memory_requests: "512Mi"
   cpu_requests: "200m"
   memory_limits: "768Mi"
   cpu_limits: "500m"
-  replicas: 1
 
 
 egov-idgen:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-idgen-db"
+        tag: master-1e8d2bb
+  image:
+    repository: egovio/egov-idgen
+    tag: master-1e8d2bb
   idformat-from-mdms: "true"
   java-args: -Dspring.profiles.active=monitoring
   autocreate-new-seq: "true"
-  heap: "-Xmx368m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+  heap: "-Xmx768m -Xms256m"
   cpu_requests: 200m
-  memory_requests: 256Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
-  replicas: 2
+  memory_limits: 1Gi
 
 mdms-v2:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "mdms-v2-db"
+        tag: central-instance-6fae5fdefc-96
+  image:
+    repository: egovio/mdms-v2
+    tag: central-instance-6fae5fdefc-96
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx1296m -Xms512m"
+  heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
   ingress:
     replenishRate: "10"
     burstCapacity: "40"
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 1.5Gi
-  replicas: 2
+  memory_limits: 1Gi
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 health-notification-service:
   central-instance-build: true
@@ -196,74 +221,110 @@ egov-notification-push:
   replicas: 2
 
 egov-accesscontrol:
-  heap: "-Xmx512m -Xms256m"
+  image:
+    repository: egovio/egov-accesscontrol
+    tag: master-1e8d2bb
+  heap: "-Xmx384m -Xms128m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
-  memory_requests: 512Mi
+  memory_requests: 384Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  replicas: 2
 
 pgr-services:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "pgr-services-db"
+        tag: v1.2.0-bf5fea17f1-11
+  image:
+    repository: egovio/pgr-services
+    tag: v1.2.0-bf5fea17f1-11
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx368m -Xms256m"
+  heap: "-Xmx512m -Xms128m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 200m
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 100m
   memory_requests: 512Mi
-  cpu_limits: 300m
+  cpu_limits: 200m
   memory_limits: 768Mi
-  replicas: 2
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 egov-enc-service:
-  heap: "-Xmx368m -Xms192m"
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-enc-service-db"
+        tag: central-instance-e346023dcb-26
+  image:
+    repository: egovio/egov-enc-service
+    tag: central-instance-e346023dcb-26
+  heap: "-Xmx384m -Xms128m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
   cpu_requests: 200m
-  memory_requests: 368Mi
+  memory_requests: 384Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
-  replicas: 2
+  memory_limits: 768Gi
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 boundary-service:
   # internal-routing: "true"
   # db-url: "jdbc:postgresql://ng-central-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngcentralprd?currentSchema=ba"
-  heap: "-Xmx512m -Xms256m"
+  initContainers:
+    dbMigration:
+      image:
+        repository: "boundary-service-db"
+        tag: master-1e8d2bb
+  image:
+    repository: egovio/boundary-service
+    tag: master-1e8d2bb
+  heap: "-Xmx1024m -Xms512m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
   cpu_requests: 200m
-  memory_requests: 768Mi
+  memory_requests: 1Gi
   cpu_limits: 300m
-  memory_limits: 1Gi
-  replicas: 2
+  memory_limits: 1.5Gi
       
 
 egov-user:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-user-db"
+        tag: HDDF-5066-single-user-login-250a15b
+  image:
+    repository: egovio/egov-user
+    tag: HDDF-5066-single-user-login-250a15b
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx1024m -Xms512m"
   ingress:
     replenishRate: "10"
     burstCapacity: "10"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 300m
-  memory_requests: 512Mi
-  cpu_limits: 400m
-  memory_limits: 768Mi
-  replicas: 2
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 500m
+  memory_requests: 1Gi
+  cpu_limits: 600m
+  memory_limits: 1.5Gi
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
@@ -275,78 +336,101 @@ egov-user:
   citizen-registration-withlogin: "true"
   citizen-otp-fixed: "123456"
   citizen-otp-fixed-enabled: "true"
-  egov-state-level-tenant-id: "ba"
+  egov-state-level-tenant-id: "ng"
   decryption-abac-enabled: "false"
 
 audit-service:
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/ba/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ba/project-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/household-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/ke/project-persister.yml,/work-dir/health-campaign-config/egov-persister/si/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/si/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/si/household-persister.yml,/work-dir/health-campaign-config/egov-persister/si/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/si/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/si/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/si/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/si/project-persister.yml,/work-dir/health-campaign-config/egov-persister/os/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/os/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/os/household-persister.yml,/work-dir/health-campaign-config/egov-persister/os/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/os/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/os/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/os/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/os/project-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/household-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/dev/project-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/household-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/kw/project-persister.yml"
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/osun/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/household-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/project-persister.yml"
   initContainers:
+    dbMigration:
+      image:
+        repository: "audit-service-db"
+        tag: 2.9-LTS-1b59a4c
     gitSync:
       enabled: "true"
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
-      branch: "CENTRAL-UAT"
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
+      branch: "NMEP-CENTRAL-PRD"
+  image:
+    repository: egovio/audit-service
+    tag: 2.9-LTS-1b59a4c
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+  heap: "-Xmx1024m -Xms512m"
   cpu_requests: 200m
   memory_requests: 256Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
+  memory_limits: 1.5Gi
 
 egov-indexer:
-  heap: "-Xmx512m -Xms256m"
-  hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 200m
-  memory_requests: 512Mi
-  cpu_limits: 300m
-  memory_limits: 768Mi
-  replicas: 2
   initContainers:
     gitSync:
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"        ##### Change repo url with Your fork Repo url
-      branch: "CENTRAL-UAT"
-  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/ba,/work-dir/health-campaign-config/egov-indexer/ke,/work-dir/health-campaign-config/egov-indexer/si,/work-dir/health-campaign-config/egov-indexer/os,/work-dir/health-campaign-config/egov-indexer/dev,/work-dir/health-campaign-config/egov-indexer/kw"
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"        ##### Change repo url with Your fork Repo url
+      branch: "NMEP-CENTRAL-PRD"
+    dbMigration:
+      image:
+        repository: "egov-indexer-db"
+        tag: indexer-17-searchBody-1799f17903-57
+  image:
+    repository: egovio/egov-indexer
+    tag: indexer-17-searchBody-1799f17903-57
+  heap: "-Xmx1536m -Xms1024m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+  cpu_requests: 300m
+  memory_requests: 1.5Gi
+  cpu_limits: 400m
+  memory_limits: 2Gi
+  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/osun"
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 internal-gateway-scg:
+  image:
+    repository: egovio/internal-gateway-scg
+    tag: 2.9-LTS-internal-gateway-cdac11d
   kafka-consumer-group-id: "internal-gateway"
-  heap: "-Xmx512m -Xms512m"
+  heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 512Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 768Mi
-  internal-gateway-json-path: "file:///work-dir/health-campaign-config/internal-gateway/internal-gateway.json"
+  memory_limits: 1Gi
+  internal-gateway-json-path: "file:///work-dir/health-campaign-config/internal-gateway-nmep/internal-gateway.json"
   initContainers:
     gitSync:
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
-      branch: "CENTRAL-UAT"
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
+      branch: "NMEP-CENTRAL-PRD"
 
 egov-persister:
+  image:
+    repository: egovio/egov-persister
+    tag: DIGIT-2.9-LTS-07f47790b8-8
   kafka-consumer-group-id: "egov-infra-persist"
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx1792m -Xms1024m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
   cpu_requests: 200m
-  memory_requests: 512Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 768Mi
-  replicas: 2
-  images:
-    - egovio/egov-persister
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/ba,/work-dir/health-campaign-config/egov-persister/ke,/work-dir/health-campaign-config/egov-persister/si,/work-dir/health-campaign-config/egov-persister/os,/work-dir/health-campaign-config/egov-persister/dev,/work-dir/health-campaign-config/egov-persister/kw"
+  memory_limits: 1Gi
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/osun"
   initContainers:
     gitSync:
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"      ##### Change repo url with Your fork Repo url
-      branch: "CENTRAL-UAT"                                    ##### Change repo branch with Your fork Repo branch
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"      ##### Change repo url with Your fork Repo url
+      branch: "NMEP-CENTRAL-PRD"                                    ##### Change repo branch with Your fork Repo branch
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 # gateway >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -460,53 +544,81 @@ health-muster-roll:
   hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-workflow-v2:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-workflow-v2-db"
+        tag: central-instance-1248cc50e5-38
+  image:
+    repository: egovio/egov-workflow-v2
+    tag: central-instance-1248cc50e5-38
   heap: "-Xmx368m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
-  memory_requests: 368Mi
+  memory_requests: 384Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
-  replicas: 2
+  memory_limits: 768Mi
   central-instance-build: true
   central-instance-enabled: true
   logging-level: "DEBUG"
   java-args: -Dspring.profiles.active=monitoring
   workflow-statelevel: "false"
-  host-link: "https://mc-nigeria-uat.digit.org/digit-ui/employee"
+  host-link: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee"
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 egov-hrms:
-  heap: "-Xmx768m -Xms512m"
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-hrms-db"
+        tag: sierraleone-changes-f01d8c0
+  image:
+    repository: egovio/egov-hrms
+    tag: sierraleone-changes-f01d8c0
+  heap: "-Xmx1024m -Xms512m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
   cpu_requests: 200m
-  memory_requests: 768Mi
+  memory_requests: 1Gi
   cpu_limits: 300m
-  memory_limits: 1Gi
-  replicas: 2
+  memory_limits: 1.5Gi
   central-instance-build: true
   central-instance-enabled: true
   java-args: -Dspring.profiles.active=monitoring
-  employee-applink: "https://mc-nigeria-uat.digit.org/digit-ui/employee/login"
+  employee-applink: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee/login"
   java-enable-debug: true
 
 egov-otp:
-  heap: "-Xmx192m -Xms192m"
-  memory_requests: "256Mi"
-  memory_limits: "256Mi"
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-otp-db"
+        tag: central-instance-a0fc793059-8
+  image:
+    repository: egovio/egov-otp
+    tag: central-instance-a0fc793059-8
+  heap: "-Xmx384m -Xms256m"
+  memory_requests: "384Mi"
+  memory_limits: "512Mi"
   cpu_requests: 100m
   cpu_limits: 200m
   replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   java-args: -Dspring.profiles.active=monitoring
-  employee-applink: "https://mc-nigeria-uat.digit.org/digit-ui/employee/login"
+  employee-applink: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee/login"
   java-enable-debug: false
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -594,19 +706,29 @@ facility:
   hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-url-shortening:
-  heap: "-Xmx192m -Xms192m"
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-url-shortening-db"
+        tag: DIGIT-2.9-LTS-07f47790b8-12
+  image:
+    repository: egovio/egov-url-shortening
+    tag: DIGIT-2.9-LTS-07f47790b8-12
+  heap: "-Xmx384m -Xms256m"
   ingress:
     enabled: true
     zuul: true
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 100m
-  memory_requests: 256Mi
+  memory_requests: 384Mi
   cpu_limits: 200m
-  memory_limits: 368Mi
-  replicas: 2
+  memory_limits: 512Mi
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 product:
   central-instance-build: true
@@ -625,31 +747,40 @@ product:
   hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-notification-mail:
-  heap: "-Xmx192m -Xms192m"
+  image:
+    repository: egovio/egov-notification-mail
+    tag: master-1e8d2bb
+  heap: "-Xmx384m -Xms192m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 100m
-  memory_requests: 256Mi
+  memory_requests: 384Mi
   cpu_limits: 200m
-  memory_limits: 368Mi
-  replicas: 2
+  memory_limits: 512Mi
 
 egov-localization:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-localization-db"
+        tag: redis-localization-key-5c0a4c4
+  image:
+    repository: egovio/egov-localization
+    tag: redis-localization-key-5c0a4c4
   namespace: "egov"
   # internal-routing: "true"
   # db-url: "jdbc:postgresql://ng-central-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngcentralprd?currentSchema=ba"
-  heap: "-Xmx3584m -Xms1596m"
+  heap: "-Xms3072m -Xms3072m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
   cpu_requests: 200m
-  memory_requests: 4096Mi
-  cpu_limits: 600m
-  memory_limits: 4096Mi
-  replicas: 2
+  memory_requests: 2Gi
+  cpu_limits: 300m
+  memory_limits: 3Gi
 
 individual:
   central-instance-build: true
@@ -733,32 +864,42 @@ referralmanagement:
   hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 service-request:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "service-request-db"
+        tag: v1.2.0-01c2b65440-4
+  image:
+    repository: egovio/service-request
+    tag: v1.2.0-01c2b65440-4
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx368m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 error-handler:
-  heap: "-Xmx192m -Xms192m"
+  image:
+    repository: egovio/error-handler
+    tag: master-impel-dump-a28582d
+  heap: "-Xmx512m -Xms512m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
-  memory_requests: 368Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
-  replicas: 2
+  memory_limits: 1Gi
       
 health-attendance:
   central-instance-build: true
@@ -858,17 +999,21 @@ beneficiary-idgen:
       buffer: 5
 
 gateway:
-  replicas: 2
+  image:
+    repository: egovio/gateway
+    tag: gatewat-rate-limit-per-route-f808ba0
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 20
+    minReplicas: 2
+    maxReplicas: 6
   custom-filter-property: "false"
   central-instance-enabled: false
   cpu_requests: 200m
   memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
   tracing-enabled: "true"
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx1024m -Xms512m"
   server-tomcat-max-threads: "350"
   server-tomcat-max-connections: "1500"
   spring-data-redis-ratelimit-enabled: "false"
@@ -876,18 +1021,23 @@ gateway:
   egov-mixed-mode-endpoints-whitelist: "/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tagso,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/access/v1/actions/mdms/_get,/egov-user-event/v1/events/_search,/boundary-service/boundary-relationships/_search"
   
 user-otp:
+  image:
+    repository: egovio/user-otp
+    tag: v2.9.0-063968adc7-25
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx192m -Xms192m"
+  heap: "-Xmx256m -Xms192m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 100m
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
-  replicas: 2
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 auth-proxy:
   heap: "-Xmx192m -Xms192m"
