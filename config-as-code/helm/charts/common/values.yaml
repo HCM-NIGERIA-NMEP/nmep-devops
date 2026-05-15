@@ -175,18 +175,8 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
-              {{- if eq .Values.namespace "bauchi" }}
-              key: ba-db-url
-              {{- else if eq .Values.namespace "osun" }}
+              {{- if eq .Values.namespace "osun" }}
               key: osun-db-url
-              {{- else if eq .Values.namespace "sierraleone" }}
-              key: si-db-url
-              {{- else if eq .Values.namespace "osun" }}
-              key: os-db-url
-              {{- else if eq .Values.namespace "dev" }}
-              key: dev-db-url
-              {{- else if eq .Values.namespace "kwara" }}
-              key: kw-db-url
               {{- else }}
               key: db-url
               {{- end }}
