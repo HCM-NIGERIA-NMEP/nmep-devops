@@ -408,7 +408,10 @@ internal-gateway-scg:
     gitSync:
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
       branch: "NMEP-CENTRAL-PRD"
-
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
+    
 egov-persister:
   image:
     repository: egovio/egov-persister
@@ -478,6 +481,14 @@ zuul:
   egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/property-services/property/_search,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/boundary-service/boundary-relationships/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
 
 health-expense:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "health-expense-db"
+        tag: nigeria-go-deep-payments-expense-15b5a23
+  image:
+    repository: egovio/health-expense
+    tag: nigeria-go-deep-payments-expense-15b5a23
   heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
@@ -499,11 +510,17 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
   expense-v2-periodic-billing-enabled: "true"
-  task-scheduler-bootstrap-tenants: "ba,si,os,dev,kw"
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
+  task-scheduler-bootstrap-tenants: "osun"
 
 health-muster-roll:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egovio/health-muster-roll-db"
+        tag: nigeria-go-deep-7fe8703
+  image:
+    repository: egovio/health-muster-roll
+    tag: nigeria-go-deep-7fe8703
   heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: false
@@ -540,8 +557,6 @@ health-muster-roll:
   musterroll-validate-attendance-register-enabled: "true"
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v1/_search"
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-workflow-v2:
   initContainers:
@@ -690,6 +705,14 @@ oauth2-proxy:
             upstreams = [ "file:///dev/null" ]
 
 facility:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "facility-db"
+        tag: master-eb25d83
+  image:
+    repository: egovio/facility
+    tag: master-eb25d83
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -702,8 +725,6 @@ facility:
   cpu_limits: 300m
   memory_limits: 768Mi
   replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-url-shortening:
   initContainers:
@@ -731,6 +752,14 @@ egov-url-shortening:
     kubernetes.io/arch: amd64
 
 product:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "product-db"
+        tag: v1.2.0-8900208f3e-1
+  image:
+    repository: egovio/product
+    tag: v1.2.0-8900208f3e-1
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -743,8 +772,6 @@ product:
   cpu_limits: 300m
   memory_limits: 768Mi
   replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 egov-notification-mail:
   image:
@@ -795,10 +822,16 @@ individual:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 stock:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "stock-db"
+        tag: featurefacilitysearch-task-campaign-number-e42fda5
+  image:
+    repository: egovio/stock
+    tag: featurefacilitysearch-task-campaign-number-e42fda5
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx256m -Xms192m"
@@ -811,10 +844,16 @@ stock:
   cpu_limits: 300m
   memory_limits: 512Mi
   replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 household:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "household-db"
+        tag: household-sierraleone-changes-3a241e18d1-82
+  image:
+    repository: egovio/household
+    tag: household-sierraleone-changes-3a241e18d1-82
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -827,10 +866,16 @@ household:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
-  schemaNameExclude: [ "dev", "ke" ]
-  hostExclude: ["dev-hcm-uat.digit.org", "kebbi-hcm-uat.digit.org"]
 
 project:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "project-db"
+        tag: featurefacilitysearch-task-status-7d6a332
+  image:
+    repository: egovio/project
+    tag: featurefacilitysearch-task-status-7d6a332
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms768m"
@@ -843,10 +888,16 @@ project:
   cpu_limits: 300m
   memory_limits: 1.5Gi
   replicas: 2
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 referralmanagement:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "referralmanagement-db"
+        tag: downysnc-file-upgrade-nigeria-590ba04
+  image:
+    repository: egovio/referralmanagement
+    tag: downysnc-file-upgrade-nigeria-590ba04
   downsync-services-enabled: true
   central-instance-build: true
   central-instance-enabled: true
@@ -860,8 +911,6 @@ referralmanagement:
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 service-request:
   initContainers:
@@ -902,6 +951,14 @@ error-handler:
   memory_limits: 1Gi
       
 health-attendance:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "health-attendance-db"
+        tag: nigeria-go-deep-1d0eb9e
+  image:
+    repository: egovio/health-attendance
+    tag: nigeria-go-deep-1d0eb9e
   central-instance-build: true
   central-instance-enabled: true
   java-enable-debug: true
@@ -919,8 +976,6 @@ health-attendance:
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-expense-calculator-billing-period-search-endpoint: "health-expense-calculator/billing-config/v1/periods/_search"
   egov-muster-roll-search-endpoint: "health-muster-roll/v1/_search"
-  schemaNameExclude: [ "ke" ]
-  hostExclude: ["kebbi-hcm-uat.digit.org"]
 
 pdf-service:
   heap: "-Xmx192m -Xms192m"
@@ -941,6 +996,14 @@ pdf-service:
   format-config-urls: "file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment-ke.json,file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment-ba.json"
 
 beneficiary-idgen:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "beneficiary-idgen-db"
+        tag: master-eb25d83
+  image:
+    repository: egovio/beneficiary-idgen
+    tag: master-eb25d83
   namespace: egov
   heap: "-Xmx384m -Xms384m"
   replicas: 2
@@ -1057,15 +1120,23 @@ auth-proxy:
   kibanaBasePath: "/kibana-upgrade"
 
 boundary-management:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "boundary-management-db"
+        tag: master-aa57e79
+  image:
+    repository: egovio/boundary-management
+    tag: master-aa57e79
   DEBUG: 'true'
   cpu_requests: 200m
   memory_requests: 768Mi
   namespace: 'egov'
   logLevel: 'debug'
-  defaultLocale: 'en_MZ'
+  defaultLocale: 'NG'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
-  defaultTenantId: 'mz'
+  defaultTenantId: 'ng'
   validateCampaignIdInMetadata: 'false'
   central-instance-name: egov
   central-instance-build: true
