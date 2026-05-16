@@ -153,8 +153,4 @@ env: |
         key: boundary-hierarchy
   - name: EGOV_HRMS_USER_SERVICE_QUALIFIER
     value: "individualService"
-  {{- if index .Values "tracing-enabled" }}
-  - name: TRACER_OPENTRACING_ENABLED
-    value: "true" 
-  {{- end }}
   
