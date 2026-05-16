@@ -145,10 +145,8 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: kafka-tenant-id-pattern
-  - name: TASK_SCHEDULER-BOOTSTRAP_TENANTS
-    value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "mz" | quote}}
   - name: TASK_SCHEDULER_BOOTSTRAP_TENANTS
-    value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "mz" | quote}}
+    value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "ng" | quote}}
   - name: WORKS_WORKER_REGISTRY_HOST
     valueFrom:
       configMapKeyRef:
@@ -165,8 +163,6 @@ env: |
         key: egov-filestore
   - name: MTN_API_MOCK_ENABLED
     value: {{ index .Values "mtn-api-mock-enabled" | default "true" | quote }}
-  - name: TASK_SCHEDULER_BOOTSTRAP_TENANTS
-    value: {{ index .Values "task-scheduler-bootstrap-tenants" | default "ba" | quote}}
   - name: REPORT_GENERATION_TRIGGER_TOPIC
     value: {{ index .Values "report-generation-trigger-topic" | quote}}
 

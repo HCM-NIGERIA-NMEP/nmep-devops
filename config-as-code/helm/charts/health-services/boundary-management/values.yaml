@@ -164,7 +164,7 @@ env: |
   - name: DEBUG
     value: "{{ .Values.DEBUG | default "false" }}" 
   - name: DEFAULT_TENANT_ID
-    value: {{ .Values.defaultTenantId | default "mz" }} 
+    value: {{ .Values.defaultTenantId | default "ng" }} 
   - name: CACHE_ENABLED
     value: "true"
   - name: RESET_CACHE

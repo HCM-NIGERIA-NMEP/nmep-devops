@@ -299,7 +299,7 @@ env: |
     - name: READ_ME_TAB
       value: "HCM_README_SHEETNAME"  
     - name: DEFAULT_TENANT_ID
-      value: {{ .Values.defaultTenantId | default "mz" }}
+      value: {{ .Values.defaultTenantId | default "ng" }}
     - name: USER_PASSWORD_AUTO_GENERATE
       value: "false"  
     - name: USER_DEFAULT_PASSWORD
@@ -377,7 +377,7 @@ env: |
     - name: KAFKA_CAMPAIGN_MARK_FAILED_TOPIC
       value: {{ .Values.campaignMarkFailedTopic | default "hcm-campaign-mark-failed" }}
     - name: USER_MAIN_BOUNDARY
-      value: {{ .Values.userMainBoundary | default "mz" }}
+      value: {{ .Values.userMainBoundary | default "ng" }}
     - name: USER_MAIN_BOUNDARY_TYPE
       value: {{ .Values.userMainBoundaryType | default "Country" }}
     - name: MAX_RESOURCE_CREATION_ATTEMPTS
