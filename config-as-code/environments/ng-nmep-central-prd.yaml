@@ -877,6 +877,9 @@ household:
   cpu_limits: 300m
   memory_limits: 1Gi
   replicas: 2
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 project:
   initContainers:
