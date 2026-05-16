@@ -184,7 +184,3 @@ env: |
     value: "update-user-id-topic"
   - name: NOTIFICATION_SMS_ENABLED
     value: "false"
-  {{- if index .Values "tracing-enabled" }}
-  - name: TRACER_OPENTRACING_ENABLED
-    value: "true" 
-  {{- end }}

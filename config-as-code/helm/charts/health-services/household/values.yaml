@@ -131,11 +131,7 @@ env: |
   - name: HOUSEHOLD.MEMBER.CONSUMER.BULK.DELETE.TOPIC
     value: {{ index .Values "household-member-cosumer-bulk-delete-topic" | quote }}
   - name: MANAGEMENT_SECURITY_ENABLED
-    value: "false" 
-  {{- if index .Values "tracing-enabled" }}
-  - name: TRACER_OPENTRACING_ENABLED
-    value: "true" 
-  {{- end }}
+    value: "false"
   - name: HOUSEHOLD.CONSUMER.BULK.DELETE.TOPIC
     value: {{ index .Values "household-consumer-bulk-delete-topic" | quote }}
   - name: HOUSEHOLD.CONSUMER.BULK.CREATE.TOPIC

@@ -810,6 +810,14 @@ egov-localization:
   memory_limits: 3Gi
 
 individual:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "individual-db"
+        tag: master-cc431fb
+  image:
+    repository: egovio/individual
+    tag: master-cc431fb
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms256m"
