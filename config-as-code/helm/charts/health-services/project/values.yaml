@@ -292,13 +292,6 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: boundary-hierarchy
-  - name: EGOV_LOCATION_HIERARCHY_TYPE
-    valueFrom:
-      configMapKeyRef:
-        name: egov-config
-        key: boundary-hierarchy
-  - name: EGOV_LOCATION_CODE_QUERY_PARAM
-    value: "code"
   - name: EGOV_USER_ID_VALIDATOR
     value: "egov-user"
   - name: EGOV_PERSISTER_BULK_PROCESSING_ENABLED
