@@ -153,4 +153,6 @@ env: |
         key: boundary-hierarchy
   - name: EGOV_HRMS_USER_SERVICE_QUALIFIER
     value: "individualService"
+  - name: MANAGEMENT_HEALTH_REDIS_ENABLED
+    value: "false"
   
