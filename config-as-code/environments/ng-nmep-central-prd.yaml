@@ -362,6 +362,9 @@ audit-service:
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1.5Gi
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 egov-indexer:
   initContainers:
