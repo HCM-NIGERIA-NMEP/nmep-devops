@@ -1167,13 +1167,21 @@ worker-registry:
   replicas: 2
 
 egov-malware-detection:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-malware-detection-db"
+        tag: 2.9.4-malware-detection-master-d07ae66
+  image:
+    repository: egovio/egov-malware-detection
+    tag: 2.9.4-malware-detection-master-d07ae66
   namespace: egov
   heap: "-Xmx512m -Xms512m"
   cpu_requests: 100m
   memory_requests: 256Mi
   cpu_limits: 500m
   memory_limits: 768Mi
-  mail-alert-recipients: "divij.goyal@equidhi.org"
+  mail-alert-recipients: "kumar.akash@equidhi.org"
   replicas: 2
 
 kibana:
