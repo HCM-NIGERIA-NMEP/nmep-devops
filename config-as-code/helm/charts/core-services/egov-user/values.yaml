@@ -31,6 +31,7 @@ tracing-enabled: true
 decryption-abac-enabled: "false"
 account-unlock-cool-down-period-minutes: "30"
 otp-validation: "true"
+create-user-validate-name: "false"
 citizen-otp-enabled: "true"
 employee-otp-enabled: "false"
 access-token-validity: "10080"
@@ -143,6 +144,10 @@ env: |
   - name: EMPLOYEE_LOGIN_PASSWORD_OTP_ENABLED
     value: {{ index .Values "employee-otp-enabled" | quote }}
   {{- end }}
+  {{- if index .Values "create-user-validate-name" }}
+  - name: CREATE_USER_VALIDATE_NAME
+    value: {{ index .Values "create-user-validate-name" | quote }}
+  {{- end }}
   {{- if index .Values "access-token-validity" }}
   - name: ACCESS_TOKEN_VALIDITY_IN_MINUTES
     value: {{ index .Values "access-token-validity" | quote }}
@@ -187,9 +192,5 @@ env: |
     value: "false"  
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false" 
-  {{- if index .Values "tracing-enabled" }}
-  - name: TRACER_OPENTRACING_ENABLED
-    value: "true" 
-  {{- end }}
   - name: EGOV_USER_PWD_PATTERN
     value: ((?=.*\d)(?=.*[a-z])(?=.*[@#$%])(?=\S+$).*$)
