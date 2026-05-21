@@ -197,28 +197,26 @@ health-notification-service:
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  replicas: 2
 
 egov-notification-push:
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  replicas: 2
 
 egov-accesscontrol:
   image:
@@ -494,14 +492,13 @@ health-expense:
     tag: nigeria-go-deep-payments-expense-15b5a23
   heap: "-Xmx368m -Xms256m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
-  replicas: 1
   central-instance-build: true
   central-instance-enabled: true
   tracing-enabled: false
@@ -526,14 +523,13 @@ health-muster-roll:
     tag: nigeria-go-deep-7fe8703
   heap: "-Xmx368m -Xms256m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 368Mi
   cpu_limits: 300m
   memory_limits: 512Mi
-  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   tracing-enabled: false
@@ -623,12 +619,15 @@ egov-otp:
   image:
     repository: egovio/egov-otp
     tag: central-instance-a0fc793059-8
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
   heap: "-Xmx384m -Xms256m"
   memory_requests: "384Mi"
   memory_limits: "512Mi"
   cpu_requests: 100m
   cpu_limits: 200m
-  replicas: 2
   central-instance-build: true
   central-instance-enabled: true
   java-args: -Dspring.profiles.active=monitoring
@@ -720,14 +719,13 @@ facility:
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  replicas: 2
 
 egov-url-shortening:
   initContainers:
@@ -767,14 +765,13 @@ product:
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  replicas: 2
   nodeSelector:
     architecture: amd64
     kubernetes.io/arch: amd64
@@ -826,16 +823,15 @@ individual:
     tag: master-cc431fb
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx768m -Xms256m"
+  heap: "-Xmx1g -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 20
-  cpu_requests: 200m
-  memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
-  replicas: 2
+    minReplicas: 1
+    maxReplicas: 6
+  cpu_requests: 300m
+  memory_requests: 1Gi
+  cpu_limits: 400m
+  memory_limits: 1.5Gi
 
 stock:
   initContainers:
@@ -848,16 +844,15 @@ stock:
     tag: featurefacilitysearch-task-campaign-number-e42fda5
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx256m -Xms192m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 368Mi
+  memory_requests: 512Mi
   cpu_limits: 300m
-  memory_limits: 512Mi
-  replicas: 2
+  memory_limits: 768Mi
 
 household:
   initContainers:
@@ -874,12 +869,11 @@ household:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 20
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  replicas: 2
   nodeSelector:
     architecture: amd64
     kubernetes.io/arch: amd64
@@ -899,12 +893,11 @@ project:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 20
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
-  replicas: 2
 
 referralmanagement:
   initContainers:
@@ -918,12 +911,11 @@ referralmanagement:
   downsync-services-enabled: true
   central-instance-build: true
   central-instance-enabled: true
-  replicas: 2
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 20
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -981,14 +973,13 @@ health-attendance:
   java-enable-debug: true
   heap: "-Xmx512m -Xms256m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  replicas: 2
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
   egov-expense-calculator-billing-period-search-endpoint: "health-expense-calculator/billing-config/v1/periods/_search"
@@ -1004,7 +995,6 @@ pdf-service:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
-  replicas: 2
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"    
@@ -1023,9 +1013,8 @@ beneficiary-idgen:
     tag: master-eb25d83
   namespace: egov
   heap: "-Xmx384m -Xms384m"
-  replicas: 2
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
@@ -1186,6 +1175,12 @@ egov-malware-detection:
   memory_limits: 768Mi
   mail-alert-recipients: "divij.goyal@equidhi.org"
   replicas: 2
+
+kibana:
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
+
 
 ### Prometheus & Alertmanager >>>>>>>>>>>>>>>>>>>>
 prometheus:
