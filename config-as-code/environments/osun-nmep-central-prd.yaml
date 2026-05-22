@@ -24,7 +24,7 @@ transformer:
   cpu_limits: 300m
   memory_limits: 1.5Gi
   java-enable-debug: true
-  boundary-hierarchy-name: "boundary-hierarchy-admin"
+  boundary-hierarchy-name: "boundary-hierarchy"
   project-factory-host: "osun-project-factory"
   save-attendance-log-topic: "osun-save-attendance-log"
   update-attendance-log-topic: "osun-update-attendance-log"
