@@ -22,7 +22,7 @@ spec:
     rollingUpdate:
       maxUnavailable: 0
 {{- end }}     
-{{- if  not .Values.hpa.enabled }}
+{{- if  not (default false .Values.hpa.enabled) }}
   replicas: {{ .Values.replicas }}
 {{- end }}
   template:
