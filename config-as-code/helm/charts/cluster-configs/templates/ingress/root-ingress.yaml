@@ -13,6 +13,7 @@ metadata:
   name: {{ .name }}
   namespace: {{ .namespace }}
 spec:
+  ingressClassName: nginx 
   rules:
   - host: {{ $.Values.global.domain }}
     http:
