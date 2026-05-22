@@ -34,6 +34,7 @@ appType: "java-spring"
 tracing-enabled: true
 is-bucket-fixed: "true"
 fixed-bucketname: "egov-rainmaker"
+fixed-bucket-region: "af-south-1"
 heap: "-Xmx192m -Xms192m"
 file-storage-mount-path: "/filestore"
 is-nfs-enabled: false
@@ -104,6 +105,8 @@ env: |
   - name: FIXED_BUCKETNAME
     value: {{ index .Values "fixed-bucketname" | quote }}
   {{- end }}
+  - name: FIXED_BUCKET_REGION
+    value: {{ index .Values "fixed-bucket-region" | quote }}
   - name: JAVA_OPTS
     value: {{ index .Values "heap" | quote }}
   - name: ALLOWED_FORMATS_MAP
