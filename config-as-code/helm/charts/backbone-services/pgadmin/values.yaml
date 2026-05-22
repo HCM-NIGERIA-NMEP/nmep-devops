@@ -22,8 +22,8 @@ initContainers: {}
 
 # Container Configs
 image:
-  repository: "dpage/pgadmin4"
-  tag: "9"
+  repository: "egovio/pgadmin"
+  tag: "v4.7.7"
 
 replicas: "1"
 httpPort: "8080"
@@ -49,7 +49,7 @@ shared-storage: "[{'name': 'Shared Folder', 'path': '/var/lib/pgadmin/shared_fol
 
 persistence:
   enabled: true
-  storageClassName: gp2
+  storageClassName: gp3
   accessMode: ReadWriteOnce
   volumeMode: Filesystem
   dataDirSize: 1Gi
