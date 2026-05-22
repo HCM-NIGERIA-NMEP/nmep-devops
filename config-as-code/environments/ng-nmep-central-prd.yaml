@@ -24,7 +24,7 @@ cluster-configs:
         db-host: "ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
         db-name: "ngnmepcentralprd" ## Add db-name
         db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd"
-        osun-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=osun"
+        osun-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=osun"
         domain: "nmep-nigeria-hcm.digit.org" ## Add your Domain Name
         redis-host: "redis.backbone"
         redis-downsync-host: ""
