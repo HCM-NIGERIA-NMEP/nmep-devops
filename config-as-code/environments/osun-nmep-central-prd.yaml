@@ -225,7 +225,7 @@ excel-ingestion:
 dashboard-analytics:
   image:
     repository: egovio/dashboard-analytics
-    tag: analytics-raw-response-transform-499a276969-79
+    tag: analytics-raw-response-transform-c8cf50c986-80
   namespace: osun
   ingress:
     name: osun-dashboard-analytics
@@ -250,6 +250,9 @@ dashboard-analytics:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"
       branch: "sierraleone"
   config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/osun/dashboard-analytics/*.json"
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 dashboard-ui:
   image:
