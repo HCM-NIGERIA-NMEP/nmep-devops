@@ -8,6 +8,9 @@ namespace: egov
 replicas: 1
 httpPort: 8080
 appType: ""
+  
+hpa:
+    enabled: "false"
 
 central-instance-build: false
 central-instance-enabled: false
