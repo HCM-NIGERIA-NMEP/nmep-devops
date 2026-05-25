@@ -704,7 +704,8 @@ oauth2-proxy:
     config:
         configFile: |-
             email_domains = [ "*" ]
-            github_org = "HCM-KEBBI"
+            github_org = "HCM-NIGERIA-NMEP"
+            github_team = "nmep-central-prd-oauth-access"
             upstreams = [ "file:///dev/null" ]
 
 facility:
