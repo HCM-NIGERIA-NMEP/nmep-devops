@@ -386,7 +386,7 @@ egov-indexer:
   memory_requests: 1.5Gi
   cpu_limits: 400m
   memory_limits: 2Gi
-  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/osun"
+  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/osun"
   nodeSelector:
     architecture: amd64
     kubernetes.io/arch: amd64
