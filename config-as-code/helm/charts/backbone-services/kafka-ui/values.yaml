@@ -38,7 +38,7 @@ yamlApplicationConfig:
   kafka:
     clusters:
       - name: kafka-clusters
-        bootstrapServers: release-name-kafka-controller-0.release-name-kafka-controller-headless.kafka-cluster.svc.cluster.local:9092, release-name-kafka-controller-1.release-name-kafka-controller-headless.kafka-cluster.svc.cluster.local:9092, release-name-kafka-controller-2.release-name-kafka-controller-headless.kafka-cluster.svc.cluster.local:9092
+        bootstrapServers: b-1.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092, b-2.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092, b-3.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092
         readOnly: true
   # spring:
   #   security:
