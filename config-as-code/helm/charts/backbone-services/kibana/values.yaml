@@ -166,6 +166,9 @@ ingress:
     - host: osun-hcm.digit.org
       paths:
         - path: /kibana-upgrade
+    - host: kwara-hcm.digit.org
+      paths:
+        - path: /kibana-upgrade
   tls: 
     - secretName: nmep-nigeria-hcm.digit.org-tls-certs
       hosts:
@@ -173,6 +176,9 @@ ingress:
     - secretName: osun-hcm.digit.org-tls-certs
       hosts:
         - osun-hcm.digit.org
+    - secretName: kwara-hcm.digit.org-tls-certs
+      hosts:
+        - kwara-hcm.digit.org
 #  hosts:
 #    - host: salama.digit.org
 #      paths:

@@ -40,7 +40,7 @@ cluster-configs:
 
   secrets:
     db: 
-      namespace: [ egov, osun ]
+      namespace: [ egov, osun, kwara ]
       name: db
 
     egov-notification-sms:
@@ -68,7 +68,7 @@ cluster-configs:
       name: pgadmin       
 
     egov-enc-service: 
-      namespace: [ egov, osun ]
+      namespace: [ egov, osun, kwara ]
       name: egov-enc-service       
 
     egov-notification-mail: 
@@ -80,7 +80,7 @@ cluster-configs:
       name: home-isolation-notification-mail      
 
     git-sync: 
-      namespace: [ egov, osun ]
+      namespace: [ egov, osun, kwara ]
       name: git-creds   
 
     kibana: 
@@ -108,7 +108,7 @@ cluster-configs:
       name: chatbot
 
     project-factory: 
-      namespace: [ egov, osun ]
+      namespace: [ egov, osun, kwara ]
       name: project-factory  
     
     covid-chatbot:
@@ -156,7 +156,7 @@ cluster-configs:
       name: postgres
 
     elastic:
-      namespace: [ egov, osun ]
+      namespace: [ egov, osun, kwara ]
       name: elastic
 
     jupyter:

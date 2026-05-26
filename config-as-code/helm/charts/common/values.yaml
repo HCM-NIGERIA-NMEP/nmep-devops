@@ -54,6 +54,8 @@ initContainers:
                   key: db-url
                   {{- else if eq .Values.namespace "osun" }}
                   key: osun-db-url
+                  {{- else if eq .Values.namespace "kwara" }}
+                  key: kwara-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -73,6 +75,8 @@ initContainers:
                   key: db-schema-names
               {{- else if eq .Values.namespace "osun" }}
               value: "osun"
+              {{- else if eq .Values.namespace "kwara" }}
+              value: "kwara"
               {{- else }}
               value: "public"
               {{- end }}
@@ -160,6 +164,8 @@ extraEnv:
               name: egov-config
               {{- if eq .Values.namespace "osun" }}
               key: osun-db-url
+              {{- else if eq .Values.namespace "kwara" }}
+              key: kwara-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -180,6 +186,8 @@ extraEnv:
               name: egov-config
               {{- if eq .Values.namespace "osun" }}
               key: osun-db-url
+              {{- else if eq .Values.namespace "kwara" }}
+              key: kwara-db-url
               {{- else }}
               key: db-url
               {{- end }}

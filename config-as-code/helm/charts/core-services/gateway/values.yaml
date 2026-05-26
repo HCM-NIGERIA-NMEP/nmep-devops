@@ -15,7 +15,7 @@ initContainers:
       - name: "OUTPUT_FILE_PATH"
         value: "/etc/zuul/routes.properties" 
       - name: "NAMESPACE"
-        value: "egov,osun"
+        value: "egov,osun,kwara"
       - name: DEFAULT_INTERNAL_GATEWAY_SERVICE
         value: internal-gateway-scg.egov         
       volumeMounts:
