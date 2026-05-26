@@ -42,7 +42,7 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: mc-nigeria-uat.digit.org
+  domain: nmep-nigeria-hcm.digit.org
 
   # -- Runtime class name for all components
   runtimeClassName: ""
@@ -934,11 +934,11 @@ controller:
   # -- Resource limits and requests for the application controller pods
   resources:
    limits:
-     cpu: 500m
-     memory: 512Mi
+     cpu: 750m
+     memory: 1024Mi
    requests:
-     cpu: 250m
-     memory: 256Mi
+     cpu: 500m
+     memory: 768Mi
 
   # Application controller container ports
   containerPorts:
@@ -1226,11 +1226,11 @@ dex:
     # @default -- `{}` (defaults to dex.resources)
     resources:
      requests:
-       cpu: 5m
-       memory: 96Mi
-     limits:
        cpu: 10m
-       memory: 144Mi
+       memory: 192Mi
+     limits:
+       cpu: 20m
+       memory: 256Mi
 
   # -- Environment variables to pass to the Dex server
   env: []
@@ -1296,11 +1296,11 @@ dex:
   # -- Resource limits and requests for dex
   resources:
    limits:
-     cpu: 50m
-     memory: 64Mi
+     cpu: 75m
+     memory: 128Mi
    requests:
-     cpu: 10m
-     memory: 32Mi
+     cpu: 20m
+     memory: 64Mi
 
   # Dex container ports
   # NOTE: These ports are currently hardcoded and cannot be changed
@@ -1543,11 +1543,11 @@ redis:
     # -- Resource limits and requests for redis-exporter sidecar
     resources:
       limits:
-        cpu: 50m
-        memory: 64Mi
+        cpu: 75m
+        memory: 128Mi
       requests:
-        cpu: 10m
-        memory: 32Mi
+        cpu: 20m
+        memory: 64Mi
 
   # -- Secrets with credentials to pull images from a private registry
   # @default -- `[]` (defaults to global.imagePullSecrets)
@@ -1627,11 +1627,11 @@ redis:
   # -- Resource limits and requests for redis
   resources:
    limits:
+     cpu: 300m
+     memory: 256Mi
+   requests:
      cpu: 200m
      memory: 128Mi
-   requests:
-     cpu: 100m
-     memory: 64Mi
 
   # -- Redis pod-level security context
   # @default -- See [values.yaml]
@@ -1916,11 +1916,11 @@ redisSecretInit:
   # -- Resource limits and requests for Redis secret-init Job
   resources:
    limits:
+     cpu: 300m
+     memory: 256Mi
+   requests:
      cpu: 200m
      memory: 128Mi
-   requests:
-     cpu: 100m
-     memory: 64Mi
 
   # -- Application controller container-level security context
   # @default -- See [values.yaml]
@@ -2104,11 +2104,11 @@ server:
     # -- Resource limits and requests for the argocd-extensions container
     resources:
      limits:
-       cpu: 50m
-       memory: 128Mi
+       cpu: 75m
+       memory: 256Mi
      requests:
-       cpu: 10m
-       memory: 64Mi
+       cpu: 20m
+       memory: 128Mi
 
   # -- Additional containers to be added to the server pod
   ## Note: Supports use of custom Helm templates
@@ -2183,11 +2183,11 @@ server:
   # -- Resource limits and requests for the Argo CD server
   resources:
    limits:
+     cpu: 200m
+     memory: 256Mi
+   requests:
      cpu: 100m
      memory: 128Mi
-   requests:
-     cpu: 50m
-     memory: 64Mi
 
   # Server container ports
   containerPorts:
@@ -2520,8 +2520,8 @@ server:
     # @default -- `[]` (See [values.yaml])
     extraTls:
       - hosts:
-        - mc-nigeria-uat.digit.org
-        secretName: mc-nigeria-uat.digit.org-tls-certs
+        - nmep-nigeria-hcm.digit.org
+        secretName: nmep-nigeria-hcm.digit.org-tls-certs
 
     # AWS specific options for Application Load Balancer
     # Applies only when `serv.ingress.controller` is set to `aws`
@@ -2911,11 +2911,11 @@ repoServer:
     # -- Resource limits and requests for the repo server copyutil initContainer
     resources:
      limits:
+       cpu: 200m
+       memory: 256Mi
+     requests:
        cpu: 100m
        memory: 128Mi
-     requests:
-       cpu: 50m
-       memory: 64Mi
 
   # -- Additional volumeMounts to the repo server main container
   volumeMounts: []
@@ -2971,11 +2971,11 @@ repoServer:
   # -- Resource limits and requests for the repo server pods
   resources:
    limits:
-     cpu: 50m
-     memory: 128Mi
+     cpu: 75m
+     memory: 256Mi
    requests:
-     cpu: 10m
-     memory: 64Mi
+     cpu: 20m
+     memory: 128Mi
 
   # Repo server container ports
   containerPorts:
@@ -3356,8 +3356,8 @@ applicationSet:
   # -- Resource limits and requests for the ApplicationSet controller pods.
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 128Mi
@@ -3748,8 +3748,8 @@ notifications:
   # -- Resource limits and requests for the notifications controller
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 128Mi
@@ -4244,8 +4244,8 @@ commitServer:
   # -- Resource limits and requests for the commit server pods.
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 128Mi

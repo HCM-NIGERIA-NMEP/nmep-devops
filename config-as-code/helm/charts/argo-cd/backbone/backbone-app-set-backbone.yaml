@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nmep-central-prd-backbone-appset
+  namespace: argocd
+
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:HCM-NIGERIA-NMEP/nmep-devops.git
+        revision: nmep-central-prd
+        directories:
+          - path: config-as-code/helm/charts/backbone-used-charts/*
+
+  template:
+    metadata:
+      name: 'backbone-{{path.basename}}'
+
+    spec:
+      project: backbone-project
+
+      source:
+        repoURL: git@github.com:HCM-NIGERIA-NMEP/nmep-devops.git
+        targetRevision: nmep-central-prd
+        path: '{{path}}'
+
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../../../../environments/ng-nmep-central-prd.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+
+        retry:
+          limit: 10
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
