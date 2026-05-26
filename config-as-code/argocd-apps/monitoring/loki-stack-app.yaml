@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-stack
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: monitoring-stack
+    app.kubernetes.io/managed-by: argocd
+  annotations:
+    monitoring-stack/managed: "true"
+    monitoring-stack/do-not-deploy-standalone: "This app is managed by monitoring-stack"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: loki-stack
+    targetRevision: 2.10.1
+    helm:
+      values: |
+        test_pod:
+          enabled: false
+        loki:
+          enabled: true
+          isDefault: true
+          image:
+            tag: 2.9.3
+            repository: "grafana/loki"
+          service:
+            port: 3100
+          persistence:
+            enabled: true
+            accessModes:
+              - ReadWriteOnce
+            size: 30Gi
+          # Use the existing secret we created
+          existingSecret: loki-config-secret
+          # Override the config to not use the default
+          config:
+            auth_enabled: false
+        promtail:
+          enabled: true
+          config:
+            logLevel: info
+            serverPort: 3101
+            clients:
+              - url: http://loki-stack:3100/loki/api/v1/push
+        grafana:
+          enabled: false
+          sidecar:
+            datasources:
+              label: ""
+              labelValue: ""
+              enabled: true
+              maxLines: 1000
+        prometheus:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - RespectIgnoreDifferences=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  # Ignore the secret since we manage it manually
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: loki-config-secret
+      namespace: monitoring
