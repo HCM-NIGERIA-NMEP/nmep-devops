@@ -344,14 +344,14 @@ audit-service:
     dbMigration:
       image:
         repository: "audit-service-db"
-        tag: 2.9-LTS-1b59a4c
+        tag: DIGIT-2.9-LTS-07f47790b8-12
     gitSync:
       enabled: "true"
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
       branch: "NMEP-CENTRAL-PRD"
   image:
     repository: egovio/audit-service
-    tag: 2.9-LTS-1b59a4c
+    tag: DIGIT-2.9-LTS-07f47790b8-12
   hpa:
     enabled: true
     minReplicas: 2
