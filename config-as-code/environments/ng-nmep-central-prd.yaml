@@ -42,7 +42,7 @@ cluster-configs:
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
-        kafka-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
+        kafka-brokers: "b-1.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092,b-2.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092,b-3.nmepcentralprdmsk.wnjkd2.c2.kafka.af-south-1.amazonaws.com:9092"
         kafka-infra-brokers: "release-name-kafka-controller-headless.kafka-cluster:9092"
         logging-level-jdbc: "DEBUG"
         mobile-validation-workaround: "true"
@@ -707,6 +707,9 @@ oauth2-proxy:
             github_org = "HCM-NIGERIA-NMEP"
             github_team = "nmep-central-prd-oauth-access"
             upstreams = [ "file:///dev/null" ]
+    nodeSelector:
+        architecture: amd64
+        kubernetes.io/arch: amd64
 
 facility:
   initContainers:
