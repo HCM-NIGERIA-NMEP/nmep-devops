@@ -34,11 +34,36 @@ spec:
             accessModes:
               - ReadWriteOnce
             size: 30Gi
-          # Use the existing secret we created
-          existingSecret: loki-config-secret
-          # Override the config to not use the default
+          serviceAccount:
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::703097865444:role/nmep-central-prd-loki-role    ## AWS arn for s3 role
           config:
             auth_enabled: false
+            schema_config:
+              configs:
+                - from: 2020-10-24
+                  store: boltdb-shipper
+                  object_store: s3                         ## AWS s3 as storage
+                  schema: v11
+                  index:
+                    prefix: index_
+                    period: 24h
+            storage_config:
+              boltdb_shipper:
+                active_index_directory: /data/loki/index
+                cache_location: /data/loki/index_cache
+                shared_store: s3                           ## AWS s3 as storage
+                cache_ttl: 24h
+              aws:
+                s3: ng-nmep-central-prd-loki-bucket              ## s3 region & bucket
+            compactor:
+              working_directory: /data/loki/boltdb-shipper-compactor
+              shared_store: s3                             ## AWS s3 as storage
+              retention_enabled: true
+              compaction_interval: 168h                    ## compaction in hours
+            table_manager:
+              retention_deletes_enabled: true
+              retention_period: 168h
         promtail:
           enabled: true
           config:
@@ -66,16 +91,9 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-      - RespectIgnoreDifferences=true
     retry:
       limit: 5
       backoff:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  # Ignore the secret since we manage it manually
-  ignoreDifferences:
-    - group: ""
-      kind: Secret
-      name: loki-config-secret
-      namespace: monitoring
