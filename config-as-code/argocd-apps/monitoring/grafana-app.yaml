@@ -28,7 +28,7 @@ spec:
             - nmep-nigeria-hcm.digit.org
           path: /grafana
           tls:
-            - secretName: nmep-nigeria-hcm.digit.org-tls
+            - secretName: nmep-nigeria-hcm.digit.org-tls-certs
               hosts:
                 - nmep-nigeria-hcm.digit.org
         env:
