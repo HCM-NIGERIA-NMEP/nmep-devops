@@ -247,7 +247,7 @@ dashboard-analytics:
   initContainers:
     gitSync:
       enabled: true
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
       branch: "sierraleone"
   config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/kwara/dashboard-analytics/*.json"
   nodeSelector:
