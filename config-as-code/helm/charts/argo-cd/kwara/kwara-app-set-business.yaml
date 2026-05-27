@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kwara-nmep-central-prd-appset-business
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: dashboard-analytics
+
+  template:
+    metadata:
+      name: 'kwara-{{name}}'
+
+    spec:
+      project: kwara-project
+
+      source:
+        repoURL: git@github.com:HCM-NIGERIA-NMEP/nmep-devops.git
+        targetRevision: nmep-central-prd
+        path: config-as-code/helm/charts/business-services/{{name}}
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../../../../environments/kwara-nmep-central-prd.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '*'
+
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        retry:
+          limit: 10
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m0s

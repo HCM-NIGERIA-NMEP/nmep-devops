@@ -1,0 +1,260 @@
+global:
+  domain: kwara-hcm.digit.org
+
+service:
+  additionalAnnotations: |
+    zuul/route-host: kwara-hcm.digit.org
+
+namespace: kwara
+
+disableAnnotationTimestamp: true
+
+transformer:
+  image:
+    repository: egovio/transformer
+    tag: HDDF-5226-151bb11878-406
+  namespace: "kwara"
+  heap: "-Xmx768m -Xms512m"
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 1Gi
+  cpu_limits: 300m
+  memory_limits: 1.5Gi
+  java-enable-debug: true
+  boundary-hierarchy-name: "boundary-hierarchy"
+  project-factory-host: "kwara-project-factory"
+  save-attendance-log-topic: "kwara-save-attendance-log"
+  update-attendance-log-topic: "kwara-update-attendance-log"
+  transformer-save-attendance-log-topic: "kwara-transformer-save-attendance-log"
+  transformer-save-attendance-register-topic: "kwara-transformer-save-attendance-register"
+  save-project-task-topic: "kwara-save-project-task-topic"
+  update-project-task-topic: "kwara-update-project-task-topic"
+  transformer-producer-bulk-project-task-index-v1-topic: "kwara-transformer-producer-bulk-project-task-index-v1-topic"
+  save-project-staff-topic: "kwara-save-project-staff-topic"
+  update-project-staff-topic: "kwara-update-project-staff-topic"
+  transformer-producer-bulk-project-staff-index-v1-topic: "kwara-transformer-producer-bulk-project-staff-index-v1-topic"
+  transformer-producer-bulk-project-index-v1-topic: "kwara-transformer-producer-bulk-project-index-v1-topic"
+  save-project: "kwara-save-project"
+  update-project: "kwara-update-project"
+  save-household-member-topic: "kwara-save-household-member-topic"
+  transformer-producer-household-member-index-v1-topic: "kwara-transformer-producer-household-member-index-v1-topic"
+  save-household-topic: "kwara-save-household-topic"
+  update-household-topic: "kwara-update-household-topic"
+  transformer-producer-household-index-v1-topic: "kwara-transformer-producer-household-index-v1-topic"
+  transformer-producer-service-index-v2-topic: "kwara-transformer-producer-service-index-v2-topic"
+  save-stock-topic: "kwara-save-stock-topic"
+  update-stock-topic: "kwara-update-stock-topic"
+  transformer-producer-bulk-stock-index-v1-topic: "kwara-transformer-producer-bulk-stock-index-v1-topic"
+  save-facility-topic: "kwara-save-facility-topic"
+  update-facility-topic: "kwara-update-facility-topic"
+  save-service: "kwara-save-service"
+  transformer-producer-service-request-index-v1-topic: "kwara-transformer-producer-service-request-index-v1-topic"
+  save-referral-topic: "kwara-save-referral-topic"
+  transformer-producer-referral-index-v1-topic: "kwara-transformer-producer-referral-index-v1-topic"
+  update-referral-topic: "kwara-update-referral-topic"
+  save-side-effect-topic: "kwara-save-side-effect-topic"
+  update-side-effect-topic: "kwara-update-side-effect-topic"
+  transformer-producer-side-effect-index-v1-topic: "kwara-transformer-producer-side-effect-index-v1-topic"
+  save-pgr-request: "kwara-save-pgr-request"
+  transformer-save-pgr-request: "kwara-transformer-save-pgr-request"
+  update-pgr-request: "kwara-update-pgr-request"
+  save-hfreferral-topic: "kwara-save-hfreferral-topic"
+  update-hfreferral-topic: "kwara-update-hfreferral-topic"
+  transformer-producer-hfreferral-index-v1-topic: "kwara-transformer-producer-hfreferral-index-v1-topic"
+  transformer-producer-hfreferral-service-index-topic: "kwara-transformer-producer-hfreferral-service-index-topic"
+  transformer-producer-finance-checklist-index-v1-topic: "kwara-transformer-producer-finance-checklist-index-v1-topic"
+  transformer-producer-special-spraying-index-topic: "kwara-transformer-producer-special-spraying-index-topic"
+  save-attendance-log: "kwara-save-attendance-log"
+  update-attendance-log: "kwara-update-attendance-log"
+  transformer-save-attendance-log: "kwara-transformer-save-attendance-log"
+  transformer-save-attendance-register: "kwara-transformer-save-attendance-register"
+  transformer-producer-extra-transformed-checklist-index-topic: "kwara-transformer-producer-extra-transformed-checklist-index-topic"
+  update-household-member-topic: "kwara-update-household-member-topic"
+  save-stock-reconciliation-topic: "kwara-save-stock-reconciliation-topic"
+  update-stock-reconciliation-topic: "kwara-update-stock-reconciliation-topic"
+  transformer-producer-stock-recon-index-v1-topic: "kwara-transformer-producer-stock-recon-index-v1-topic"
+  health-transformer: "kwara-health-transformer"
+
+digit-ui:
+  image:
+    repository: egovio/digit-ui
+    tag: sierraleone-9fa00b05
+  namespace: kwara
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfig-kwara.js type=text/javascript></script>
+      ';"
+  cpu_requests: 200m
+  memory_requests: 256Mi
+  cpu_limits: 300m
+  memory_limits: 512Mi
+    
+workbench-ui:
+  image:
+    repository: egovio/workbench-ui
+    tag: HDDF-4931-6fd335c
+  namespace: kwara
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsWorkbench-kwara.js type=text/javascript></script>';"
+  cpu_requests: 100m
+  memory_requests: 256Mi
+  cpu_limits: 200m
+  memory_limits: 512Mi
+
+project-factory:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "project-factory-db"
+        tag: project-factory-changes-sierraleone-82f83ba1fc-590
+  image:
+    repository: egovio/project-factory
+    tag: project-factory-changes-sierraleone-82f83ba1fc-590
+  central-instance-enabled: false
+  central-instance-build: true
+  namespace: kwara
+  heap: "-Xmx768m -Xms512m"
+  replicas: 2
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  groupId: "kwara-project-factory"
+  ingress:
+    name: kwara-project-factory
+    namespace: egov
+  logLevel: 'debug'
+  maxDebugChar: '2000'
+  mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
+  mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  plan-service: kwara-plan-service
+  census-service: kwara-census-service
+  excel-ingestion-host: kwara-excel-ingestion
+  IS_ENVIRONMENT_CENTRAL_INSTANCE: false
+  DB_SCHEMA: kwara
+  defaultTenantId: kwara
+  saveCampaignDetails: "kwara-save-campaign-details"
+  updateCampaignDetails: "kwara-update-campaign-details"
+  saveProjectCampaignDetailsTopic: "kwara-save-project-campaign-details"
+  updateProjectCampaignDetailsTopic: "kwara-update-project-campaign-details"
+  startCampaignMappingTopic: "kwara-start-campaign-mapping"
+  createResourceDetailsTopic: "kwara-create-resource-details"
+  updateResourceDetailsTopic: "kwara-update-resource-details"
+  createResourceActivityTopic: "kwara-create-resource-activity"
+  updateGeneratedResourceDetailsTopic: "kwara-update-generated-resource-details"
+  createGeneratedResourceDetailsTopic: "kwara-create-generated-resource-details"
+  savePlanFacilityTopic: "kwara-project-factory-save-plan-facility"
+  saveSheetDataTopic: "kwara-save-sheet-data"
+  updateSheetDataTopic: "kwara-update-sheet-data"
+  saveMappingDataTopic: "kwara-save-mapping-data"
+  updateMappingDataTopic: "kwara-update-mapping-data"
+  deleteMappingDataTopic: "kwara-delete-mapping-data"
+  saveProcessDataTopic: "kwara-save-process-data"
+  updateProcessDataTopic: "kwara-update-process-data"
+  startAdminConsoleTaskTopic: "kwara-start-admin-console-task"
+  startAdminConsoleMappingTaskTopic: "kwara-start-admin-console-mapping-task"
+  notificationEmailTopic: "kwara-egov.core.notification.email"
+  testTopic: "kwara-test-topic-project-factory"
+  hcmProcessingResultTopic: "kwara-hcm-processing-result"
+  facilityCreateBatchTopic: "kwara-hcm-facility-create-batch"
+  userCreateBatchTopic: "kwara-hcm-user-create-batch"
+  mappingBatchTopic: "kwara-hcm-mapping-batch"
+  campaignMarkFailedTopic: "kwara-hcm-campaign-mark-failed"
+  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundaryType: "COUNTRY"
+  maxResourceCreationAttempts: "10"
+  waitTimeOfEachAttemptMs: "20000"
+  retryTillResourceCreationCompletes: "5"
+  command: |
+    - sh
+    - -c
+  args: |
+    - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      yarn prod
+
+excel-ingestion:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "excel-ingestion-db"
+        tag: nigeria-go-deep-2-7c86f11
+  image:
+    repository: egovio/excel-ingestion
+    tag: nigeria-go-deep-2-7c86f11
+  namespace: kwara
+  ingress:
+    name: kwara-excel-ingestion
+    namespace: egov
+  group-id: "kwara-excel-ingestion"
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
+  defaultLocale: 'en_NG'
+  central-instance-name: egov
+  central-instance-build: true
+  central-instance-enabled: false
+  project-factory-host: kwara-project-factory
+  excel-ingestion-generation-save-topic: "kwara-save-generated-file"
+  excel-ingestion-generation-update-topic: "kwara-update-generated-file"
+  excel-ingestion-processing-save-topic: "kwara-save-processing-file"
+  excel-ingestion-processing-update-topic: "kwara-update-processing-file"
+  excel-ingestion-sheet-data-save-topic: "kwara-save-sheet-data-temp"
+  excel-ingestion-sheet-data-delete-topic: "kwara-delete-sheet-data-temp"
+  excel-ingestion-processing-result-topic: "kwara-hcm-processing-result"
+
+dashboard-analytics:
+  image:
+    repository: egovio/dashboard-analytics
+    tag: analytics-raw-response-transform-c0bd721231-76
+  namespace: kwara
+  ingress:
+    name: kwara-dashboard-analytics
+    namespace: egov
+  healthChecks:
+    enabled: true
+    livenessProbePath: "/dashboard-analytics/health"
+    readinessProbePath: "/dashboard-analytics/health"
+  heap: "-Xmx512m -Xms256m"
+  replicas: 1
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_limits: 1Gi
+  initContainers:
+    gitSync:
+      enabled: true
+      repo: "git@github.com:HCM-KEBBI/health-campaign-config"
+      branch: "sierraleone"
+  config-schema-paths: "file:///work-dir/health-campaign-config/egov-dss-dashboards/kwara/dashboard-analytics/*.json"
+
+dashboard-ui:
+  image:
+    repository: egovio/dashboard-ui
+    tag: HDDF-4931-6873013
+  namespace: kwara
+  replicas: 1
+  cpu_requests: 50m
+  memory_requests: 128Mi
+  cpu_limits: 100m
+  memory_limits: 256Mi
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://central-instance-uat-assets.s3.af-south-1.amazonaws.com/globalConfigsDashboard-kwara.js type=text/javascript></script>';"
