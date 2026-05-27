@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: osun-hcm.digit.org-tls-certs
+  name: kwara-hcm.digit.org-tls-certs
   namespace: egov
 spec:
-  secretName: osun-hcm.digit.org-tls-certs
+  secretName: kwara-hcm.digit.org-tls-certs
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: osun-hcm.digit.org
+  commonName: kwara-hcm.digit.org
   dnsNames:
-  - osun-hcm.digit.org
+  - kwara-hcm.digit.org
