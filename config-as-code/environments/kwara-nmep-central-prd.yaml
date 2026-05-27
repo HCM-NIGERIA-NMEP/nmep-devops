@@ -16,7 +16,7 @@ transformer:
   namespace: "kwara"
   heap: "-Xmx768m -Xms512m"
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
@@ -126,9 +126,9 @@ project-factory:
   heap: "-Xmx768m -Xms512m"
   replicas: 2
   hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -237,7 +237,7 @@ dashboard-analytics:
   heap: "-Xmx512m -Xms256m"
   replicas: 1
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
