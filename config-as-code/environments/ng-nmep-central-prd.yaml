@@ -603,10 +603,10 @@ egov-hrms:
     dbMigration:
       image:
         repository: "egov-hrms-db"
-        tag: sierraleone-changes-f01d8c0
+        tag: sierraleone-changes-4628ff7
   image:
     repository: egovio/egov-hrms
-    tag: sierraleone-changes-f01d8c0
+    tag: sierraleone-changes-4628ff7
   heap: "-Xmx1024m -Xms512m"
   hpa:
     enabled: true
