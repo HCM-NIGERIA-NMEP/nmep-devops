@@ -85,7 +85,7 @@ transformer:
 digit-ui:
   image:
     repository: egovio/digit-ui
-    tag: osun-uat-79885c10
+    tag: osun-uat-3be142fb
   namespace: osun
   custom-js-injection: |
     sub_filter.conf: "
