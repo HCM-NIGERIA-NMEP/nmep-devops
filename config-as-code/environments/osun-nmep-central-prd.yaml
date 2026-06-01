@@ -100,7 +100,7 @@ digit-ui:
 workbench-ui:
   image:
     repository: egovio/workbench-ui
-    tag: HCMPRE-3928-7685fda
+    tag: HDDF-4931-897fd99
   namespace: osun
   custom-js-injection: |
     sub_filter.conf: "
