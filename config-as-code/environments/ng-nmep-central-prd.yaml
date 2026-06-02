@@ -301,15 +301,15 @@ boundary-service:
   image:
     repository: egovio/boundary-service
     tag: master-1e8d2bb
-  heap: "-Xmx1024m -Xms512m"
+  heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
     minReplicas: 2
     maxReplicas: 8
   cpu_requests: 200m
-  memory_requests: 1Gi
+  memory_requests: 2Gi
   cpu_limits: 300m
-  memory_limits: 1.5Gi
+  memory_limits: 2.5Gi
       
 
 egov-user:
