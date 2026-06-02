@@ -116,10 +116,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: nigeria-go-deep-2-0f1e09e
+        tag: project-factory-changes-sierraleone-82f83ba1fc-590
   image:
     repository: egovio/project-factory
-    tag: nigeria-go-deep-2-0f1e09e
+    tag: project-factory-changes-sierraleone-82f83ba1fc-590
   central-instance-enabled: false
   central-instance-build: true
   namespace: osun
@@ -191,6 +191,9 @@ project-factory:
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 excel-ingestion:
   initContainers:
