@@ -1146,10 +1146,10 @@ boundary-management:
     dbMigration:
       image:
         repository: "boundary-management-db"
-        tag: master-aa57e79
+        tag: console-89278a5
   image:
     repository: egovio/boundary-management
-    tag: master-aa57e79
+    tag: console-89278a5
   DEBUG: 'true'
   cpu_requests: 200m
   memory_requests: 768Mi
