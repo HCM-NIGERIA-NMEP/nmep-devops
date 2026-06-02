@@ -123,16 +123,16 @@ project-factory:
   central-instance-enabled: false
   central-instance-build: true
   namespace: osun
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx2048m -Xms512m"
   replicas: 2
   hpa:
     enabled: true
     minReplicas: 2
     maxReplicas: 4
-  cpu_requests: 200m
-  memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
+  cpu_requests: 300m
+  memory_requests: 1Gi
+  cpu_limits: 1000m
+  memory_limits: 2.5Gi
   groupId: "osun-project-factory"
   ingress:
     name: osun-project-factory
@@ -141,6 +141,7 @@ project-factory:
   maxDebugChar: '2000'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  defaultLocale: "en_NG"
   plan-service: osun-plan-service
   census-service: osun-census-service
   excel-ingestion-host: osun-excel-ingestion
@@ -176,16 +177,19 @@ project-factory:
   campaignMarkFailedTopic: "osun-hcm-campaign-mark-failed"
   userMainBoundary: "MICROPLAN_MO"
   userMainBoundaryType: "COUNTRY"
-  maxResourceCreationAttempts: "10"
+  maxResourceCreationAttempts: "50"
   waitTimeOfEachAttemptMs: "20000"
   retryTillResourceCreationCompletes: "5"
+  serverTimezone: "UTC"
+  attendanceAttendeeSearchPageSize: "100"
+  attendanceStaffSearchPageSize: "100"
   command: |
     - sh
     - -c
   args: |
     - |
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
-      sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
 
 excel-ingestion:
