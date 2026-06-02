@@ -116,10 +116,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: project-factory-changes-sierraleone-82f83ba1fc-590
+        tag: nigeria-go-deep-2-0f1e09e
   image:
     repository: egovio/project-factory
-    tag: project-factory-changes-sierraleone-82f83ba1fc-590
+    tag: nigeria-go-deep-2-0f1e09e
   central-instance-enabled: false
   central-instance-build: true
   namespace: osun
