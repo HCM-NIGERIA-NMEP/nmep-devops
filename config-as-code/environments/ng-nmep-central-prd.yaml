@@ -1152,7 +1152,9 @@ boundary-management:
     tag: console-89278a5
   DEBUG: 'true'
   cpu_requests: 200m
-  memory_requests: 768Mi
+  cpu_limits: 300m
+  memory_requests: 1.5Gi
+  memory_limits: 2Gi
   namespace: 'egov'
   logLevel: 'debug'
   defaultLocale: 'NG'
@@ -1163,7 +1165,6 @@ boundary-management:
   central-instance-name: egov
   central-instance-build: true
   central-instance-enabled: true
-  replicas: 2
 
 worker-registry:
   central-instance-build: true
