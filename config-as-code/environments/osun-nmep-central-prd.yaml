@@ -200,10 +200,11 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nigeria-go-deep-2-312dd54
+        tag: nigeria-go-deep-2-ee76944
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-312dd54
+    tag: nigeria-go-deep-2-ee76944
+
   namespace: osun
   ingress:
     name: osun-excel-ingestion
@@ -211,9 +212,11 @@ excel-ingestion:
   group-id: "osun-excel-ingestion"
   cpu_requests: 200m
   memory_requests: 768Mi
+  replicas: 3
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
   defaultLocale: 'en_NG'
+  excel-row-limit: "20000"
   central-instance-name: egov
   central-instance-build: true
   central-instance-enabled: false
@@ -225,6 +228,7 @@ excel-ingestion:
   excel-ingestion-sheet-data-save-topic: "osun-save-sheet-data-temp"
   excel-ingestion-sheet-data-delete-topic: "osun-delete-sheet-data-temp"
   excel-ingestion-processing-result-topic: "osun-hcm-processing-result"
+  java-enable-debug: true
 
 dashboard-analytics:
   image:
