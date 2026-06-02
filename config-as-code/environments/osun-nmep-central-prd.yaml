@@ -187,9 +187,6 @@ project-factory:
       sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=1024/g' package.json
       yarn prod
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 excel-ingestion:
   initContainers:
