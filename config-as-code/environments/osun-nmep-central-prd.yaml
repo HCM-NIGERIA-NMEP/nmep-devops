@@ -291,7 +291,10 @@ microplan-ui:
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
       <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfigsMicroplan-osun.js type=text/javascript></script>';"
-
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
+    
 payments-ui:
   image:
     repository: egovio/payments-ui
