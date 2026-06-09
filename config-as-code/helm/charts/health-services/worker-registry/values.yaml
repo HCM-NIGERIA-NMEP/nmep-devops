@@ -116,3 +116,5 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: kafka-tenant-id-pattern
+  - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
+    value: "ng"

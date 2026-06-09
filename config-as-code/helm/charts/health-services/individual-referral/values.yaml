@@ -149,3 +149,5 @@ env: |
   {{- end }}
   - name: EGOV_PERSISTER_BULK_PROCESSING_ENABLED
     value: "false"
+  - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
+    value: "ng"
