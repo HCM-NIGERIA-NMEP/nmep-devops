@@ -1,0 +1,206 @@
+global:
+  domain: taraba-central-hcm.digit.org
+
+service:
+  additionalAnnotations: |
+    zuul/route-host: taraba-central-hcm.digit.org
+
+namespace: taraba
+
+disableAnnotationTimestamp: true
+
+transformer:
+  image:
+    repository: egovio/transformer
+    tag: HDDF-5226-5f0424b
+  namespace: "taraba"
+  heap: "-Xmx1536m -Xms1536m"
+  replicas: 2
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 300m
+  memory_requests: 1.75Gi
+  cpu_limits: 400m
+  memory_limits: 2.25Gi
+  save-project-task-topic: "taraba-save-project-task-topic"
+  update-project-task-topic: "taraba-update-project-task-topic"
+  transformer-producer-bulk-project-task-index-v1-topic: "taraba-transformer-producer-bulk-project-task-index-v1-topic"
+  save-project-staff-topic: "taraba-save-project-staff-topic"
+  update-project-staff-topic: "taraba-update-project-staff-topic"
+  transformer-producer-bulk-project-staff-index-v1-topic: "taraba-transformer-producer-bulk-project-staff-index-v1-topic"
+  transformer-producer-bulk-project-index-v1-topic: "taraba-transformer-producer-bulk-project-index-v1-topic"
+  save-project: "taraba-save-project"
+  update-project: "taraba-update-project"
+  save-household-member-topic: "taraba-save-household-member-topic"
+  transformer-producer-household-member-index-v1-topic: "taraba-transformer-producer-household-member-index-v1-topic"
+  save-household-topic: "taraba-save-household-topic"
+  update-household-topic: "taraba-update-household-topic"
+  transformer-producer-household-index-v1-topic: "taraba-transformer-producer-household-index-v1-topic"
+  transformer-producer-service-index-v2-topic: "taraba-transformer-producer-service-index-v2-topic"
+  save-stock-topic: "taraba-save-stock-topic"
+  update-stock-topic: "taraba-update-stock-topic"
+  transformer-producer-bulk-stock-index-v1-topic: "taraba-transformer-producer-bulk-stock-index-v1-topic"
+  transformer-producer-bulk-stock-index-updated-v1-topic: "taraba-transformer-producer-bulk-stock-index-updated-v1-topic"
+  save-facility-topic: "taraba-save-facility-topic"
+  update-facility-topic: "taraba-update-facility-topic"
+  save-service: "taraba-save-service"
+  transformer-producer-service-request-index-v1-topic: "taraba-transformer-producer-service-request-index-v1-topic"
+  save-referral-topic: "taraba-save-referral-topic"
+  transformer-producer-referral-index-v1-topic: "taraba-transformer-producer-referral-index-v1-topic"
+  update-referral-topic: "taraba-update-referral-topic"
+  save-side-effect-topic: "taraba-save-side-effect-topic"
+  update-side-effect-topic: "taraba-update-side-effect-topic"
+  transformer-producer-side-effect-index-v1-topic: "taraba-transformer-producer-side-effect-index-v1-topic"
+  save-pgr-request: "taraba-save-pgr-request"
+  transformer-save-pgr-request: "taraba-transformer-save-pgr-request"
+  update-pgr-request: "taraba-update-pgr-request"
+  save-hfreferral-topic: "taraba-save-hfreferral-topic"
+  update-hfreferral-topic: "taraba-update-hfreferral-topic"
+  transformer-producer-hfreferral-index-v1-topic: "taraba-transformer-producer-hfreferral-index-v1-topic"
+  transformer-producer-hfreferral-service-index-topic: "taraba-transformer-producer-hfreferral-service-index-topic"
+  transformer-producer-finance-checklist-index-v1-topic: "taraba-transformer-producer-finance-checklist-index-v1-topic"
+  transformer-producer-special-spraying-index-topic: "taraba-transformer-producer-special-spraying-index-topic"
+  save-attendance-log: "taraba-save-attendance-log"
+  update-attendance-log: "taraba-update-attendance-log"
+  transformer-save-attendance-log: "taraba-transformer-save-attendance-log"
+  transformer-save-attendance-register: "taraba-transformer-save-attendance-register"
+  transformer-producer-extra-transformed-checklist-index-topic: "taraba-transformer-producer-extra-transformed-checklist-index-topic"
+  update-household-member-topic: "taraba-update-household-member-topic"
+  save-stock-reconciliation-topic: "taraba-save-stock-reconciliation-topic"
+  update-stock-reconciliation-topic: "taraba-update-stock-reconciliation-topic"
+  transformer-producer-stock-recon-index-v1-topic: "taraba-transformer-producer-stock-recon-index-v1-topic"
+  health-transformer: "taraba-health-transformer"
+  transformer-consumer-error-tracer-topic: "error-details-indexer-topic"
+  transformer-producer-error-details-index-v1-topic: "taraba-transformed-errors-topic"
+  transformer-error-skip-error-messages: "UPLOAD_ERROR_FROM_APP"
+  transformer-error-skip-error-codes: "DUPLICATE_ENTITY,INDIVIDUAL_ALREADY_MEMBER_OF_HOUSEHOLD,HOUSEHOLD_ALREADY_HAS_HEAD"
+  transformer-error-skip-url-contains: "facility,resource"
+  state-level-tenantid: "taraba"
+  expense-bill-create-health-topic: "taraba-expense-bill-create-health"
+  expense-bill-update-health-topic: "taraba-expense-bill-update-health"
+  transformer-bill-index-topic: "taraba-transformer-bill-index-topic"
+  transformer-billdetail-index-topic: "taraba-transformer-billdetail-index-topic"
+  expense-bill-report-save-topic: "taraba-expense-bill-report-save"
+  expense-bill-report-update-topic: "taraba-expense-bill-report-update"
+  transformer-billreport-index-topic: "taraba-transformer-billreport-index-topic"
+  save-musterroll-health-topic: "taraba-save-musterroll-health"
+  update-musterroll-health-topic: "taraba-update-musterroll-health"
+  transformer-producer-muster-roll-index-v1-topic: "taraba-transformer-producer-muster-roll-index-v1-topic"
+  expense-bill-detail-create-topic: "taraba-expense-bill-detail-create"
+  expense-bill-detail-update-topic: "taraba-expense-bill-detail-update"
+  egov_localization_locale_code: "en_NG"
+  egov-localization-module-name: "hcm-boundary-admin"
+  transformer-consumer-create-user-action-topic: "taraba-save-user-action-project-task-topic"
+  transformer-consumer-update-user-action-topic: "taraba-update-user-action-project-task-topic"
+  transformer-producer-user-action-index-v1-topic: "taraba-transformer-producer-user-action-index-v1-topic"
+
+excel-ingestion:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "excel-ingestion-db"
+        tag: nigeria-go-deep-2-ee76944
+  image:
+    repository: egovio/excel-ingestion
+    tag: nigeria-go-deep-2-ee76944
+  namespace: taraba
+  ingress:
+    name: taraba-excel-ingestion
+    namespace: egov
+  group-id: "taraba-excel-ingestion"
+  cpu_requests: 200m
+  memory_requests: 768Mi
+  replicas: 3
+  egov-mdms-service-host-key: 'mdms-v2'
+  egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
+  defaultLocale: 'en_NG'
+  excel-row-limit: "20000"
+  central-instance-name: egov
+  central-instance-build: true
+  central-instance-enabled: false
+  project-factory-host: taraba-project-factory
+  excel-ingestion-generation-save-topic: "taraba-save-generated-file"
+  excel-ingestion-generation-update-topic: "taraba-update-generated-file"
+  excel-ingestion-processing-save-topic: "taraba-save-processing-file"
+  excel-ingestion-processing-update-topic: "taraba-update-processing-file"
+  excel-ingestion-sheet-data-save-topic: "taraba-save-sheet-data-temp"
+  excel-ingestion-sheet-data-delete-topic: "taraba-delete-sheet-data-temp"
+  excel-ingestion-processing-result-topic: "taraba-hcm-processing-result"
+  java-enable-debug: true
+
+digit-ui:
+  namespace: taraba
+  image:
+    repository: egovio/digit-ui
+    tag: impel-central-instance-nigeria-multiarch-new-f9b9f6fb
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfig-taraba.js type=text/javascript></script>
+      ';"
+
+
+payments-ui:
+  namespace: taraba
+  image:
+    repository: egovio/payments-ui
+    tag: HDDF-4931-151549b
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfigsPayments-taraba.js type=text/javascript></script>
+      ';"
+
+workbench-ui:
+  namespace: taraba
+  image:
+    repository: egovio/workbench-ui
+    tag: HDDF-4931-d008fbe
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfigsWorkbench-taraba.js type=text/javascript></script>';"
+      ';"
+
+dashboard-ui:
+  namespace: taraba
+  image:
+    repository: egovio/dashboard-ui
+    tag: HDDF-4931-80af5c0
+  custom-js-injection: |
+    sub_filter.conf: "
+      sub_filter  '<head>' '<head>
+      <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfigDashboard-taraba.js type=text/javascript></script>
+      ';"
+
+health-expense-calculator:
+  namespace: taraba
+  initContainers:
+    dbMigration:
+      image:
+        repository: egovio/health-expense-calculator-db
+        tag: nigeria-go-deep-3fa1c21
+  image:
+    repository: egovio/health-expense-calculator
+    tag: nigeria-go-deep-3fa1c21
+  heap: "-Xmx2048m -Xms1024m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 500m
+  memory_requests: 2Gi
+  cpu_limits: 600m
+  memory_limits: 2.5Gi
+  central-instance-build: true
+  tracing-enabled: true
+  java-enable-debug: true
+  egov-mdms-service-endpoint-key: "/mdms-v2/v1/_search"
+  report-header-title: "Health Campaign Payment Report"
+  is-attendance-approval-required: "true"
+  register-batch-size: 15
+  bill-generation-async-enabled: "true"
+  bill-generation-async-topic: "taraba-bill-generation-async-topic"
+  spring-kafka-consumer-group-id: "taraba-health-expense-calculator"
