@@ -442,15 +442,15 @@ egov-persister:
     repository: egovio/egov-persister
     tag: 2.9-LTS-1b59a4c
   kafka-consumer-group-id: "egov-infra-persist"
-  heap: "-Xmx1792m -Xms1024m"
+  heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
     minReplicas: 2
     maxReplicas: 8
   cpu_requests: 200m
-  memory_requests: 768Mi
+  memory_requests: 1.5Gi
   cpu_limits: 300m
-  memory_limits: 1Gi
+  memory_limits: 2Gi
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/osun,/work-dir/health-campaign-config/egov-persister/kwara,/work-dir/health-campaign-config/egov-persister/taraba"
   initContainers:
     gitSync:
