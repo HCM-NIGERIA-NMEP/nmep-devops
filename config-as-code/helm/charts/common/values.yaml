@@ -56,6 +56,8 @@ initContainers:
                   key: osun-db-url
                   {{- else if eq .Values.namespace "kwara" }}
                   key: kwara-db-url
+                  {{- else if eq .Values.namespace "taraba" }}
+                  key: taraba-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -77,6 +79,8 @@ initContainers:
               value: "osun"
               {{- else if eq .Values.namespace "kwara" }}
               value: "kwara"
+              {{- else if eq .Values.namespace "taraba" }}
+              value: "taraba"
               {{- else }}
               value: "public"
               {{- end }}
@@ -166,6 +170,8 @@ extraEnv:
               key: osun-db-url
               {{- else if eq .Values.namespace "kwara" }}
               key: kwara-db-url
+              {{- else if eq .Values.namespace "taraba" }}
+              key: taraba-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -188,6 +194,8 @@ extraEnv:
               key: osun-db-url
               {{- else if eq .Values.namespace "kwara" }}
               key: kwara-db-url
+              {{- else if eq .Values.namespace "taraba" }}
+              key: taraba-db-url
               {{- else }}
               key: db-url
               {{- end }}

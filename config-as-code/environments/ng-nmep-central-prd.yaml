@@ -6,28 +6,31 @@ global:
     - nmep-nigeria-hcm.digit.org
     - osun-hcm.digit.org
     - kwara-hcm.digit.org
+    - taraba-central-hcm.digit.org
   schema:
     - osun
     - kwara
+    - taraba
 
 disableAnnotationTimestamp: true
 
 cluster-configs:
   namespaces:
     create: true
-    values: [ backbone, cert-manager, egov, es-cluster, kafka-cluster, logging, monitoring, playground, zookeeper-cluster, es-cluster-v8, jupyter, jhub, osun, kwara ]
+    values: [ backbone, cert-manager, egov, es-cluster, kafka-cluster, logging, monitoring, playground, zookeeper-cluster, es-cluster-v8, jupyter, jhub, osun, kwara, taraba ]
 
   root-ingress:
     cert-issuer: letsencrypt-prod
   configmaps:
     egov-config:
-      namespace: [egov, monitoring, osun, kwara ]
+      namespace: [egov, monitoring, osun, kwara, taraba ]
       data:
         db-host: "ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
         db-name: "ngnmepcentralprd" ## Add db-name
         db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd"
         osun-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=osun"
         kwara-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=kwara"
+        taraba-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=taraba"
         domain: "nmep-nigeria-hcm.digit.org" ## Add your Domain Name
         redis-host: "redis.backbone"
         redis-downsync-host: ""
@@ -40,7 +43,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:703097865444:cluster/ng-nmep-central-prd"
         egov-state-level-tenant-id: "ng"
         state-level-tenant-id: "ng"
-        kafka-tenant-id-pattern: "osun-|kwara-"
+        kafka-tenant-id-pattern: "osun-|kwara-|taraba-"
         s3-assets-bucket: "(nmep-central-instance-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
@@ -62,13 +65,15 @@ cluster-configs:
         boundary-hierarchy: "ADMIN"
         osun-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
         kwara-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
-        host-map: "{'osun':'https://osun-hcm.digit.org/', 'kwara':'https://kwara-hcm.digit.org/'}"
-        db-schema-names: "osun,kwara"
+        taraba-egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
+        host-map: "{'osun':'https://osun-hcm.digit.org/', 'kwara':'https://kwara-hcm.digit.org/', 'taraba':'https://taraba-central-hcm.digit.org/'}"
+        db-schema-names: "osun,kwara,taraba"
     egov-service-host:
-      namespace: [egov, monitoring, osun, kwara ]
+      namespace: [egov, monitoring, osun, kwara, taraba ]
       data:
         osun-dashboard-analytics: "http://dashboard-analytics.osun:8080/"
         kwara-dashboard-analytics: "http://dashboard-analytics.kwara:8080/"
+        taraba-dashboard-analytics: "http://dashboard-analytics.taraba:8080/"
         beneficiary-idgen: "http://beneficiary-idgen.egov:8080/"
         egov-enc-service: "http://egov-enc-service.egov:8080/"
         egov-accesscontrol: "http://egov-accesscontrol.egov:8080/"
@@ -106,21 +111,27 @@ cluster-configs:
         audit-service: "http://audit-service.egov:8080/"
         osun-project-factory: 'http://project-factory.osun:8080/'
         kwara-project-factory: 'http://project-factory.kwara:8080/'
+        taraba-project-factory: 'http://project-factory.taraba:8080/'
         osun-resource-generator: 'http://resource-generator.osun:8080/'
         kwara-resource-generator: 'http://resource-generator.kwara:8080/'
+        taraba-resource-generator: 'http://resource-generator.taraba:8080/'
         osun-plan-service: 'http://plan-service.osun:8080/'
         kwara-plan-service: 'http://plan-service.kwara:8080/'
+        taraba-plan-service: 'http://plan-service.taraba:8080/'
         osun-census-service: 'http://census-service.osun:8080/'
         kwara-census-service: 'http://census-service.kwara:8080/'
+        taraba-census-service: 'http://census-service.taraba:8080/'
         health-muster-roll: 'http://health-muster-roll.egov:8080/'
         health-expense-calculator: 'http://internal-gateway.egov:8080/'
         health-expense: 'http://health-expense.egov:8080/'
         jaeger-collector: 'http://jaeger-collector.tracing:80/'
         osun-inbox: 'http://inbox.osun:8080/'
         kwara-inbox: 'http://inbox.kwara:8080/'
+        taraba-inbox: 'http://inbox.taraba:8080/'
         boundary-management: 'http://boundary-management:8080/'
         osun-excel-ingestion: 'http://excel-ingestion.osun:8080/'
         kwara-excel-ingestion: 'http://excel-ingestion.kwara:8080/'
+        taraba-excel-ingestion: 'http://excel-ingestion.taraba:8080/'
         worker-registry-host: 'http://worker-registry.egov:8080/'
         health-notification-service: "http://health-notification-service.egov:8080/"
         egov-notification-push: "http://egov-notification-push.egov:8080/"
@@ -401,7 +412,7 @@ egov-indexer:
   memory_requests: 1.5Gi
   cpu_limits: 400m
   memory_limits: 2Gi
-  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/osun,/work-dir/health-campaign-config/egov-indexer/kwara"
+  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/osun,/work-dir/health-campaign-config/egov-indexer/kwara,/work-dir/health-campaign-config/egov-indexer/taraba"
 
 internal-gateway-scg:
   image:
@@ -440,7 +451,7 @@ egov-persister:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/osun,/work-dir/health-campaign-config/egov-persister/kwara"
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/osun,/work-dir/health-campaign-config/egov-persister/kwara,/work-dir/health-campaign-config/egov-persister/taraba"
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"      ##### Change repo url with Your fork Repo url
@@ -520,7 +531,7 @@ health-expense:
   spring-kafka-producer-properties-max-request-size: "10485760"
   egov-mdms-v2-search-endpoint: "/mdms-v2/v1/_search"
   expense-v2-periodic-billing-enabled: "true"
-  task-scheduler-bootstrap-tenants: "osun,kwara"
+  task-scheduler-bootstrap-tenants: "osun,kwara,taraba"
 
 health-muster-roll:
   initContainers:

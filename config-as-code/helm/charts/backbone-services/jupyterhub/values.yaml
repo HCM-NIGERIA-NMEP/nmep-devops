@@ -652,11 +652,11 @@ prePuller:
 ingress:
   enabled: true
   hosts:
-    - mc-nigeria-uat.digit.org
+    - nmep-nigeria-hcm.digit.org
   tls:
     - hosts:
-        - mc-nigeria-uat.digit.org
-      secretName: mc-nigeria-uat.digit.org-tls-certs
+        - nmep-nigeria-hcm.digit.org
+      secretName: nmep-nigeria-hcm.digit.org-tls-certs
   annotations: {}
   ingressClassName: nginx
   pathSuffix: hub
