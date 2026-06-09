@@ -182,10 +182,10 @@ mdms-v2:
     dbMigration:
       image:
         repository: "mdms-v2-db"
-        tag: central-instance-6fae5fdefc-96
+        tag: central-instance-mdms-2-944672d
   image:
     repository: egovio/mdms-v2
-    tag: central-instance-6fae5fdefc-96
+    tag: central-instance-mdms-2-944672d
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -200,11 +200,16 @@ mdms-v2:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 health-notification-service:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "health-notification-service-db"
+        tag: health-notification-service-b83cc15
+  image:
+    repository: egovio/health-notification-service
+    tag: health-notification-service-b83cc15
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -218,6 +223,14 @@ health-notification-service:
   memory_limits: 1Gi
 
 egov-notification-push:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "egov-notification-push-db"
+        tag: nigeria-go-deep-push-notification-ca09919
+  image:
+    repository: egovio/egov-notification-push
+    tag: nigeria-go-deep-push-notification-ca09919
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -249,10 +262,10 @@ pgr-services:
     dbMigration:
       image:
         repository: "pgr-services-db"
-        tag: v1.2.0-bf5fea17f1-11
+        tag: master-0590cb7
   image:
     repository: egovio/pgr-services
-    tag: v1.2.0-bf5fea17f1-11
+    tag: master-0590cb7
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms128m"
@@ -264,19 +277,16 @@ pgr-services:
   memory_requests: 512Mi
   cpu_limits: 200m
   memory_limits: 768Mi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 egov-enc-service:
   initContainers:
     dbMigration:
       image:
         repository: "egov-enc-service-db"
-        tag: central-instance-e346023dcb-26
+        tag: HCMPRE-2741-encryption-664a4e7
   image:
     repository: egovio/egov-enc-service
-    tag: central-instance-e346023dcb-26
+    tag: HCMPRE-2741-encryption-664a4e7
   heap: "-Xmx384m -Xms128m"
   hpa:
     enabled: true
@@ -286,9 +296,6 @@ egov-enc-service:
   memory_requests: 384Mi
   cpu_limits: 300m
   memory_limits: 768Gi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 boundary-service:
   # internal-routing: "true"
@@ -297,10 +304,10 @@ boundary-service:
     dbMigration:
       image:
         repository: "boundary-service-db"
-        tag: master-1e8d2bb
+        tag: boundary-hierarchy-def-modified-2.9-lts-8cde4b0
   image:
     repository: egovio/boundary-service
-    tag: master-1e8d2bb
+    tag: boundary-hierarchy-def-modified-2.9-lts-8cde4b0
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
@@ -317,10 +324,10 @@ egov-user:
     dbMigration:
       image:
         repository: "egov-user-db"
-        tag: HDDF-5066-single-user-login-250a15b
+        tag: central-instance-switch-device-changes-7eec928
   image:
     repository: egovio/egov-user
-    tag: HDDF-5066-single-user-login-250a15b
+    tag: central-instance-switch-device-changes-7eec928
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms512m"
@@ -355,14 +362,14 @@ audit-service:
     dbMigration:
       image:
         repository: "audit-service-db"
-        tag: DIGIT-2.9-LTS-07f47790b8-12
+        tag: 2.9-LTS-1b59a4c
     gitSync:
       enabled: "true"
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
       branch: "NMEP-CENTRAL-PRD"
   image:
     repository: egovio/audit-service
-    tag: DIGIT-2.9-LTS-07f47790b8-12
+    tag: 2.9-LTS-1b59a4c
   hpa:
     enabled: true
     minReplicas: 2
@@ -372,9 +379,6 @@ audit-service:
   memory_requests: 256Mi
   cpu_limits: 300m
   memory_limits: 1.5Gi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 egov-indexer:
   initContainers:
@@ -384,10 +388,10 @@ egov-indexer:
     dbMigration:
       image:
         repository: "egov-indexer-db"
-        tag: indexer-17-searchBody-1799f17903-57
+        tag: indexer-17-searchBody-aefd92b
   image:
     repository: egovio/egov-indexer
-    tag: indexer-17-searchBody-1799f17903-57
+    tag: indexer-17-searchBody-aefd92b
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
@@ -398,9 +402,6 @@ egov-indexer:
   cpu_limits: 400m
   memory_limits: 2Gi
   egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/osun,/work-dir/health-campaign-config/egov-indexer/kwara"
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 internal-gateway-scg:
   image:
@@ -421,14 +422,11 @@ internal-gateway-scg:
     gitSync:
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
       branch: "NMEP-CENTRAL-PRD"
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
     
 egov-persister:
   image:
     repository: egovio/egov-persister
-    tag: DIGIT-2.9-LTS-07f47790b8-8
+    tag: 2.9-LTS-1b59a4c
   kafka-consumer-group-id: "egov-infra-persist"
   heap: "-Xmx1792m -Xms1024m"
   hpa:
@@ -444,9 +442,6 @@ egov-persister:
     gitSync:
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"      ##### Change repo url with Your fork Repo url
       branch: "NMEP-CENTRAL-PRD"                                    ##### Change repo branch with Your fork Repo branch
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 # gateway >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -574,10 +569,10 @@ egov-workflow-v2:
     dbMigration:
       image:
         repository: "egov-workflow-v2-db"
-        tag: central-instance-1248cc50e5-38
+        tag: indexer-bpa-fix-holash-cfef1c3
   image:
     repository: egovio/egov-workflow-v2
-    tag: central-instance-1248cc50e5-38
+    tag: indexer-bpa-fix-holash-cfef1c3
   heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: true
@@ -594,19 +589,16 @@ egov-workflow-v2:
   workflow-statelevel: "false"
   host-link: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee"
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 egov-hrms:
   initContainers:
     dbMigration:
       image:
         repository: "egov-hrms-db"
-        tag: sierraleone-changes-4628ff7
+        tag: customize-2.0-hrms-8b8c6e3
   image:
     repository: egovio/egov-hrms
-    tag: sierraleone-changes-4628ff7
+    tag: customize-2.0-hrms-8b8c6e3
   heap: "-Xmx1024m -Xms512m"
   hpa:
     enabled: true
@@ -627,10 +619,10 @@ egov-otp:
     dbMigration:
       image:
         repository: "egov-otp-db"
-        tag: central-instance-a0fc793059-8
+        tag: HCMPRE-2741-otp-2b08e04
   image:
     repository: egovio/egov-otp
-    tag: central-instance-a0fc793059-8
+    tag: HCMPRE-2741-otp-2b08e04
   hpa:
     enabled: true
     minReplicas: 2
@@ -645,9 +637,6 @@ egov-otp:
   java-args: -Dspring.profiles.active=monitoring
   employee-applink: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee/login"
   java-enable-debug: false
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -718,19 +707,16 @@ oauth2-proxy:
             github_org = "HCM-NIGERIA-NMEP"
             github_team = "nmep-central-prd-oauth-access"
             upstreams = [ "file:///dev/null" ]
-    nodeSelector:
-        architecture: amd64
-        kubernetes.io/arch: amd64
 
 facility:
   initContainers:
     dbMigration:
       image:
         repository: "facility-db"
-        tag: master-eb25d83
+        tag: facility-search-limit-fix-554bc07
   image:
     repository: egovio/facility
-    tag: master-eb25d83
+    tag: facility-search-limit-fix-554bc07
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -748,10 +734,10 @@ egov-url-shortening:
     dbMigration:
       image:
         repository: "egov-url-shortening-db"
-        tag: DIGIT-2.9-LTS-07f47790b8-12
+        tag: v1.1.2-1715164454-3
   image:
     repository: egovio/egov-url-shortening
-    tag: DIGIT-2.9-LTS-07f47790b8-12
+    tag: v1.1.2-1715164454-3
   heap: "-Xmx384m -Xms256m"
   ingress:
     enabled: true
@@ -764,19 +750,16 @@ egov-url-shortening:
   memory_requests: 384Mi
   cpu_limits: 200m
   memory_limits: 512Mi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 product:
   initContainers:
     dbMigration:
       image:
         repository: "product-db"
-        tag: v1.2.0-8900208f3e-1
+        tag: master-36803ef
   image:
     repository: egovio/product
-    tag: v1.2.0-8900208f3e-1
+    tag: master-36803ef
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -788,9 +771,6 @@ product:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 egov-notification-mail:
   image:
@@ -833,10 +813,10 @@ individual:
     dbMigration:
       image:
         repository: "individual-db"
-        tag: master-cc431fb
+        tag: customize-2.0-individual-08fa309
   image:
     repository: egovio/individual
-    tag: master-cc431fb
+    tag: customize-2.0-individual-08fa309
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1g -Xms512m"
@@ -854,10 +834,10 @@ stock:
     dbMigration:
       image:
         repository: "stock-db"
-        tag: featurefacilitysearch-task-campaign-number-e42fda5
+        tag: nigeria-go-deep-2-stock-ce241ee
   image:
     repository: egovio/stock
-    tag: featurefacilitysearch-task-campaign-number-e42fda5
+    tag: nigeria-go-deep-2-stock-ce241ee
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -875,10 +855,10 @@ household:
     dbMigration:
       image:
         repository: "household-db"
-        tag: household-sierraleone-changes-3a241e18d1-82
+        tag: HCMPRE-2656-HCM-Services-Household-5717dde
   image:
     repository: egovio/household
-    tag: household-sierraleone-changes-3a241e18d1-82
+    tag: HCMPRE-2656-HCM-Services-Household-5717dde
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -890,19 +870,16 @@ household:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 project:
   initContainers:
     dbMigration:
       image:
         repository: "project-db"
-        tag: featurefacilitysearch-task-status-7d6a332
+        tag: customize-nigeria-go-deep-2-project-bb6bfd6
   image:
     repository: egovio/project
-    tag: featurefacilitysearch-task-status-7d6a332
+    tag: customize-nigeria-go-deep-2-project-bb6bfd6
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms768m"
@@ -920,10 +897,10 @@ referralmanagement:
     dbMigration:
       image:
         repository: "referralmanagement-db"
-        tag: downysnc-file-upgrade-nigeria-590ba04
+        tag: master-impel-ref-b3af0c3
   image:
     repository: egovio/referralmanagement
-    tag: downysnc-file-upgrade-nigeria-590ba04
+    tag: master-impel-ref-b3af0c3
   downsync-services-enabled: true
   central-instance-build: true
   central-instance-enabled: true
@@ -942,10 +919,10 @@ service-request:
     dbMigration:
       image:
         repository: "service-request-db"
-        tag: v1.2.0-01c2b65440-4
+        tag: master-8ddfc8a
   image:
     repository: egovio/service-request
-    tag: v1.2.0-01c2b65440-4
+    tag: master-8ddfc8a
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -957,9 +934,6 @@ service-request:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 error-handler:
   image:
@@ -1011,6 +985,9 @@ pdf-service:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
+  image:
+    repository: egovio/pdf-service
+    tag: central-instance-pdf-2aad92c
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-KEBBI/health-campaign-config"    
@@ -1023,10 +1000,10 @@ beneficiary-idgen:
     dbMigration:
       image:
         repository: "beneficiary-idgen-db"
-        tag: master-eb25d83
+        tag: master-b91815e
   image:
     repository: egovio/beneficiary-idgen
-    tag: master-eb25d83
+    tag: master-b91815e
   namespace: egov
   heap: "-Xmx384m -Xms384m"
   hpa:
@@ -1086,7 +1063,7 @@ beneficiary-idgen:
 gateway:
   image:
     repository: egovio/gateway
-    tag: gatewat-rate-limit-per-route-f808ba0
+    tag: gombe-tenantId-fix-5cd3097
   hpa:
     enabled: true
     minReplicas: 2
@@ -1104,9 +1081,6 @@ gateway:
   spring-data-redis-ratelimit-enabled: "false"
   egov-open-endpoints-whitelist: "/user/v1/_validate,/user/v1/_switch,/user/oauth/token,/user-otp/v1/_send,/otp/v1/_validate,/user/citizen/_create,/localization/messages,/localization/messages/v1/_search,/user/password/nologin/_update,/pgr/servicedefinition/v1/_search,/pgr/servicecategories/v1/_search,/pgr/v1/otp/_send,/pgr-master/receivingmode/v1/_search,/tenant/v1/tenant/_search,/egov-location/boundarys,/egov-location/boundarys/boundariesByBndryTypeNameAndHierarchyTypeName,/pgr-master/service/v1/_search,/egov-location/boundarys/getLocationByLocationName,/pgr-master/OTPConfig/_search,/pgr-master/serviceGroup/v1/_search,/egov-location/boundarys/isshapefileexist,/pgr/services/v1/_search,/hr-masters/hrconfigurations/_search,/collection-services/receipts/_view,/pgr-master/service/v2/_search,/pgr-master/servicedefinition/v1/_search,/citizen-services,/citizen-services/v1/requests/receipt/_create,/citizen-services/v1/pgresponse,/citizen-services/v1/requests/anonymous/_search,/egov-mdms-service/v1/_search,/egov-mdms-service/v1/_get,/egov-mdms-service/v1/_reload,/egov-mdms-service/v1/_reloadobj,/egov-location/boundarys/getshapefile,/egov-indexer/index-operations/_index,/egov-indexer/index-operations/_reload,/egov-mdms-service-test/v1/_search,/egov-mdms-create/v1/_update,/egov-mdms-create/v1/_create,/egov-mdms-service-test/v1/_reload,/filestore/v1/files/url,/eus,/egov-url-shortening,/whatsapp-webhook/messages,/edcr/rest/dcr/downloadfile,/dashboard-ingest/ingest/upload,/egov-searcher/water-services/wateropensearch/_get,/egov-searcher/sewerage-services/sewerageopensearch/_get,/xstate-chatbot/status,/xstate-chatbot/reminder,/nlp-engine/fuzzy/city,/nlp-engine/fuzzy/locality,/user/v1/_validate,/user/v1/_switch,/user/oauth/token,/user-otp/v1/_send,/otp/v1/_validate,/localization/messages,/localization/messages/v1/_search,/user/password/nologin/_update,/tenant/v1/tenant/_search,/egov-location/boundarys,/egov-location/boundarys/boundariesByBndryTypeNameAndHierarchyTypeName,/egov-location/boundarys/getLocationByLocationName,/egov-location/boundarys/isshapefileexist,/hr-masters/hrconfigurations/_search,/egov-mdms-service/v1/_search,/egov-mdms-service/v1/_get,/egov-location/boundarys/getshapefile,/egov-indexer/index-operations/_index,/egov-indexer/index-operations/_reload,/egov-mdms-service-test/v1/_search,/egov-mdms-create/v1/_update,/egov-mdms-create/v1/_create,/egov-mdms-service-test/v1/_reload,/filestore/v1/files/url,/egov-url-shortening,/mdms-v2/schema/v1/_search,/mdms-v2/v2/_search,/mdms-v2/v1/_search,/boundary-service/boundary/_search"
   egov-mixed-mode-endpoints-whitelist: "/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tagso,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/access/v1/actions/mdms/_get,/egov-user-event/v1/events/_search,/boundary-service/boundary-relationships/_search"
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
   
 user-otp:
   image:
@@ -1123,9 +1097,6 @@ user-otp:
   memory_requests: 256Mi
   cpu_limits: 200m
   memory_limits: 368Mi
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 auth-proxy:
   heap: "-Xmx192m -Xms192m"
@@ -1146,10 +1117,10 @@ boundary-management:
     dbMigration:
       image:
         repository: "boundary-management-db"
-        tag: console-89278a5
+        tag: master-aa57e79
   image:
     repository: egovio/boundary-management
-    tag: console-89278a5
+    tag: master-aa57e79
   DEBUG: 'true'
   cpu_requests: 200m
   cpu_limits: 300m
@@ -1167,6 +1138,14 @@ boundary-management:
   central-instance-enabled: true
 
 worker-registry:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "worker-registry-db"
+        tag: customize-2.0-worker-registry-8fce267
+  image:
+    repository: egovio/worker-registry
+    tag: customize-2.0-worker-registry-8fce267
   central-instance-build: true
   central-instance-enabled: true
   central-instance-name: egov
@@ -1202,9 +1181,6 @@ egov-malware-detection:
   replicas: 2
 
 kibana:
-  nodeSelector:
-    architecture: amd64
-    kubernetes.io/arch: amd64
 
 
 ### Prometheus & Alertmanager >>>>>>>>>>>>>>>>>>>>
