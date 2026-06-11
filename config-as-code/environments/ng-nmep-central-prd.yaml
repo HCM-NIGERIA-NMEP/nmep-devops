@@ -1149,6 +1149,10 @@ boundary-management:
   image:
     repository: egovio/boundary-management
     tag: master-aa57e79
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
   DEBUG: 'true'
   cpu_requests: 200m
   cpu_limits: 300m
