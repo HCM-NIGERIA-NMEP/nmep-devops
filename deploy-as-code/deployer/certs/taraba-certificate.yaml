@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: taraba-central-hcm.digit.org-tls-certs
+  namespace: egov
+spec:
+  secretName: taraba-central-hcm.digit.org-tls-certs
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: taraba-central-hcm.digit.org
+  dnsNames:
+  - taraba-central-hcm.digit.org
