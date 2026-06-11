@@ -58,6 +58,8 @@ initContainers:
                   key: kwara-db-url
                   {{- else if eq .Values.namespace "taraba" }}
                   key: taraba-db-url
+                  {{- else if eq .Values.namespace "tarabauat" }}
+                  key: tarabauat-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -81,6 +83,8 @@ initContainers:
               value: "kwara"
               {{- else if eq .Values.namespace "taraba" }}
               value: "taraba"
+              {{- else if eq .Values.namespace "tarabauat" }}
+              value: "tarabauat"
               {{- else }}
               value: "public"
               {{- end }}
@@ -172,6 +176,8 @@ extraEnv:
               key: kwara-db-url
               {{- else if eq .Values.namespace "taraba" }}
               key: taraba-db-url
+              {{- else if eq .Values.namespace "tarabauat" }}
+              key: tarabauat-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -196,6 +202,8 @@ extraEnv:
               key: kwara-db-url
               {{- else if eq .Values.namespace "taraba" }}
               key: taraba-db-url
+              {{- else if eq .Values.namespace "tarabauat" }}
+              key: tarabauat-db-url
               {{- else }}
               key: db-url
               {{- end }}
