@@ -95,6 +95,7 @@ transformer:
   transformer-consumer-create-user-action-topic: "tarabauat-save-user-action-project-task-topic"
   transformer-consumer-update-user-action-topic: "tarabauat-update-user-action-project-task-topic"
   transformer-producer-user-action-index-v1-topic: "tarabauat-transformer-producer-user-action-index-v1-topic"
+  project-factory-host: tarabauat-project-factory
 
 excel-ingestion:
   initContainers:

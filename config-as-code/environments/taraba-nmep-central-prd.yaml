@@ -95,6 +95,7 @@ transformer:
   transformer-consumer-create-user-action-topic: "taraba-save-user-action-project-task-topic"
   transformer-consumer-update-user-action-topic: "taraba-update-user-action-project-task-topic"
   transformer-producer-user-action-index-v1-topic: "taraba-transformer-producer-user-action-index-v1-topic"
+  project-factory-host: taraba-project-factory
 
 excel-ingestion:
   initContainers:
