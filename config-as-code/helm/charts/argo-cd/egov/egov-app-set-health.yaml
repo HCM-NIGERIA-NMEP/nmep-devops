@@ -22,6 +22,7 @@ spec:
           - name: health-notification-service
           - name: egov-notification-push
           - name: worker-registry
+          - name: project-factory
 
   template:
     metadata:

@@ -11,6 +11,8 @@ ingress:
     enabled: true
     zuul: true
     context: "project-factory"
+    additionalAnnotations: |
+      nginx.ingress.kubernetes.io/proxy-body-size: 5m
 
 # Init Containers Configs
 initContainers:
@@ -24,7 +26,7 @@ initContainers:
 image:
     repository: "project-factory"
 replicas: "3"
-maxResourceCreationAttempts: "100"
+maxResourceCreationAttempts: "200"
 # Additional Container Envs
 env: |
     - name: KAFKA_BROKER_HOST
@@ -138,7 +140,7 @@ env: |
     - name: EGOV_MDMS_V2_UPDATE_ENDPOINT
       value: {{ .Values.mdmsV2UpdateEndpoint | default "mdms-v2/v2/_update" }}
     - name: EGOV_MDMS_V1_SEARCH_ENDPOINT
-      value: {{ .Values.mdmsV1SearchEndpoint | default "mdms-v2/v1/_search" }}
+      value: {{ .Values.mdmsV1SearchEndpoint | default "mdms-v2/v1/_search" | quote }}
     - name: EGOV_IDGEN_PATH
       value: egov-idgen/id/_generate
     - name: EGOV_MDMS_SCHEMA_PATH
@@ -260,8 +262,6 @@ env: |
           key: password   
     - name: DB_PORT
       value: "5432"
-    - name: DB_SSL
-      value: "true"
     - name: DB_SCHEMA
       value: {{ index .Values "DB_SCHEMA" | quote }}
     - name: BOUNDARY_MAIN_SHEET_NAME
@@ -277,7 +277,7 @@ env: |
     - name: USER_TAB_NAME
       value: "HCM_ADMIN_CONSOLE_USER_LIST"
     - name: LOCALE
-      value: {{ .Values.defaultLocale | default "en_MZ" }}
+      value: {{ .Values.defaultLocale | default "en_NG" }}
     - name: MODULE_NAME
       value: "HCM-ADMIN-CONSOLE"
     - name: FORM_CONFIG_TEMPLATE_NAME
@@ -315,7 +315,10 @@ env: |
     - name: REDIS_PORT
       value: "6379"
     - name: REDIS_HOST
-      value: "redis.backbone"
+      valueFrom:
+        configMapKeyRef:
+          name: egov-config
+          key: redis-host
     - name: AUTO_RETRY_IF_HTTP_ERROR
       value: "socket hang up"
     - name: ENABLE_DYNAMIC_TEMPLATE_FOR
@@ -449,13 +452,17 @@ env: |
     - name: SERVER_TIMEZONE
       value: {{ .Values.serverTimezone | default "UTC" }}
     - name: KAFKA_CONSUMER_TOPIC_PREFIX
-      value: {{ .Values.tenantIdPattern | default "" | quote }}
+      valueFrom:
+        configMapKeyRef:
+          name: egov-config
+          key: kafka-tenant-id-pattern
+    - name: KAFKA_CONSUMER_GROUP_ID_PREFIX
     - name: BOUNDARY_CODE_HEADER_NAME
       value: {{ .Values.boundaryCodeHeaderName | default "HCM_ADMIN_CONSOLE_BOUNDARY_CODE" }}
     - name: BOUNDARY_CODE_HEADER_NAME_FACILITY_MICROPLAN
       value: {{ .Values.boundaryCodeHeaderNameFacilityMicroplan | default "HCM_ADMIN_CONSOLE_RESIDING_BOUNDARY_CODE_MICROPLAN" }}
     - name: PHONE_NUMBER_LENGTH
-      value: {{ .Values.phoneNumberLength | default "10" | quote }}
+      value: {{ .Values.phoneNumberLength | default "11" | quote }}
     - name: HRMS_PARALLEL_SEARCH_LIMIT
       value: {{ .Values.hrmsParallelSearchLimit | default "100" | quote }}
     - name: APP_PORT
@@ -480,3 +487,17 @@ env: |
       value: {{ .Values.kafkaConsumerMaxBytesPerPartition | default "5242880" | quote }}
     - name: KAFKA_PRODUCER_COMPRESSION_ENABLED
       value: {{ .Values.kafkaProducerCompressionEnabled | default "true" | quote }}
+    - name: DB_SSL
+      value: {{ .Values.dbSsl | default "true" | quote }}
+    - name: CENTRAL_INSTANCE_TENANT_IDS
+      value: {{ .Values.centralInstanceTenantIds | default "" }}
+    - name: EXCEL_INGESTION_PERSISTENCE_STALL_TIMEOUT_MS
+      value: "600000"
+    - name: USER_KAFKA_CREATE_BATCH_SIZE
+      value: "3"
+    - name: USER_CREATION_BATCH_SIZE
+      value: "3"
+    - name: USER_PERSIST_BATCH_SIZE
+      value: "3"
+    - name: PROJECT_CREATION_BATCH_SIZE
+      value: "40"
