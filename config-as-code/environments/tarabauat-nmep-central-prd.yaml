@@ -131,6 +131,90 @@ excel-ingestion:
   excel-ingestion-processing-result-topic: "tarabauat-hcm-processing-result"
   java-enable-debug: true
 
+project-factory:
+  initContainers:
+    dbMigration:
+      image:
+        repository: "project-factory-db"
+        tag: nigeria-go-deep-2-0f1e09e
+  image:
+    repository: egovio/project-factory
+    tag: nigeria-go-deep-2-0f1e09e
+  central-instance-enabled: false
+  central-instance-build: true
+  namespace: tarabauat
+  heap: "-Xmx2048m -Xms512m"
+  replicas: 2
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+  cpu_requests: 300m
+  memory_requests: 1Gi
+  cpu_limits: 1000m
+  memory_limits: 2.5Gi
+  groupId: "tarabauat-project-factory"
+  ingress:
+    name: tarabauat-project-factory
+    namespace: egov
+  logLevel: 'debug'
+  maxDebugChar: '2000'
+  mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
+  mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
+  defaultLocale: "en_NG"
+  plan-service: tarabauat-plan-service
+  census-service: tarabauat-census-service
+  excel-ingestion-host: tarabauat-excel-ingestion
+  IS_ENVIRONMENT_CENTRAL_INSTANCE: false
+  DB_SCHEMA: tarabauat
+  defaultTenantId: tarabauat
+  saveCampaignDetails: "tarabauat-save-campaign-details"
+  updateCampaignDetails: "tarabauat-update-campaign-details"
+  saveProjectCampaignDetailsTopic: "tarabauat-save-project-campaign-details"
+  updateProjectCampaignDetailsTopic: "tarabauat-update-project-campaign-details"
+  startCampaignMappingTopic: "tarabauat-start-campaign-mapping"
+  createResourceDetailsTopic: "tarabauat-create-resource-details"
+  updateResourceDetailsTopic: "tarabauat-update-resource-details"
+  createResourceActivityTopic: "tarabauat-create-resource-activity"
+  updateGeneratedResourceDetailsTopic: "tarabauat-update-generated-resource-details"
+  createGeneratedResourceDetailsTopic: "tarabauat-create-generated-resource-details"
+  savePlanFacilityTopic: "tarabauat-project-factory-save-plan-facility"
+  saveSheetDataTopic: "tarabauat-save-sheet-data"
+  updateSheetDataTopic: "tarabauat-update-sheet-data"
+  saveMappingDataTopic: "tarabauat-save-mapping-data"
+  updateMappingDataTopic: "tarabauat-update-mapping-data"
+  deleteMappingDataTopic: "tarabauat-delete-mapping-data"
+  saveProcessDataTopic: "tarabauat-save-process-data"
+  updateProcessDataTopic: "tarabauat-update-process-data"
+  startAdminConsoleTaskTopic: "tarabauat-start-admin-console-task"
+  startAdminConsoleMappingTaskTopic: "tarabauat-start-admin-console-mapping-task"
+  notificationEmailTopic: "egov.core.notification.email"
+  testTopic: "tarabauat-test-topic-project-factory"
+  hcmProcessingResultTopic: "tarabauat-hcm-processing-result"
+  facilityCreateBatchTopic: "tarabauat-hcm-facility-create-batch"
+  userCreateBatchTopic: "tarabauat-hcm-user-create-batch"
+  mappingBatchTopic: "tarabauat-hcm-mapping-batch"
+  campaignMarkFailedTopic: "tarabauat-hcm-campaign-mark-failed"
+  userMainBoundary: "MICROPLAN_MO"
+  userMainBoundaryType: "COUNTRY"
+  maxResourceCreationAttempts: "50"
+  waitTimeOfEachAttemptMs: "20000"
+  retryTillResourceCreationCompletes: "5"
+  serverTimezone: "UTC"
+  attendanceAttendeeSearchPageSize: "100"
+  attendanceStaffSearchPageSize: "100"
+  command: |
+    - sh
+    - -c
+  args: |
+    - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
+      sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
+      yarn prod
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
+
 digit-ui:
   namespace: tarabauat
   image:
