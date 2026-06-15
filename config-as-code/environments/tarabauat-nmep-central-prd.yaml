@@ -142,7 +142,7 @@ project-factory:
     repository: egovio/project-factory
     tag: nigeria-go-deep-2-0f1e09e
   central-instance-enabled: false
-  central-instance-build: false
+  central-instance-build: true
   namespace: tarabauat
   heap: "-Xmx2048m -Xms512m"
   replicas: 3
@@ -204,12 +204,12 @@ project-factory:
   serverTimezone: "UTC"
   attendanceAttendeeSearchPageSize: "100"
   attendanceStaffSearchPageSize: "100"
-  centralInstanceTenantIds: ""
   command: |
     - sh
     - -c
   args: |
     - |
+      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
   nodeSelector:
