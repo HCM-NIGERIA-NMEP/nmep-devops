@@ -196,7 +196,7 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nnigeria-go-deep-2-ee76944
+        tag: nigeria-go-deep-2-ee76944
   image:
     repository: egovio/excel-ingestion
     tag: nigeria-go-deep-2-ee76944

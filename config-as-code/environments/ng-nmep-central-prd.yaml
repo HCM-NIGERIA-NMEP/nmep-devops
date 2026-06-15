@@ -1245,9 +1245,9 @@ user-otp:
     minReplicas: 2
     maxReplicas: 5
   cpu_requests: 100m
-  memory_requests: 256Mi
+  memory_requests: 512Mi
   cpu_limits: 200m
-  memory_limits: 368Mi
+  memory_limits: 768Mi
   nodeSelector:
     architecture: amd64
     kubernetes.io/arch: amd64
@@ -1332,9 +1332,9 @@ egov-malware-detection:
   namespace: egov
   heap: "-Xmx512m -Xms512m"
   cpu_requests: 100m
-  memory_requests: 256Mi
+  memory_requests: 768Mi
   cpu_limits: 500m
-  memory_limits: 768Mi
+  memory_limits: 1.5Gi
   mail-alert-recipients: "kumar.akash@equidhi.org"
   replicas: 2
 
