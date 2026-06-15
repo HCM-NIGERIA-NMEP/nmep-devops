@@ -144,7 +144,7 @@ project-factory:
   central-instance-build: true
   namespace: tarabauat
   heap: "-Xmx2048m -Xms512m"
-  replicas: 2
+  replicas: 0
   hpa:
     enabled: true
     minReplicas: 2

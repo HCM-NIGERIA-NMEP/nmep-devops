@@ -124,7 +124,7 @@ project-factory:
   central-instance-build: true
   namespace: kwara
   heap: "-Xmx768m -Xms512m"
-  replicas: 2
+  replicas: 0
   hpa:
     enabled: true
     minReplicas: 2
