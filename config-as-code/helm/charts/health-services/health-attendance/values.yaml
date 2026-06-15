@@ -58,7 +58,7 @@ env: |
   - name: JAVA_ARGS
     value: {{ index .Values "java-args" | quote }}
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
-    value: {{ index .Values "spring-kafka-consumer-group-id" | quote }}
+    value: {{ index .Values "spring-kafka-consumer-group-id" | default "egov-attendance-service" | quote }}
   - name: SERVER_CONTEXT_PATH
     value: /attendance
   - name: SERVER_SERVLET_CONTEXT-PATH
