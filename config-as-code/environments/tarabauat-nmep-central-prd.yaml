@@ -119,7 +119,7 @@ excel-ingestion:
   defaultLocale: 'en_NG'
   excel-row-limit: "20000"
   central-instance-name: egov
-  central-instance-build: true
+  central-instance-build: false
   central-instance-enabled: false
   project-factory-host: tarabauat-project-factory
   excel-ingestion-generation-save-topic: "tarabauat-save-generated-file"
@@ -141,7 +141,7 @@ project-factory:
     repository: egovio/project-factory
     tag: nigeria-go-deep-2-0f1e09e
   central-instance-enabled: false
-  central-instance-build: true
+  central-instance-build: false
   namespace: tarabauat
   heap: "-Xmx2048m -Xms512m"
   replicas: 0
