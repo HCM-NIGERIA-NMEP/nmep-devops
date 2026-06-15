@@ -100,7 +100,6 @@ transformer:
 excel-ingestion:
   initContainers:
     dbMigration:
-      schemaTable: "tarabauat"
       image:
         repository: "excel-ingestion-db"
         tag: nigeria-go-deep-2-ee76944
@@ -120,11 +119,12 @@ excel-ingestion:
   defaultLocale: 'en_NG'
   excel-row-limit: "20000"
   central-instance-name: egov
-  central-instance-build: false
+  central-instance-build: true
   central-instance-enabled: false
   project-factory-host: tarabauat-project-factory
   excel-ingestion-generation-save-topic: "tarabauat-save-generated-file"
   excel-ingestion-generation-update-topic: "tarabauat-update-generated-file"
+  excel-ingestion-generation-init-topic: "tarabauat-excel-ingestion-generation-init"
   excel-ingestion-processing-save-topic: "tarabauat-save-processing-file"
   excel-ingestion-processing-update-topic: "tarabauat-update-processing-file"
   excel-ingestion-sheet-data-save-topic: "tarabauat-save-sheet-data-temp"
@@ -135,7 +135,6 @@ excel-ingestion:
 project-factory:
   initContainers:
     dbMigration:
-      schemaTable: "tarabauat"
       image:
         repository: "project-factory-db"
         tag: nigeria-go-deep-2-0f1e09e
@@ -146,7 +145,7 @@ project-factory:
   central-instance-build: false
   namespace: tarabauat
   heap: "-Xmx2048m -Xms512m"
-  replicas: 0
+  replicas: 3
   hpa:
     enabled: true
     minReplicas: 2
@@ -205,12 +204,12 @@ project-factory:
   serverTimezone: "UTC"
   attendanceAttendeeSearchPageSize: "100"
   attendanceStaffSearchPageSize: "100"
+  centralInstanceTenantIds: ""
   command: |
     - sh
     - -c
   args: |
     - |
-      sed -i "s/const groupId = 'project-factory'/const groupId = process.env.KAFKAJS_GROUP_ID || 'project-factory'/g" src/server/kafka/Listener.ts
       sed -i 's/--max-old-space-size=3072/--max-old-space-size=2048/g' package.json
       yarn prod
   nodeSelector:
