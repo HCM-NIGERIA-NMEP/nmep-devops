@@ -8,7 +8,6 @@ spec:
     - list:
         elements:
           - name: transformer
-          - name: excel-ingestion
 
   template:
     metadata:

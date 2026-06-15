@@ -23,6 +23,7 @@ spec:
           - name: egov-notification-push
           - name: worker-registry
           - name: project-factory
+          - name: excel-ingestion
 
   template:
     metadata:
