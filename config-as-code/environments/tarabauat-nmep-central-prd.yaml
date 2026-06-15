@@ -102,10 +102,10 @@ excel-ingestion:
     dbMigration:
       image:
         repository: "excel-ingestion-db"
-        tag: nigeria-go-deep-2-65af66b
+        tag: nigeria-go-deep-2-97ed978
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-65af66b
+    tag: nigeria-go-deep-2-97ed978
   namespace: tarabauat
   ingress:
     name: tarabauat-excel-ingestion
