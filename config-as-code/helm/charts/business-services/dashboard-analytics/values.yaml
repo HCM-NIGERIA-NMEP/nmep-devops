@@ -26,7 +26,9 @@ healthChecks:
   readinessProbePath: "/dashboard-analytics/health"
 tracing-enabled: true
 config-schema-paths: "file:///work-dir/configs/egov-dss-dashboards/dashboard-analytics/*.json"
-
+is-central-instance: "false"
+central-instance-tenants: "taraba"
+central-instance-base-path: "file:///work-dir/configs/egov-dss-dashboards"
 # Additional Container Envs
 env: |      
   - name: SERVER_SERVLET_CONTEXT_PATH
@@ -91,3 +93,9 @@ env: |
     value: {{ index .Values "java-enable-debug" | quote }}
   - name: CACHE_EXPIRY_TIME_IN_MINUTES
     value: "1"
+  - name: IS_CENTRAL_INSTANCE
+    value: {{ index .Values "is-central-instance" | quote }}
+  - name: CENTRAL_INSTANCE_TENANTS
+    value: {{ index .Values "central-instance-tenants" | quote }}
+  - name: CENTRAL_INSTANCE_BASE_PATH
+    value: {{ index .Values "central-instance-base-path" | quote }}

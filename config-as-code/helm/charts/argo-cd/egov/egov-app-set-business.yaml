@@ -8,6 +8,7 @@ spec:
     - list:
         elements:
           - name: egov-hrms
+          - name: dashboard-analytics
 
   template:
     metadata:
