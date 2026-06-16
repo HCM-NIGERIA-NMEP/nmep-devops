@@ -96,7 +96,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: egov-enc-service-kaduna
+        key: egov-enc-service
   - name: STATE_LEVEL_TENANT_ID
     value: "ng"
   - name: KAFKA_TOPIC_AUDIT
