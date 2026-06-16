@@ -1124,24 +1124,28 @@ health-attendance:
   egov-muster-roll-search-endpoint: "health-muster-roll/v1/_search"
 
 pdf-service:
-  heap: "-Xmx192m -Xms192m"
-  hpa:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-  cpu_requests: 100m
-  memory_requests: 256Mi
-  cpu_limits: 200m
-  memory_limits: 368Mi
+  namespace: egov
   image:
     repository: egovio/pdf-service
     tag: central-instance-pdf-2aad92c
   initContainers:
     gitSync:
-      repo: "git@github.com:HCM-KEBBI/health-campaign-config"    
-      branch: "CENTRAL-UAT"   
-  data-config-urls: "file:///work-dir/health-campaign-config/pdf-service/data-config/health-bill-payment-ke.json,file:///work-dir/health-campaign-config/pdf-service/data-config/health-bill-payment-ba.json"
-  format-config-urls: "file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment-ke.json,file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment-ba.json"
+      image:
+        repository: registry.k8s.io/git-sync/git-sync
+        tag: v4.2.1
+      repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"
+      branch: "NMEP-CENTRAL-PRD"
+  data-config-urls: "file:///work-dir/health-campaign-config/pdf-service/data-config/health-bill-payment.json"
+  format-config-urls: "file:///work-dir/health-campaign-config/pdf-service/format-config/health-bill-payment.json"
+  heap: "-Xmx512m -Xms256m"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+  cpu_requests: 200m
+  memory_requests: 512Mi
+  cpu_limits: 300m
+  memory_limits: 768Mi
 
 beneficiary-idgen:
   initContainers:
@@ -1337,6 +1341,36 @@ egov-malware-detection:
   memory_limits: 1.5Gi
   mail-alert-recipients: "kumar.akash@equidhi.org"
   replicas: 2
+
+inbox:
+  namespace: egov
+  image:
+    repository: egovio/inbox
+    tag: v1.4.0-bd52511479-19
+  replicas: 1
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 200m
+  memory_requests: 512Mi
+  cpu_limits: 300m
+  memory_limits: 768Mi
+  healthChecks:
+    enabled: true
+    livenessProbePath: "/inbox/health"
+    readinessProbePath: "/inbox/health"
+  heap: "-Xmx368m -Xms256m"
+  tracing-enabled: true
+  service-map: '{}'
+  bs-service-map: '{}'
+  dashboard-analytics-host: "dashboard-analytics"
+  egov-internal-microservice-user-uuid: "egov-internal-microservice-user-uuid"
+  central-instance-build: true
+  central-instance-enabled: true
+  nodeSelector:
+    architecture: amd64
+    kubernetes.io/arch: amd64
 
 kibana:
 

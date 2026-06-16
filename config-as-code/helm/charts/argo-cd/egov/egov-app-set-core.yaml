@@ -29,6 +29,8 @@ spec:
           - name: user-otp
           - name: internal-gateway-scg
           - name: egov-malware-detection
+          - name: inbox
+          - name: pdf-service
 
   template:
     metadata:
