@@ -81,6 +81,22 @@ env: |
     value: "/egov-enc-service/crypto/v1/_encrypt"
   - name: EGOV_ENC_DECRYPT_ENDPOINT
     value: "/egov-enc-service/crypto/v1/_decrypt"
+  - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
+    value: "ng"
+  - name: tenant.state.level.tenant.id.mappings.kd
+    value: "kd"
+  - name: egov.enc.tenant.host.kd
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-enc-service
+  - name: TENANT_STATE_LEVEL_TENANT_ID_MAPPINGS_kd
+    value: kd 
+  - name: EGOV_ENC_TENANT_HOST_kd
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-enc-service-kaduna
   - name: STATE_LEVEL_TENANT_ID
     value: "ng"
   - name: KAFKA_TOPIC_AUDIT
@@ -111,8 +127,6 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: kafka-tenant-id-pattern
-  - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
-    value: "ng"
   - name: OTEL_TRACES_EXPORTER
     value: none
   - name: OTEL_METRICS_EXPORTER
