@@ -82,7 +82,7 @@ env: |
   - name: EGOV_ENC_DECRYPT_ENDPOINT
     value: "/egov-enc-service/crypto/v1/_decrypt"
   - name: STATE_LEVEL_TENANT_ID
-    value: "ba"
+    value: "ng"
   - name: KAFKA_TOPIC_AUDIT
     value: "audit-logs"
   - name: EGOV_MDMS_HOST
@@ -113,3 +113,9 @@ env: |
         key: kafka-tenant-id-pattern
   - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
     value: "ng"
+  - name: OTEL_TRACES_EXPORTER
+    value: none
+  - name: OTEL_METRICS_EXPORTER
+    value: none
+  - name: OTEL_LOGS_EXPORTER
+    value: none
