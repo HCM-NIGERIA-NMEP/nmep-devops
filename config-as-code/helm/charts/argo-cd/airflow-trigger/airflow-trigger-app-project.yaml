@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: airflow-trigger-project
+  namespace: argocd
+spec:
+  sourceRepos:
+    - git@github.com:HCM-NIGERIA-NMEP/nmep-devops.git
+
+  destinations:
+    - namespace: 'egov'
+      server: https://kubernetes.default.svc
+    - namespace: 'backbone'
+      server: https://kubernetes.default.svc

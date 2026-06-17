@@ -1,8 +1,8 @@
 global:
   hosts:
-    - mc-nigeria-uat.digit.org
-    - bauchi-hcm-uat.digit.org
-    - kebbi-hcm-uat.digit.org
+    - nmep-nigeria-hcm.digit.org
+    - taraba-central-hcm.digit.org
+    - tarabauat-central-hcm.digit.org
 
 disableAnnotationTimestamp: true
 
