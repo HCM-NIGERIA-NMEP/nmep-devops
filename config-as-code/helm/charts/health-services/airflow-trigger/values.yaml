@@ -63,8 +63,6 @@ healthChecks:
   enabled: true
   livenessProbePath: "/health"
   readinessProbePath: "/health"
-imagePullSecrets: |
-  - name: docker-registry-secret
 #appType: "java-spring"
 #tracing-enabled: true
 #heap: "-Xmx192m -Xms192m"
