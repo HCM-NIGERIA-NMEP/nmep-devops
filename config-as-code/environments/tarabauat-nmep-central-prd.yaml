@@ -15,9 +15,9 @@ transformer:
     tag: HDDF-5226-7abda19
   namespace: "tarabauat"
   heap: "-Xmx1536m -Xms1536m"
-  replicas: 0
+  replicas: 2
   hpa:
-    enabled: false
+    enabled: true
     minReplicas: 2
     maxReplicas: 5
   cpu_requests: 300m
