@@ -358,6 +358,7 @@ egov-user:
     tag: central-instance-switch-device-changes-7eec928
   central-instance-build: true
   central-instance-enabled: true
+  schema: "ng,taraba,tarbauat,osun,kwara"
   heap: "-Xmx1024m -Xms512m"
   ingress:
     replenishRate: "10"
