@@ -57,7 +57,7 @@ httpPort: 8000
 # Container Configs
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
-  tag: "central3"
+  tag: "central4"
 replicas: "1"
 healthChecks:
   enabled: true
