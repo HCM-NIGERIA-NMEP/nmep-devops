@@ -24,7 +24,7 @@ ingress:
 initContainers:
   extraInitContainers: |
     - name: run-migration
-      image: bhanuprakashmegov/airflow-custom-trigger:central3
+      image: bhanuprakashmegov/airflow-custom-trigger:central4
       command: [ "python", "migrate.py" ]
       env:
         - name: DB_HOST
