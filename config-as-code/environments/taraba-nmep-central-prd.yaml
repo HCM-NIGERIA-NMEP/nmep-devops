@@ -12,7 +12,7 @@ disableAnnotationTimestamp: true
 transformer:
   image:
     repository: egovio/transformer
-    tag: HDDF-5226-5f0424b
+    tag: HDDF-5226-7abda19
   namespace: "taraba"
   heap: "-Xmx1536m -Xms1536m"
   replicas: 2
