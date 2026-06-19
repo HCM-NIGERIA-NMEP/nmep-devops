@@ -46,7 +46,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:703097865444:cluster/ng-nmep-central-prd"
         egov-state-level-tenant-id: "ng"
         state-level-tenant-id: "ng"
-        kafka-tenant-id-pattern: "osun-|kwara-|taraba-|tarabauat-"
+        kafka-tenant-id-pattern: "(osun|kwara|taraba|tarabauat)-"
         s3-assets-bucket: "(nmep-central-instance-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
