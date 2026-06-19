@@ -13,9 +13,6 @@ metadata:
 {{- end }}
 {{- if .Values.ingress.zuul }} 
     zuul/route-path: {{ .Values.ingress.rewritePath | default .Values.ingress.context }}
-    gateway-keyResolver: {{ .Values.ingress.keyResolver | default "@ipKeyResolver" | quote }}
-    gateway-replenishRate: {{ .Values.ingress.replenishRate | default "10" | quote }}
-    gateway-burstCapacity: {{ .Values.ingress.burstCapacity | default "20" | quote }}
 {{- end }}
 {{- if and .Values.service .Values.service.additionalAnnotations}}                                   
   {{- tpl  .Values.service.additionalAnnotations . | nindent 4 }}
