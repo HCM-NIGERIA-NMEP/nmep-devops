@@ -37,6 +37,8 @@ cluster-configs:
         os-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=os"
         dev-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=dev"
         kw-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=kw"
+        taraba-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=taraba"
+        tarabauat-db-url: "jdbc:postgresql://ng-upgrade-uat-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngupgradeuat?currentSchema=tarabauat"
         domain: "mc-nigeria-uat.digit.org" ## Add your Domain Name
         redis-host: "redis.backbone"
         redis-downsync-host: ""
@@ -49,7 +51,7 @@ cluster-configs:
         aws-cluster-name: "arn:aws:eks:af-south-1:022499048165:cluster/ng-upgrade-uat"
         egov-state-level-tenant-id: "ba"
         state-level-tenant-id: "ba"
-        kafka-tenant-id-pattern: "ba-|si-|os-|dev-|kw-"
+        kafka-tenant-id-pattern: "(ba|si|os|dev|kw|taraba|tarabauat)-"
         s3-assets-bucket: "(central-instance-uat-assets)"
         es-host: "elasticsearch-data.es-cluster-v8"
         es-indexer-host: "https://elasticsearch-data.es-cluster-v8:9200/"
