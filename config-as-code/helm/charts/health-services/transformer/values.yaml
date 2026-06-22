@@ -437,7 +437,9 @@ env: |
   - name: EGOV_LOCALIZATION_MODULE_NAME
     value: {{ index .Values "egov-localization-module-name" | quote }}
   - name: EGOV_PROJECT_FACTORY_HOST
-    value: http://project-factory.egov:8080/
+    configMapKeyRef:
+        name: egov-service-host
+        key: {{ index .Values "project-factory-host" | quote }}
   - name: EGOV_PROJECT_FACTORY_SEARCH_ENDPOINT
     value: "project-factory/v1/project-type/search"
   - name: SPRING_REDIS_HOST
