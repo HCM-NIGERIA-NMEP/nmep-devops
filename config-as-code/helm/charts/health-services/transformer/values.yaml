@@ -437,9 +437,10 @@ env: |
   - name: EGOV_LOCALIZATION_MODULE_NAME
     value: {{ index .Values "egov-localization-module-name" | quote }}
   - name: EGOV_PROJECT_FACTORY_HOST
-    configMapKeyRef:
+    valueFrom:
+      configMapKeyRef:
         name: egov-service-host
-        key: {{ index .Values "project-factory-host" | quote }}
+        key: {{ index .Values "project-factory-host" | default "project-factory" | quote }}
   - name: EGOV_PROJECT_FACTORY_SEARCH_ENDPOINT
     value: "project-factory/v1/project-type/search"
   - name: SPRING_REDIS_HOST
