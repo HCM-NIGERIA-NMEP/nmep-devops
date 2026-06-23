@@ -49,7 +49,7 @@ module "db" {
   vpc_security_group_ids        = ["${module.network.rds_db_sg_id}"]
   availability_zone             = "${element(var.availability_zones, 0)}"
   instance_class                = "db.m6g.large"  ## postgres db instance type
-  engine_version                = "15.12"   ## postgres version
+  engine_version                = "15.17"   ## postgres version
   storage_type                  = "gp3"
   storage_gb                    = "250" 
   backup_retention_days         = "7"
@@ -397,6 +397,94 @@ resource "helm_release" "karpenter" {
   ]
 }
 
+resource "kubectl_manifest" "karpenter_node_class" {
+  count = var.enable_karpenter ? 1 : 0
+  yaml_body = <<-YAML
+    apiVersion: karpenter.k8s.aws/v1
+    kind: EC2NodeClass
+    metadata:
+      name: default
+    spec:
+      amiFamily: AL2023
+      amiSelectorTerms:
+      - id: ami-0455db9e579052e57
+      role: ${module.eks_managed_node_group.iam_role_name}
+      subnetSelectorTerms:
+        - tags:
+            karpenter.sh/discovery: ${module.eks.cluster_name}
+      securityGroupSelectorTerms:
+        - tags:
+            karpenter.sh/discovery: ${module.eks.cluster_name}
+      blockDeviceMappings:
+        - deviceName: /dev/xvda
+          ebs:
+            volumeSize: 50Gi
+            volumeType: gp3
+            deleteOnTermination: true
+      tags:
+        KubernetesCluster: ${var.cluster_name}
+        karpenter.sh/discovery: ${module.eks.cluster_name}
+  YAML
+
+  depends_on = [
+    helm_release.karpenter
+  ]
+}
+
+resource "kubectl_manifest" "karpenter_node_pool" {
+  count = var.enable_karpenter ? 1 : 0
+  yaml_body = <<-YAML
+    apiVersion: karpenter.sh/v1
+    kind: NodePool
+    metadata:
+      name: default
+    spec:
+      weight: 10
+      template:
+        metadata:
+          labels:
+            architecture: amd64
+            kubernetes.io/arch: amd64
+        spec:
+          nodeClassRef:
+            name: default
+            group: karpenter.k8s.aws  # Updated since only a single version will be served
+            kind: EC2NodeClass
+          requirements:
+            - key: "karpenter.k8s.aws/instance-category"
+              operator: In
+              values: ["r"]
+            - key: "karpenter.k8s.aws/instance-cpu"
+              operator: In
+              values: ["4"]
+            - key: "karpenter.k8s.aws/instance-family"
+              operator: In
+              values: ["r6i"]
+            - key: "node.kubernetes.io/instance-type"
+              operator: In
+              values: ["r6i.xlarge"]
+            - key: "kubernetes.io/arch"
+              operator: In
+              values: ["amd64"]
+            - key: "karpenter.sh/capacity-type"
+              operator: In
+              values: ["on-demand"]
+            - key: "topology.kubernetes.io/zone"
+              operator: In
+              values: ["af-south-1b"]              
+      disruption:
+        consolidationPolicy: WhenEmpty
+        consolidateAfter: 1m
+        budgets:
+        - nodes: "1"
+          reasons: 
+          - "Empty"
+          - "Drifted"
+  YAML
+  depends_on = [
+    kubectl_manifest.karpenter_node_class
+  ]
+}
 
 resource "kubectl_manifest" "karpenter_arm64_node_class" {
   count = var.enable_karpenter ? 1 : 0
@@ -434,6 +522,7 @@ resource "kubectl_manifest" "karpenter_arm64_node_pool" {
     metadata:
       name: arm64-node-pool
     spec:
+      weight: 100
       template:
         metadata:
           labels:
