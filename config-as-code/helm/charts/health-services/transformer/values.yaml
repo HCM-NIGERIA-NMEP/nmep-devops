@@ -443,7 +443,10 @@ env: |
   - name: EGOV_PROJECT_FACTORY_SEARCH_ENDPOINT
     value: "project-factory/v1/project-type/search"
   - name: SPRING_REDIS_HOST
-    value: redis.backbone
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: redis-host
   - name: SPRING_REDIS_PORT
     value: "6379"
   - name: SPRING_CACHE_TYPE

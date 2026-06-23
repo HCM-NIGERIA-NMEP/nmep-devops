@@ -35,8 +35,8 @@ cluster-configs:
         taraba-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=taraba"
         tarabauat-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=tarabauat"
         domain: "nmep-nigeria-hcm.digit.org" ## Add your Domain Name
-        redis-host: "redis.backbone"
-        redis-downsync-host: ""
+        redis-host: "ng-nmep-central-prd-redis.3juz87.ng.0001.afs1.cache.amazonaws.com"
+        redis-downsync-host: "ng-nmep-central-prd-redis.3juz87.ng.0001.afs1.cache.amazonaws.com"
         egov-services-fqdn-name: "https://nmep-nigeria-hcm.digit.org/" ## Add your Domain Name
         state-level-tenantid-length: "1"
         state-schema-index-position-tenantid: "0"
