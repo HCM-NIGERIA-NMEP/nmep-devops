@@ -1047,10 +1047,10 @@ referralmanagement:
     dbMigration:
       image:
         repository: "referralmanagement-db"
-        tag: master-impel-ref-3a4457a
+        tag: nigeria-go-deep-2-matView-a3d8c3d
   image:
     repository: egovio/referralmanagement
-    tag: master-impel-ref-3a4457a
+    tag: nigeria-go-deep-2-matView-a3d8c3d
   downsync-services-enabled: true
   central-instance-build: true
   central-instance-enabled: true
