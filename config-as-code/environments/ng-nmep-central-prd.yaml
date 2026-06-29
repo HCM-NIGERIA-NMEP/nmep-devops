@@ -204,6 +204,7 @@ egov-idgen:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  spring-datasource-tomcat-max-active: "10"
 
 mdms-v2:
   initContainers:
@@ -228,6 +229,7 @@ mdms-v2:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  spring-datasource-tomcat-max-active: "10"
 
 health-notification-service:
   initContainers:
@@ -324,6 +326,7 @@ egov-enc-service:
   memory_requests: 384Mi
   cpu_limits: 300m
   memory_limits: 768Gi
+  spring-datasource-tomcat-max-active: "10"
 
 boundary-service:
   # internal-routing: "true"
@@ -345,6 +348,7 @@ boundary-service:
   memory_requests: 2Gi
   cpu_limits: 300m
   memory_limits: 2.5Gi
+  spring-datasource-tomcat-max-active: "10"
       
 
 egov-user:
@@ -383,6 +387,7 @@ egov-user:
   citizen-otp-fixed-enabled: "true"
   egov-state-level-tenant-id: "ng"
   decryption-abac-enabled: "false"
+  spring-datasource-tomcat-max-active: "10"
 
 audit-service:
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/osun/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/household-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/osun/project-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/egov-workflow-v2-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/facility-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/hcm-moz-impl-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/household-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/hrms-employee-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/individual-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/stock-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/service-request-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/project-task-persister.yml,/work-dir/health-campaign-config/egov-persister/kwara/project-persister.yml"
@@ -644,6 +649,7 @@ egov-hrms:
   java-args: -Dspring.profiles.active=monitoring
   employee-applink: "https://nmep-nigeria-hcm.digit.org/digit-ui/employee/login"
   java-enable-debug: true
+  spring-datasource-tomcat-max-active: "10"
 
 egov-otp:
   initContainers:
@@ -859,6 +865,7 @@ individual:
   memory_requests: 1Gi
   cpu_limits: 400m
   memory_limits: 1.5Gi
+  spring-datasource-tomcat-max-active: "10"
 
 stock:
   initContainers:
@@ -928,10 +935,10 @@ project-factory:
     dbMigration:
       image:
         repository: "project-factory-db"
-        tag: nigeria-go-deep-2-ddb23b0
+        tag: master-nigeria-finalpull-projectFactory-codeRabbit-80aa58e
   image:
     repository: egovio/project-factory
-    tag: nigeria-go-deep-2-ddb23b0
+    tag: master-nigeria-finalpull-projectFactory-codeRabbit-80aa58e
   central-instance-enabled: false
   central-instance-build: true
   schemaNameExclude: [ "osun", "kwara" ]
