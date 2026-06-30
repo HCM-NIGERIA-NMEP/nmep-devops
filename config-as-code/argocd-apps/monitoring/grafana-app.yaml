@@ -47,6 +47,8 @@ spec:
                 type: loki
                 url: http://loki-stack:3100
                 access: proxy
+        deploymentStrategy:
+          type: Recreate
         persistence:
           enabled: true
           size: 10Gi
