@@ -77,7 +77,7 @@ hub:
         - ReadWriteOnce
       storage: 25Gi
       subPath:
-      storageClassName: "gp2"
+      storageClassName: "gp3"
     url:
     password:
   labels: {}
@@ -399,7 +399,7 @@ singleuser:
     capacity: 25Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass: "gp2"
+      storageClass: "gp3"
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
