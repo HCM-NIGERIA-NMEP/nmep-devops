@@ -1,6 +1,4 @@
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
-  - path: environments/ng-central-uat-secrets.yaml
-    kms: 'arn:aws:kms:ap-south-1:218381940040:key/9a3b0835-7713-4925-8b3d-da7e421d28d2'
-  - path: environments/ng-upgrade-uat-secrets.yaml
-    kms: 'arn:aws:kms:ap-south-1:218381940040:key/9a3b0835-7713-4925-8b3d-da7e421d28d2'
+  - path: environments/ng-nmep-central-prd-secrets.yaml
+    kms: 'arn:aws:kms:af-south-1:703097865444:key/54a7bfd3-459d-4861-b6e0-b8de38f4b65e'
