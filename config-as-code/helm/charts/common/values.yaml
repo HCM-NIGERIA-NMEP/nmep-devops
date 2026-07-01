@@ -52,14 +52,8 @@ initContainers:
                   name: egov-config
                   {{- if index .Values "central-instance-build" }}
                   key: db-url
-                  {{- else if eq .Values.namespace "osun" }}
-                  key: osun-db-url
-                  {{- else if eq .Values.namespace "kwara" }}
-                  key: kwara-db-url
-                  {{- else if eq .Values.namespace "taraba" }}
-                  key: taraba-db-url
-                  {{- else if eq .Values.namespace "tarabauat" }}
-                  key: tarabauat-db-url
+                  {{- else if and .Values.namespace (ne .Values.namespace "egov") }}
+                  key: {{ .Values.namespace }}-db-url
                   {{- else }}
                   key: db-url
                   {{- end }}            
@@ -77,14 +71,8 @@ initContainers:
                 configMapKeyRef:
                   name: egov-config
                   key: db-schema-names
-              {{- else if eq .Values.namespace "osun" }}
-              value: "osun"
-              {{- else if eq .Values.namespace "kwara" }}
-              value: "kwara"
-              {{- else if eq .Values.namespace "taraba" }}
-              value: "taraba"
-              {{- else if eq .Values.namespace "tarabauat" }}
-              value: "tarabauat"
+              {{- else if and .Values.namespace (ne .Values.namespace "egov") }}
+              value: "{{ .Values.namespace }}"
               {{- else }}
               value: "public"
               {{- end }}
@@ -170,14 +158,10 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
-              {{- if eq .Values.namespace "osun" }}
-              key: osun-db-url
-              {{- else if eq .Values.namespace "kwara" }}
-              key: kwara-db-url
-              {{- else if eq .Values.namespace "taraba" }}
-              key: taraba-db-url
-              {{- else if eq .Values.namespace "tarabauat" }}
-              key: tarabauat-db-url
+              {{- if index .Values "db-read-url-enabled" }}
+              key: db-read-url
+              {{- else if and .Values.namespace (ne .Values.namespace "egov") }}
+              key: {{ .Values.namespace }}-db-url
               {{- else }}
               key: db-url
               {{- end }}
@@ -196,14 +180,10 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
-              {{- if eq .Values.namespace "osun" }}
-              key: osun-db-url
-              {{- else if eq .Values.namespace "kwara" }}
-              key: kwara-db-url
-              {{- else if eq .Values.namespace "taraba" }}
-              key: taraba-db-url
-              {{- else if eq .Values.namespace "tarabauat" }}
-              key: tarabauat-db-url
+              {{- if index .Values "db-read-url-enabled" }}
+              key: db-read-url
+              {{- else if and .Values.namespace (ne .Values.namespace "egov") }}
+              key: {{ .Values.namespace }}-db-url
               {{- else }}
               key: db-url
               {{- end }}
