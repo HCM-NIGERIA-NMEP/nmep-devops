@@ -30,6 +30,7 @@ cluster-configs:
         db-host: "ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com" ## Add db-host name eg: egov-demo.database.azure.com
         db-name: "ngnmepcentralprd" ## Add db-name
         db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd"
+        db-read-url: "jdbc:postgresql://ng-nmep-central-prd-read-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd"
         osun-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=osun"
         kwara-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=kwara"
         taraba-db-url: "jdbc:postgresql://ng-nmep-central-prd-db.c9qaucsqmxhi.af-south-1.rds.amazonaws.com:5432/ngnmepcentralprd?currentSchema=taraba"
@@ -867,6 +868,29 @@ individual:
   memory_limits: 1.5Gi
   spring-datasource-tomcat-max-active: "10"
 
+individual-referral:
+  image:
+    repository: egovio/individual
+    tag: customize-2.0-individual-08fa309
+  spring-datasource-tomcat-max-active: "30"
+  server-tomcat-max-threads: "40"
+  central-instance-build: true
+  central-instance-enabled: true
+  initContainers:
+    dbMigration:
+      enabled: false
+  heap: "-Xmx1536m -Xms768m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 300m
+  memory_requests: 1.5Gi
+  cpu_limits: 400m
+  memory_limits: 2Gi
+  egov-beneficiary-idgen-integration-enabled: "true"
+  individual-beneficiary-id-validation-enabled: "false"
+
 stock:
   initContainers:
     dbMigration:
@@ -909,6 +933,27 @@ household:
   cpu_limits: 300m
   memory_limits: 1Gi
 
+household-referral:
+  image:
+    repository: egovio/household
+    tag: HCMPRE-2656-HCM-Services-Household-5717dde
+  spring-datasource-tomcat-max-active: "30"
+  server-tomcat-max-threads: "40"
+  central-instance-build: true
+  central-instance-enabled: true
+  initContainers:
+    dbMigration:
+      enabled: false
+  heap: "-Xmx1536m -Xms768m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 300m
+  memory_requests: 1.5Gi
+  cpu_limits: 400m
+  memory_limits: 2Gi
+
 project:
   initContainers:
     dbMigration:
@@ -929,6 +974,29 @@ project:
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
+
+project-referral:
+  image:
+    repository: egovio/project
+    tag: customize-nigeria-go-deep-2-project-bb6bfd6
+  spring-datasource-tomcat-max-active: "30"
+  server-tomcat-max-threads: "40"
+  central-instance-build: true
+  central-instance-enabled: true
+  initContainers:
+    dbMigration:
+      enabled: false
+  replicas: 2
+  heap: "-Xmx1536m -Xms768m"
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+  cpu_requests: 200m
+  memory_requests: 1.5Gi
+  cpu_limits: 300m
+  memory_limits: 2Gi
+  project-task-no-resource-validation-status: "ADMINISTRATION_FAILED,BENEFICIARY_REFUSED,CLOSED_HOUSEHOLD,NOT_ADMINISTERED,BENEFICIARY_DIED,BENEFICIARY_MIGRATED,BENEFICIARY_ABSENT,BENEFICIARY_INELIGIBLE,INELIGIBLE"
 
 project-factory:
   initContainers:

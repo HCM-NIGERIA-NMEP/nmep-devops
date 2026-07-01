@@ -24,6 +24,9 @@ spec:
           - name: worker-registry
           - name: project-factory
           - name: excel-ingestion
+          - name: project-referral
+          - name: household-referral
+          - name: individual-referral
 
   template:
     metadata:
