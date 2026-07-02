@@ -57,6 +57,8 @@ env: |
     value: "/tmp"
   - name: SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE
     value: "60MB"
+  - name: SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE
+    value: "90MB"
   - name: ISNFSSTORAGEENABLED
     value: {{ index .Values "is-nfs-enabled" | quote }}
   {{- if index .Values "is-nfs-enabled" }}

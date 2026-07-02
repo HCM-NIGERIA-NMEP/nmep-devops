@@ -159,3 +159,13 @@ env: |
     value: "10000000000"
   - name: EGOV_HRMS_MAX_MOBILE_NUMBER
     value: "99999999999"
+  - name: EGOV_HRMS_DEFAULT_PAGINATION_LIMIT
+    value: "200"
+  - name: EGOV_HRMS_DEFAULT_PWD_LENGTH
+    value: "8"
+  - name: EGOV_PWD_ALLOWED_SPECIAL_CHARACTERS
+    value: "@#$%"
+  - name: DECRYPTION_ABAC_ENABLE
+    value: "false"
+  - name: OPEN_SEARCH_ENABLED_ROLES
+    value: "SUPERUSER"

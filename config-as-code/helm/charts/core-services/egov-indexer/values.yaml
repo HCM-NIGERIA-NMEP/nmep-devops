@@ -77,4 +77,6 @@ env: |
         key: password
   - name: EGOV_INFRA_INDEXER_LEGACY_VERSION
     value: "false"
+  - name: SPRING_KAFKA_CONSUMER_GROUP
+    value: egov-indexer-consumer-grp
   

@@ -206,6 +206,7 @@ egov-idgen:
   cpu_limits: 300m
   memory_limits: 1Gi
   spring-datasource-tomcat-max-active: "10"
+  server-tomcat-max-threads: "20"
 
 mdms-v2:
   initContainers:
@@ -258,10 +259,10 @@ egov-notification-push:
     dbMigration:
       image:
         repository: "egov-notification-push-db"
-        tag: nigeria-go-deep-push-notification-ca09919
+        tag: nigeria-go-deep-push-notification-batch-7d2ba39
   image:
     repository: egovio/egov-notification-push
-    tag: nigeria-go-deep-push-notification-ca09919
+    tag: nigeria-go-deep-push-notification-batch-7d2ba39
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx768m -Xms512m"
@@ -326,8 +327,9 @@ egov-enc-service:
   cpu_requests: 200m
   memory_requests: 384Mi
   cpu_limits: 300m
-  memory_limits: 768Gi
-  spring-datasource-tomcat-max-active: "10"
+  memory_limits: 768Mi
+  spring-datasource-tomcat-max-active: "20"
+  server-tomcat-max-threads: "30"
 
 boundary-service:
   # internal-routing: "true"
@@ -375,6 +377,7 @@ egov-user:
   memory_requests: 1Gi
   cpu_limits: 600m
   memory_limits: 1.5Gi
+  server-tomcat-max-threads: "10"
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
@@ -640,7 +643,7 @@ egov-hrms:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 4
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -836,7 +839,7 @@ egov-localization:
   namespace: "egov"
   # internal-routing: "true"
   # db-url: "jdbc:postgresql://ng-central-prd-db.cpe4q0cycqi7.af-south-1.rds.amazonaws.com:5432/ngcentralprd?currentSchema=ba"
-  heap: "-Xms2048m -Xms2048m"
+  heap: "-Xmx3072m -Xms1500m"
   hpa:
     enabled: true
     minReplicas: 2
@@ -844,7 +847,8 @@ egov-localization:
   cpu_requests: 200m
   memory_requests: 2.5Gi
   cpu_limits: 300m
-  memory_limits: 3Gi
+  memory_limits: 3.5Gi
+  redis-host-key: redis-downsync-host
 
 individual:
   initContainers:
