@@ -851,27 +851,31 @@ individual:
     dbMigration:
       image:
         repository: "individual-db"
-        tag: customize-2.0-individual-08fa309
+        tag: customize-2.0-individual-6d6d26b
   image:
     repository: egovio/individual
-    tag: customize-2.0-individual-08fa309
+    tag: customize-2.0-individual-6d6d26b
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1g -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 6
+    minReplicas: 2
+    maxReplicas: 8
   cpu_requests: 300m
   memory_requests: 1Gi
   cpu_limits: 400m
   memory_limits: 1.5Gi
-  spring-datasource-tomcat-max-active: "10"
+  redis-host-key: redis-downsync-host
+  egov-beneficiary-idgen-integration-enabled: "true"
+  individual-beneficiary-id-validation-enabled: "false"
+  spring-datasource-tomcat-max-active: "5"
+  server-tomcat-max-threads: "10"
 
 individual-referral:
   image:
     repository: egovio/individual
-    tag: customize-2.0-individual-08fa309
+    tag: customize-2.0-individual-6d6d26b
   spring-datasource-tomcat-max-active: "30"
   server-tomcat-max-threads: "40"
   central-instance-build: true
@@ -883,7 +887,7 @@ individual-referral:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 5
+    maxReplicas: 8
   cpu_requests: 300m
   memory_requests: 1.5Gi
   cpu_limits: 400m
