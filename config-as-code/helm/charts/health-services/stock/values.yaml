@@ -187,3 +187,5 @@ env: |
   - name: EGOV.MDMS.MASTER.NAME
   - name: EGOV.MDMS.INTEGRATION.ENABLED
     value: "false"
+  - name: TRACER_REQUESTLOGGINGENABLED
+    value: "true"

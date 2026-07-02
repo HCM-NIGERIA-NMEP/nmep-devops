@@ -165,4 +165,10 @@ env: |
     value: {{ index .Values "mtn-api-mock-enabled" | default "true" | quote }}
   - name: REPORT_GENERATION_TRIGGER_TOPIC
     value: {{ index .Values "report-generation-trigger-topic" | quote}}
+  - name: WF_TRANSITION_RETRY_MAX_ATTEMPTS
+    value: "20"
+  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES
+    value: "15728640"
+  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_FETCH_MAX_BYTES
+    value: "15728640"
 

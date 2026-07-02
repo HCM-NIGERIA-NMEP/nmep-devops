@@ -106,7 +106,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-config
-        key: redis-host
+        key: {{ index .Values "redis-host-key" | default "redis-host" }}
   - name: SPRING_REDIS_PORT
     value: "6379"
   - name: SPRING_CACHE_TYPE
@@ -231,7 +231,7 @@ env: |
   - name: PROJECT.DEFAULT.LIMIT
     value: "100"
   - name: PROJECT.SEARCH.MAX.LIMIT
-    value: "200"
+    value: "1000"
   - name: EGOV.IDGEN.PROJECT.NUMBER.NAME
     value: "project.number"
   - name: PROJECT.RESOURCE.IDGEN.ID.FORMAT
@@ -308,3 +308,15 @@ env: |
     value: {{ index .Values "project-location-capture-kafka-create-topic" | quote }}
   - name: PROJECT_LOCATION_CAPTURE_CONSUMER_BULK_CREATE_TOPIC
     value: {{ index .Values "project-location-capture-consumer-bulk-create-topic" | quote }}
+  - name: PROJECT_MANAGEMENT_SYSTEM_KAFKA_UPDATE_DATE_TOPIC
+    value: update-project-date
+  - name: PROJECT_STAFF_ATTENDANCE_TOPIC
+    value: project-staff-attendance-health-topic
+  - name: TASK_MDMS_MODULE
+    value: HCM-TASK-QUANTITY-VALIDATION
+  - name: PROJECT_CREATE_CACHE_KEY
+    value: project-create-cache-
+  - name: PROJECT_KAFKA_BATCH_SIZE
+    value: "100"
+  - name: PROJECT_ATTENDANCE_FEATURE_ENABLED
+    value: "true"

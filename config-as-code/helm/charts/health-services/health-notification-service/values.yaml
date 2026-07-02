@@ -204,3 +204,7 @@ env: |
       configMapKeyRef:
         name: egov-config
         key: kafka-tenant-id-pattern
+  - name: SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS
+    value: "50"
+  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_POLL_INTERVAL_MS
+    value: "600000"

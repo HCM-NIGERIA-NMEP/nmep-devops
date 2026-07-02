@@ -498,10 +498,10 @@ env: |
     - name: USER_KAFKA_CREATE_BATCH_SIZE
       value: "3"
     - name: KAFKA_CONSUMER_MAX_CONCURRENT
-      value: "5"
+      value: "10"
     - name: USER_CREATION_BATCH_SIZE
       value: "3"
     - name: USER_PERSIST_BATCH_SIZE
-      value: "3"
+      value: "10"
     - name: PROJECT_CREATION_BATCH_SIZE
       value: "40"

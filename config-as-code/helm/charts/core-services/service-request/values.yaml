@@ -64,3 +64,7 @@ env: |
     value: "false"  
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
+  - name: EGOV_SERVICE_DEFINITION_UPDATE_TOPIC
+    value: update-service-definition
+  - name: EGOV_SERVICE_UPDATE_TOPIC
+    value: update-service

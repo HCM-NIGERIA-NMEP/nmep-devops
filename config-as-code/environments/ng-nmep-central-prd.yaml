@@ -219,7 +219,7 @@ mdms-v2:
     tag: central-instance-mdms-2-944672d
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
     minReplicas: 2
@@ -228,9 +228,9 @@ mdms-v2:
     replenishRate: "10"
     burstCapacity: "40"
   cpu_requests: 200m
-  memory_requests: 768Mi
+  memory_requests: 1024Mi
   cpu_limits: 300m
-  memory_limits: 1Gi
+  memory_limits: 1.5Gi
   spring-datasource-tomcat-max-active: "10"
 
 health-notification-service:
@@ -244,15 +244,15 @@ health-notification-service:
     tag: health-notification-service-b83cc15
   central-instance-build: true
   central-instance-enabled: true
-  heap: "-Xmx768m -Xms512m"
+  heap: "-Xmx1024m -Xms512m"
   hpa:
     enabled: true
     minReplicas: 1
     maxReplicas: 3
   cpu_requests: 200m
-  memory_requests: 256Mi
+  memory_requests: 768Mi
   cpu_limits: 300m
-  memory_limits: 1Gi
+  memory_limits: 1296Mi
 
 egov-notification-push:
   initContainers:
@@ -352,6 +352,7 @@ boundary-service:
   cpu_limits: 300m
   memory_limits: 2.5Gi
   spring-datasource-tomcat-max-active: "10"
+  server-tomcat-max-threads: "20"
       
 
 egov-user:
@@ -537,7 +538,7 @@ health-expense:
   image:
     repository: egovio/health-expense
     tag: nigeria-go-deep-payments-expense-15b5a23
-  heap: "-Xmx368m -Xms256m"
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
     minReplicas: 1
@@ -564,11 +565,11 @@ health-muster-roll:
     dbMigration:
       image:
         repository: "egovio/health-muster-roll-db"
-        tag: nigeria-go-deep-7fe8703
+        tag: nigeria-go-deep-report-fix-adaa688
   image:
     repository: egovio/health-muster-roll
-    tag: nigeria-go-deep-7fe8703
-  heap: "-Xmx368m -Xms256m"
+    tag: nigeria-go-deep-report-fix-adaa688
+  heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
     minReplicas: 1
@@ -591,7 +592,7 @@ health-muster-roll:
   attendance-register-search-limit: 100
   individual-search-endpoint: "individual/v1/_search"
   expense-calculator-endpoint: "health-expense-calculator/v1/_estimate"
-  muster-restricted-search-roles: "PLACEHOLDER_ROLE"
+  muster-restricted-search-roles: "ORG_ADMIN,ORG_STAFF"
   notification-sms-enabled: "false"
   musterroll-update-recompute-attendance-enabled: "false"
   musterroll-individual-entry-roles-enabled: "false"
@@ -940,6 +941,7 @@ household:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
+  redis-host-key: redis-downsync-host
 
 household-referral:
   image:
@@ -982,6 +984,7 @@ project:
   memory_requests: 1Gi
   cpu_limits: 300m
   memory_limits: 1.5Gi
+  redis-host-key: redis-downsync-host
 
 project-referral:
   image:
@@ -1095,10 +1098,10 @@ excel-ingestion:
     dbMigration:
       image:
         repository: egovio/excel-ingestion-db
-        tag: nigeria-go-deep-2-97ed978
+        tag: nigeria-go-deep-2-0248b5f
   image:
     repository: egovio/excel-ingestion
-    tag: nigeria-go-deep-2-97ed978
+    tag: nigeria-go-deep-2-0248b5f
   group-id: "egov-excel-ingestion"
   central-instance-build: true
   central-instance-enabled: true
@@ -1109,6 +1112,8 @@ excel-ingestion:
   memory_limits: "4072Mi"
   cpu_limits: "3"
   heap: -Xms3560m -Xmx3560m
+  hpa:
+    enabled: false
   replicas: 2
   egov-mdms-service-host-key: 'mdms-v2'
   egov-mdms-service-endpoint-key: "mdms-v2/v2/_search"
@@ -1187,10 +1192,10 @@ health-attendance:
     dbMigration:
       image:
         repository: "health-attendance-db"
-        tag: nigeria-go-deep-1d0eb9e
+        tag: nigeria-go-deep-3df8cd8
   image:
     repository: egovio/health-attendance
-    tag: nigeria-go-deep-1d0eb9e
+    tag: nigeria-go-deep-3df8cd8
   central-instance-build: true
   central-instance-enabled: true
   java-enable-debug: true
@@ -1212,7 +1217,7 @@ pdf-service:
   namespace: egov
   image:
     repository: egovio/pdf-service
-    tag: central-instance-pdf-2aad92c
+    tag: central-instance-pdf-7b3064f
   initContainers:
     gitSync:
       image:
@@ -1309,8 +1314,8 @@ gateway:
   central-instance-enabled: false
   cpu_requests: 200m
   memory_requests: 768Mi
-  cpu_limits: 300m
-  memory_limits: 1Gi
+  cpu_limits: 400m
+  memory_limits: 1.5Gi
   tracing-enabled: "true"
   heap: "-Xmx1024m -Xms512m"
   server-tomcat-max-threads: "350"
@@ -1368,14 +1373,14 @@ boundary-management:
     enabled: true
     minReplicas: 1
     maxReplicas: 3
-  DEBUG: 'true'
+  DEBUG: 'false'
   cpu_requests: 200m
-  cpu_limits: 300m
+  cpu_limits: 400m
   memory_requests: 1.5Gi
   memory_limits: 2Gi
   namespace: 'egov'
-  logLevel: 'debug'
-  defaultLocale: 'NG'
+  logLevel: 'info'
+  defaultLocale: 'en_NG'
   mdmsV2SearchEndpoint: 'mdms-v2/v2/_search'
   mdmsV1SearchEndpoint: 'mdms-v2/v1/_search'
   defaultTenantId: 'ng'
@@ -1408,6 +1413,7 @@ worker-registry:
   tracing-enabled: false
   java-enable-debug: false
   replicas: 2
+  individual-validation-enabled: "false"
 
 egov-malware-detection:
   initContainers:

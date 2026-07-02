@@ -234,4 +234,63 @@ env: |
       configMapKeyRef:
         name: egov-service-host
         key: worker-registry-host
-  
+  - name: STATE_LEVEL_TENANTID_LENGTH
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: state-level-tenantid-length
+  - name: SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE
+    value: "10485760"
+  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES
+    value: "15728640"
+  - name: SPRING_KAFKA_CONSUMER_PROPERTIES_FETCH_MAX_BYTES
+    value: "15728640"
+  - name: EGOV_IDGEN_PATH
+    value: egov-idgen/id/_generate
+  - name: EGOV_IDGEN_MUSTERROLL_NUMBER_NAME
+    value: muster.number
+  - name: EGOV_MDMS_V2_SEARCH_ENDPOINT
+    value: /mdms-v2/v1/_search
+  - name: EGOV_LOCALIZATION_SEARCH_ENDPOINT
+    value: /localization/messages/v1/_search
+  - name: EGOV_WORKFLOW_TRANSITION_PATH
+    value: /egov-workflow-v2/egov-wf/process/_transition
+  - name: EGOV_WORKFLOW_BUSINESSSERVICE_SEARCH_PATH
+    value: /egov-workflow-v2/egov-wf/businessservice/_search
+  - name: EGOV_WORKFLOW_PROCESSINSTANCE_SEARCH_PATH
+    value: /egov-workflow-v2/egov-wf/process/_search
+  - name: MUSTERROLL_WORKFLOW_MODULE_NAME
+    value: health-muster-roll
+  - name: MUSTERROLL_DEFAULT_DURATION_DAYS
+    value: "6"
+  - name: MUSTER_CAMPAIGN_SUPERVISOR_ROLE
+    value: CAMPAIGN_SUPERVISOR
+  - name: WORKS_EXPENSE_CALCULATOR_BILLING_PERIOD_SEARCH_ENDPOINT
+    value: /health-expense-calculator/billing-config/v1/periods/_search
+  - name: WORKS_EXPENSE_CALCULATOR_BILLING_CONFIG_SEARCH_ENDPOINT
+    value: /health-expense-calculator/billing-config/v1/_search
+  - name: WORKS_EXPENSE_CALCULATOR_CHECK_BILL_STATUS_ENDPOINT
+    value: /health-expense-calculator/v1/_checkBillStatus
+  - name: EGOV_FILESTORE_DOWNLOAD_ENDPOINT
+    value: filestore/v1/files/id
+  - name: EGOV_WORKER_REGISTRY_SEARCH_PATH
+    value: worker/v1/_search
+  - name: ELASTICSEARCH_QUERIES_MDMS_MODULE
+    value: AttendanceReportDetail
+  - name: ELASTICSEARCH_QUERIES_MDMS_MASTER
+    value: ElasticSearchQuery
+  - name: ATTENDANCE_REPORT_FILESTORE_MODULE
+    value: ATTENDANCE
+  - name: ATTENDANCE_REPORT_LOCALIZATION_MODULE
+    value: muster-roll
+  - name: ATTENDANCE_REPORT_DATE_FORMAT
+    value: dd/MM/yyyy
+  - name: ATTENDANCE_REPORT_TIMEZONE
+    valueFrom:
+      configMapKeyRef:
+        name: egov-config
+        key: timezone
+  - name: ATTENDANCE_REPORT_SESSION_BOUNDARY_TIME
+    value: "12:00"
+  - name: ATTENDANCE_REPORT_ALLOWED_SKILLS
+    value: DISTRIBUTOR,REGISTRAR,HEALTH_FACILITY_WORKER,FIELD_SUPPORT,WAREHOUSE_MANAGER,TEAM_SUPERVISOR,DISTRICT_SUPERVISOR
