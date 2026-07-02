@@ -36,3 +36,15 @@ env: |
     value: "8080"
   - name: JAEGER_SAMPLER_PARAM
     value: "1"
+  - name: PERSISTER_CUSTOM_EXECUTOR_ENABLED
+    value: "false"
+  - name: PERSISTER_BATCH_PARALLELTOPICPROCESSING_THREADPOOLSIZE
+    value: "2"
+  - name: PERSISTER_BATCH_TOPICS
+    value: ""
+  - name: PERSISTER_DEADLETTER_REPROCESS_ENABLED
+    value: "false"
+  - name: PERSISTER_DEADLETTER_REPROCESS_ERROR_TOPIC
+    value: "egov-persister-deadletter-processed"
+  - name: TRACER_ERRORSTOPIC
+    value: "egov-persister-deadletter"

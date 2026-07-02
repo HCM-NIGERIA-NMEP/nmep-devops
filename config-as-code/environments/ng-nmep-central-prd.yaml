@@ -463,7 +463,7 @@ internal-gateway-scg:
 egov-persister:
   image:
     repository: egovio/egov-persister
-    tag: 2.9-LTS-1b59a4c
+    tag: 2.9-LTS-persister-changes-8053b51
   kafka-consumer-group-id: "egov-infra-persist"
   heap: "-Xmx1536m -Xms1024m"
   hpa:
