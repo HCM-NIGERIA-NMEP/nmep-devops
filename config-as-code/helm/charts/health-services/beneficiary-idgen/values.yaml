@@ -114,9 +114,9 @@ env: |
   - name: LIMIT_ID_USER_DEVICE_PER_DAY_ENABLED
     value: 'true'
   - name: LIMIT_ID_USER_DEVICE_PER_DAY
-    value: '600'
+    value: '800'
   - name: LIMIT_ID_USER_DEVICE_TOTAL
-    value: '6000'
+    value: '8000'
   - name: ID_POOL_GENERATION_MAX_RECORDS_PER_PERSIST_BATCH
     value: '100'
   - name: ID_POOL_GENERATION_MAX_SIZE
