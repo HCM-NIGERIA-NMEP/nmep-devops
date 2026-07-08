@@ -32,6 +32,8 @@ config:
     standalone_dag_processor: "True"
   logging:
     remote_logging: "False"
+  kubernetes_executor:
+    delete_worker_pods_on_failure: "False"
 
 # DAG Processor
 dagProcessor:
@@ -59,9 +61,9 @@ dags:
   gitSync:
     enabled: true
     repo: "https://github.com/egovernments/health-campaign-services.git"
-    branch: "airflow-godeep"
+    branch: "airflow-taraba"
     rev: "HEAD"
-    ref: "v2-2-stable"
+    ref: "airflow-taraba"
     depth: 1
     wait: 60
     period: "60s"
