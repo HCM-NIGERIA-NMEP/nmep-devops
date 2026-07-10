@@ -24,7 +24,7 @@ ingress:
 initContainers:
   extraInitContainers: |
     - name: run-migration
-      image: bhanuprakashmegov/airflow-custom-trigger:central5
+      image: bhanuprakashmegov/airflow-custom-trigger:trb-july10-1
       command: [ "python", "migrate.py" ]
       env:
         - name: DB_HOST
@@ -50,14 +50,14 @@ initContainers:
               name: db
               key: password
         - name: DB_SCHEMAS
-          value: "public,tarabauat,taraba"
+          value: "public,tarabauat"
 
 httpPort: 8000
 
 # Container Configs
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
-  tag: "central5"
+  tag: "trb-july10-1"
 replicas: "1"
 healthChecks:
   enabled: true
