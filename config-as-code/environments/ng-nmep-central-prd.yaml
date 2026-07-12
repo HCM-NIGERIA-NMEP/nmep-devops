@@ -439,7 +439,7 @@ egov-indexer:
   memory_requests: 1.5Gi
   cpu_limits: 400m
   memory_limits: 2Gi
-  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/osun,/work-dir/health-campaign-config/egov-indexer/kwara,/work-dir/health-campaign-config/egov-indexer/taraba,/work-dir/health-campaign-config/egov-indexer/tarabauat"
+  egov-indexer-yaml-repo-path: "/work-dir/health-campaign-config/egov-indexer/common,/work-dir/health-campaign-config/egov-indexer/taraba,/work-dir/health-campaign-config/egov-indexer/tarabauat"
 
 internal-gateway-scg:
   image:
@@ -478,7 +478,7 @@ egov-persister:
   memory_requests: 1.5Gi
   cpu_limits: 300m
   memory_limits: 2Gi
-  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/osun,/work-dir/health-campaign-config/egov-persister/kwara,/work-dir/health-campaign-config/egov-persister/taraba,/work-dir/health-campaign-config/egov-persister/tarabauat"
+  persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/taraba,/work-dir/health-campaign-config/egov-persister/tarabauat"
   initContainers:
     gitSync:
       repo: "git@github.com:HCM-NIGERIA-NMEP/health-campaign-config"      ##### Change repo url with Your fork Repo url
