@@ -50,7 +50,7 @@ initContainers:
               name: db
               key: password
         - name: DB_SCHEMAS
-          value: "public,tarabauat"
+          value: "public,tarabauat,taraba"
 
 httpPort: 8000
 
