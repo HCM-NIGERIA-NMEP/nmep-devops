@@ -166,6 +166,10 @@ egov-filestore:
   image:
     repository: egovio/egov-filestore
     tag: master-filestore-fix-5e0acbc
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 1
   volume: /opt/eGov/filestore
   is-bucket-fixed: "true"
   minio.url : "http://minio.backbone:9000/"
