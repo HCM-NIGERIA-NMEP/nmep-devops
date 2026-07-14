@@ -24,7 +24,7 @@ ingress:
 initContainers:
   extraInitContainers: |
     - name: run-migration
-      image: bhanuprakashmegov/airflow-custom-trigger:trb-july10-5
+      image: bhanuprakashmegov/airflow-custom-trigger:trb-july10-6
       command: [ "python", "migrate.py" ]
       env:
         - name: DB_HOST
@@ -57,7 +57,7 @@ httpPort: 8000
 # Container Configs
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
-  tag: "trb-july10-5"
+  tag: "trb-july10-6"
 replicas: "1"
 healthChecks:
   enabled: true
@@ -109,6 +109,13 @@ env: |
         key: password
   - name: IS_CENTRAL_INSTANCE_ENABLED
     value: "true"
+  - name: EGOV_DASHBOARD_ANALYTICS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: dashboard-analytics
+  - name: LOG_LEVEL
+    value: "INFO"
 
 resources: |
   requests:
