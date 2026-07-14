@@ -198,7 +198,7 @@ egov-idgen:
   autocreate-new-seq: "true"
   hpa:
     enabled: true
-    minReplicas: 2
+    minReplicas: 4
     maxReplicas: 8
   heap: "-Xmx768m -Xms256m"
   cpu_requests: 200m
@@ -322,8 +322,8 @@ egov-enc-service:
   heap: "-Xmx384m -Xms128m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 6
+    minReplicas: 4
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 384Mi
   cpu_limits: 300m
@@ -372,8 +372,8 @@ egov-user:
     burstCapacity: "10"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 4
+    maxReplicas: 8
   cpu_requests: 500m
   memory_requests: 1Gi
   cpu_limits: 600m
@@ -472,8 +472,8 @@ egov-persister:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 6
+    maxReplicas: 10
   cpu_requests: 200m
   memory_requests: 1.5Gi
   cpu_limits: 300m
@@ -1259,8 +1259,8 @@ beneficiary-idgen:
   heap: "-Xmx384m -Xms384m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 4
+    maxReplicas: 8
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -1317,7 +1317,7 @@ gateway:
     tag: gombe-tenantId-fix-5cd3097
   hpa:
     enabled: true
-    minReplicas: 2
+    minReplicas: 3
     maxReplicas: 6
   custom-filter-property: "false"
   central-instance-enabled: false
