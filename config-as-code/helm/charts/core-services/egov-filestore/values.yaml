@@ -20,7 +20,7 @@ ingress:
     enabled: false
   additionalAnnotations: |
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
 
 # Container Configs
 image:
@@ -56,9 +56,9 @@ env: |
   - name: TEMP_FOLDER_PATH
     value: "/tmp"
   - name: SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE
-    value: "60MB"
+    value: "150MB"
   - name: SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE
-    value: "90MB"
+    value: "180MB"
   - name: ISNFSSTORAGEENABLED
     value: {{ index .Values "is-nfs-enabled" | quote }}
   {{- if index .Values "is-nfs-enabled" }}
