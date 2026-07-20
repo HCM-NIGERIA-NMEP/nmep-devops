@@ -129,6 +129,7 @@ workbench-ui:
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
       <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/globalConfigsWorkbench-tarabauat.js type=text/javascript></script>
+      <script src=https://nmep-central-instance-assets.s3.af-south-1.amazonaws.com/consoleDemoTrbUat.js type=text/javascript></script>
       ';"
 
 dashboard-ui:
