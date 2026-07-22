@@ -169,7 +169,7 @@ egov-filestore:
   hpa:
     enabled: false
     minReplicas: 1
-    maxReplicas: 1
+    maxReplicas: 3
   volume: /opt/eGov/filestore
   is-bucket-fixed: "true"
   minio.url : "http://minio.backbone:9000/"
@@ -202,8 +202,8 @@ egov-idgen:
   autocreate-new-seq: "true"
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   heap: "-Xmx768m -Xms256m"
   cpu_requests: 200m
   memory_requests: 768Mi
@@ -226,8 +226,8 @@ mdms-v2:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   ingress:
     replenishRate: "10"
     burstCapacity: "40"
@@ -286,8 +286,8 @@ egov-accesscontrol:
   heap: "-Xmx384m -Xms128m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 384Mi
   cpu_limits: 300m
@@ -307,8 +307,8 @@ pgr-services:
   heap: "-Xmx512m -Xms128m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 100m
   memory_requests: 512Mi
   cpu_limits: 200m
@@ -326,8 +326,8 @@ egov-enc-service:
   heap: "-Xmx384m -Xms128m"
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 384Mi
   cpu_limits: 300m
@@ -349,8 +349,8 @@ boundary-service:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 2Gi
   cpu_limits: 300m
@@ -376,8 +376,8 @@ egov-user:
     burstCapacity: "10"
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 500m
   memory_requests: 1Gi
   cpu_limits: 600m
@@ -414,8 +414,8 @@ audit-service:
     tag: 2.9-LTS-1b59a4c
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 4
+    minReplicas: 1
+    maxReplicas: 3
   heap: "-Xmx1024m -Xms512m"
   cpu_requests: 200m
   memory_requests: 256Mi
@@ -437,8 +437,8 @@ egov-indexer:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 300m
   memory_requests: 1.5Gi
   cpu_limits: 400m
@@ -476,8 +476,8 @@ egov-persister:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 6
-    maxReplicas: 10
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 1.5Gi
   cpu_limits: 300m
@@ -627,8 +627,8 @@ egov-workflow-v2:
   heap: "-Xmx368m -Xms256m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -653,8 +653,8 @@ egov-hrms:
   heap: "-Xmx1024m -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -677,8 +677,8 @@ egov-otp:
     tag: HCMPRE-2741-otp-2b08e04
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 4
+    minReplicas: 1
+    maxReplicas: 3
   heap: "-Xmx384m -Xms256m"
   memory_requests: "512Mi"
   memory_limits: "768Mi"
@@ -774,8 +774,8 @@ facility:
   heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -853,8 +853,8 @@ egov-localization:
   heap: "-Xmx3072m -Xms1500m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 2.5Gi
   cpu_limits: 300m
@@ -875,8 +875,8 @@ individual:
   heap: "-Xmx1g -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 300m
   memory_requests: 1Gi
   cpu_limits: 400m
@@ -901,8 +901,8 @@ individual-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 300m
   memory_requests: 1.5Gi
   cpu_limits: 400m
@@ -945,8 +945,8 @@ household:
   heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -967,8 +967,8 @@ household-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 300m
   memory_requests: 1.5Gi
   cpu_limits: 400m
@@ -988,8 +988,8 @@ project:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -1011,8 +1011,8 @@ project-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 1.5Gi
   cpu_limits: 300m
@@ -1037,8 +1037,8 @@ project-factory:
   replicas: 3
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 1000m
@@ -1155,8 +1155,8 @@ referralmanagement:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -1176,8 +1176,8 @@ service-request:
   heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -1190,8 +1190,8 @@ error-handler:
   heap: "-Xmx512m -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -1263,8 +1263,8 @@ beneficiary-idgen:
   heap: "-Xmx384m -Xms384m"
   hpa:
     enabled: true
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -1321,8 +1321,8 @@ gateway:
     tag: gombe-tenantId-fix-5cd3097
   hpa:
     enabled: true
-    minReplicas: 3
-    maxReplicas: 6
+    minReplicas: 1
+    maxReplicas: 3
   custom-filter-property: "false"
   central-instance-enabled: false
   cpu_requests: 200m
@@ -1349,8 +1349,8 @@ user-otp:
   heap: "-Xmx256m -Xms192m"
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 100m
   memory_requests: 512Mi
   cpu_limits: 200m
@@ -1454,8 +1454,8 @@ inbox:
   replicas: 1
   hpa:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -1572,8 +1572,8 @@ dashboard-analytics:
   replicas: 3
   hpa:
     enabled: false
-    minReplicas: 3
-    maxReplicas: 5
+    minReplicas: 1
+    maxReplicas: 3
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
