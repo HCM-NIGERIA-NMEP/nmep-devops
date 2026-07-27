@@ -26,7 +26,7 @@ variable "availability_zones" {
 
 variable "kubernetes_version" {
   description = "kubernetes version"
-  default = "1.33"
+  default = "1.34"
 }
 variable "architecture" {
   description = "Architecture for worker nodes (x86_64 or arm64)"
@@ -43,7 +43,8 @@ variable "instance_types_map" {
   description = "Map of instance types per architecture"
   type = map(list(string))
   default = {
-    arm64 = ["r6g.xlarge"]
+    x86_64 = ["r6i.xlarge"]
+    arm64  = ["r6g.xlarge"]
   }
 }
 

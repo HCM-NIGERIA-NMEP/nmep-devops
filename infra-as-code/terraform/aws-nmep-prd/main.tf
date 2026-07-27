@@ -19,7 +19,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.10.1, < 3.0.0"
+      version = ">= 3.0.0"
     }
   }
 }
@@ -28,6 +28,7 @@ locals {
   az_to_find           = var.availability_zones[0] 
   az_index_in_network  = index(var.network_availability_zones, local.az_to_find)
   ami_type_map = {
+    x86_64 = "AL2023_x86_64_STANDARD"
     arm64  = "AL2023_ARM_64_STANDARD"
   }
 
@@ -48,7 +49,7 @@ module "db" {
   subnet_ids                    = "${module.network.private_subnets}"
   vpc_security_group_ids        = ["${module.network.rds_db_sg_id}"]
   availability_zone             = "${element(var.availability_zones, 0)}"
-  instance_class                = "db.m6g.large"  ## postgres db instance type
+  instance_class                = "db.m6g.xlarge"  ## postgres db instance type
   engine_version                = "15.17"   ## postgres version
   storage_type                  = "gp3"
   storage_gb                    = "250" 
@@ -170,14 +171,14 @@ module "eks_managed_node_group" {
   }
 }
 
-module "ebs_csi_driver_irsa" {
+module "ebs_csi_irsa" {
   depends_on = [module.eks]
-  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.20"
-  role_name_prefix = "ebs-csi-driver-"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts"
+  version = "6.6.1"
+  name = "ebs-csi-driver-${var.cluster_name}"
   attach_ebs_csi_policy = true
   oidc_providers = {
-    main = {
+    this = {
       provider_arn               = module.eks.oidc_provider_arn
       namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
     }
@@ -237,7 +238,7 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
   depends_on = [module.eks_managed_node_group]
   cluster_name      = var.cluster_name
   addon_name        = "aws-ebs-csi-driver"
-  service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
+  service_account_role_arn = module.ebs_csi_irsa.arn
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
 }
@@ -279,18 +280,36 @@ resource "kubernetes_storage_class" "ebs_csi_encrypted_gp3_storage_class" {
 
 }
 
+# provider "helm" {
+#   kubernetes = {
+#     host                   = data.aws_eks_cluster.cluster.endpoint
+#     cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+#     exec  = {
+#       api_version = "client.authentication.k8s.io/v1beta1"
+#       args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+#       command     = "aws"
+#     }
+#   }
+# }
+
+# provider "kubectl" {
+#   host                   = data.aws_eks_cluster.cluster.endpoint
+#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+#   load_config_file       = false
+#   lazy_load              = true
+#   exec {
+#     api_version = "client.authentication.k8s.io/v1beta1"
+#     args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+#     command     = "aws"
+#   }
+# }
+
 provider "helm" {
-  kubernetes {
-    host                   = data.aws_eks_cluster.cluster.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
-    # token                  = data.aws_eks_cluster_auth.cluster.token
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-      command     = "aws"
-    }
+  kubernetes = {
+    config_path = "/home/thinkbig/egov/repos/nmep-devops/infra-as-code/terraform/aws-nmep-prd/config"
   }
 }
+
 
 provider "kubectl" {
   host                   = module.eks.cluster_endpoint
@@ -407,7 +426,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
     spec:
       amiFamily: AL2023
       amiSelectorTerms:
-      - id: ami-0455db9e579052e57
+      - id: ami-01d4d80ad92c2468c
       role: ${module.eks_managed_node_group.iam_role_name}
       subnetSelectorTerms:
         - tags:
@@ -416,11 +435,11 @@ resource "kubectl_manifest" "karpenter_node_class" {
         - tags:
             karpenter.sh/discovery: ${module.eks.cluster_name}
       blockDeviceMappings:
-        - deviceName: /dev/xvda
-          ebs:
-            volumeSize: 50Gi
-            volumeType: gp3
-            deleteOnTermination: true
+      - deviceName: /dev/xvda
+        ebs:
+          volumeSize: 100Gi
+          volumeType: gp3
+          deleteOnTermination: true
       tags:
         KubernetesCluster: ${var.cluster_name}
         karpenter.sh/discovery: ${module.eks.cluster_name}
@@ -496,7 +515,7 @@ resource "kubectl_manifest" "karpenter_arm64_node_class" {
     spec:
       amiFamily: AL2023
       amiSelectorTerms:
-      - id: ami-09c1b8d4561f5973d
+      - id: ami-03e6c28ba78cf04ac
       role: ${module.eks_managed_node_group.iam_role_name}
       subnetSelectorTerms:
         - tags:
@@ -504,6 +523,12 @@ resource "kubectl_manifest" "karpenter_arm64_node_class" {
       securityGroupSelectorTerms:
         - tags:
             karpenter.sh/discovery: ${module.eks.cluster_name}
+      blockDeviceMappings:
+      - deviceName: /dev/xvda
+        ebs:
+          volumeSize: 100Gi
+          volumeType: gp3
+          deleteOnTermination: true
       tags:
         KubernetesCluster: ${var.cluster_name}
         karpenter.sh/discovery: ${module.eks.cluster_name}
