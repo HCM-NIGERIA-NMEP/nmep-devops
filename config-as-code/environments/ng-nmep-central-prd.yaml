@@ -808,10 +808,10 @@ product:
     dbMigration:
       image:
         repository: "product-db"
-        tag: master-36803ef
+        tag: summaryreportodwnloadfeature-81a31da
   image:
     repository: egovio/product
-    tag: master-36803ef
+    tag: summaryreportodwnloadfeature-81a31da
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
