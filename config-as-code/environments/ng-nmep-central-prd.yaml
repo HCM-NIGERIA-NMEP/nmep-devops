@@ -915,10 +915,10 @@ stock:
     dbMigration:
       image:
         repository: "stock-db"
-        tag: nigeria-go-deep-2-stock-ce241ee
+        tag: nigeria-go-deep-2-stock-ef3f9b2
   image:
     repository: egovio/stock
-    tag: nigeria-go-deep-2-stock-ce241ee
+    tag: nigeria-go-deep-2-stock-ef3f9b2
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx512m -Xms256m"
@@ -930,6 +930,8 @@ stock:
   memory_requests: 512Mi
   cpu_limits: 300m
   memory_limits: 768Mi
+  stock-project-facility-validation-enabled: "false"
+  stock-reconciliation-project-facility-validation-enabled: "false"
 
 household:
   initContainers:

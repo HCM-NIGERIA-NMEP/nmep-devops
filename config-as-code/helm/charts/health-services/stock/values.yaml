@@ -29,6 +29,7 @@ appType: "java-spring"
 tracing-enabled: true
 heap: "-Xmx192m -Xms192m"
 java-args: ""
+tracer-request-logging-enabled: "true"
 persist-yml-path: "file:///work-dir/health-campaign-config/egov-persister/stock-persister.yml"
 indexer-yml-path: "file:///work-dir/health-campaign-config/egov-indexer/stock-indexer.yml"
 
@@ -45,6 +46,8 @@ stock-reconciliation-kafka-delete-topic: delete-stock-reconciliation-topic
 stock-reconciliation-consumer-bulk-delete-topic: delete-stock-reconciliation-bulk-topic
 stock-reconciliation-consumer-bulk-create-topic: create-stock-reconciliation-bulk-topic
 stock-reconciliation-consumer-bulk-update-topic: update-stock-reconciliation-bulk-topic
+stock-project-facility-validation-enabled: "true"
+stock-reconciliation-project-facility-validation-enabled: "true"
 
 # Additional Container Envs
 env: |
@@ -188,4 +191,8 @@ env: |
   - name: EGOV.MDMS.INTEGRATION.ENABLED
     value: "false"
   - name: TRACER_REQUESTLOGGINGENABLED
-    value: "true"
+    value: {{ index .Values "tracer-request-logging-enabled" | quote }}
+  - name: STOCK_PROJECT_FACILITY_VALIDATION_ENABLED
+    value: {{ index .Values "stock-project-facility-validation-enabled" | quote }}
+  - name: STOCK_RECONCILIATION_PROJECT_FACILITY_VALIDATION_ENABLED
+    value: {{ index .Values "stock-reconciliation-project-facility-validation-enabled" | quote }}
