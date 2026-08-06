@@ -24,7 +24,7 @@ ingress:
 initContainers:
   extraInitContainers: |
     - name: run-migration
-      image: bhanuprakashmegov/airflow-custom-trigger:trb-july10-11
+      image: bhanuprakashmegov/airflow-custom-trigger:trb-aug6-1
       command: [ "python", "migrate.py" ]
       env:
         - name: DB_HOST
@@ -57,7 +57,7 @@ httpPort: 8000
 # Container Configs
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
-  tag: "trb-july10-11"
+  tag: "trb-aug6-1"
 replicas: "1"
 healthChecks:
   enabled: true
@@ -120,6 +120,8 @@ env: |
     value: "3600"
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_OVERRIDES
     value: '{"beneficiary_visit_list": "NEVER"}'
+  - name: RETURN_FAILED_REPORTS
+    value: "true"
 
 resources: |
   requests:
