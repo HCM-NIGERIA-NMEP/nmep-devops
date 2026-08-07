@@ -121,7 +121,7 @@ env: |
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_OVERRIDES
     value: '{"beneficiary_visit_list": "NEVER"}'
   - name: RETURN_FAILED_REPORTS
-    value: "true"
+    value: "false"
 
 resources: |
   requests:
