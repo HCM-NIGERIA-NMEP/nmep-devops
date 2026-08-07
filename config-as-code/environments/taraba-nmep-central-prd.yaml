@@ -135,7 +135,7 @@ dashboard-ui:
   namespace: taraba
   image:
     repository: egovio/dashboard-ui
-    tag: taraba-reportsui-changes-b9367e5
+    tag: taraba-reportsui-changes-47c6d62
   custom-js-injection: |
     sub_filter.conf: "
       sub_filter  '<head>' '<head>
