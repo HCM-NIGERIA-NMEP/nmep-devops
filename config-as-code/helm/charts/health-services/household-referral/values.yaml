@@ -7,9 +7,9 @@ db-read-url-enabled: true
 
 # Ingress Configs
 ingress:
-  enabled: true
-  zuul: true
-  context: "household-referral"
+  enabled: false
+  zuul: false
+  context: "household"
 
 # Init Containers Configs
 initContainers:
@@ -25,8 +25,8 @@ image:
 replicas: "1"
 healthChecks:
   enabled: true
-  livenessProbePath: "/household-referral/health"
-  readinessProbePath: "/household-referral/health"
+  livenessProbePath: "/household/health"
+  readinessProbePath: "/household/health"
 appType: "java-spring"
 tracing-enabled: true
 heap: "-Xmx1024m -Xms192m"
@@ -52,7 +52,7 @@ env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
     value: {{ index .Values "kafka-consumer-group-id" | quote }}
   - name: SERVER_SERVLET_CONTEXT_PATH
-    value: /household-referral
+    value: /household
   - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
     value: org.apache.kafka.common.serialization.StringSerializer
   {{- if index .Values "global" "tracer-errors-provideexceptionindetails" }}

@@ -145,7 +145,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: household
+        key: household-referral
   - name: EGOV_SEARCH_HOUSEHOLD_URL
     value: "/household/v1/_search"
   - name: EGOV_SEARCH_HOUSEHOLD_MEMBER_URL
@@ -154,7 +154,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: individual
+        key: individual-referral
   - name: EGOV_SEARCH_INDIVIDUAL_URL
     value: "/individual/v1/_search"
   - name: EGOV_PRODUCT_HOST
@@ -168,7 +168,7 @@ env: |
     valueFrom:
       configMapKeyRef:
         name: egov-service-host
-        key: project
+        key: project-referral
   - name: EGOV_SEARCH_PROJECT_TASK_URL
     value: "/project/task/v1/_search"
   - name: EGOV_SEARCH_PROJECT_BENEFICIARY_URL
