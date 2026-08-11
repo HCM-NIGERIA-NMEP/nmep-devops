@@ -3,6 +3,8 @@ labels:
   app: "facility"
   group: "health"
 
+central-db-read-url-enabled: true
+
 # Ingress Configs
 ingress:
   enabled: true

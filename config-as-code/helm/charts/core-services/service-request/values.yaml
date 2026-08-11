@@ -3,6 +3,8 @@ labels:
   app: "service-request"
   group: "rainmaker"
 
+central-db-read-url-enabled: true
+
 # Ingress Configs
 ingress:
   enabled: true

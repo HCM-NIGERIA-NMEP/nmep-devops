@@ -3,6 +3,8 @@ labels:
   app: "household"
   group: "core"
 
+central-db-read-url-enabled: true
+
 # Ingress Configs
 ingress:
   namespace: egov

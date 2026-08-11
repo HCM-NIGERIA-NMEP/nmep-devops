@@ -158,7 +158,7 @@ extraEnv:
           valueFrom:
             configMapKeyRef:
               name: egov-config
-              {{- if index .Values "db-read-url-enabled" }}
+              {{- if or (index .Values "db-read-url-enabled") (and (index .Values "central-db-read-url-enabled" | default false) (index .Values "central-instance-build" | default false) (index .Values "central-instance-enabled" | default false)) }}
               key: db-read-url
               {{- else if and .Values.namespace (ne .Values.namespace "egov") }}
               key: {{ .Values.namespace }}-db-url

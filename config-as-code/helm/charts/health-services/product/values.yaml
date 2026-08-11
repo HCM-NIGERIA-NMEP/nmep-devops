@@ -3,6 +3,8 @@ labels:
   app: "product"
   group: "core"
 
+central-db-read-url-enabled: true
+
 # Ingress Configs
 ingress:
   enabled: true
