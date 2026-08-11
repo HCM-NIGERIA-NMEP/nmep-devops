@@ -209,7 +209,7 @@ egov-idgen:
   memory_requests: 768Mi
   cpu_limits: 300m
   memory_limits: 1Gi
-  spring-datasource-tomcat-max-active: "10"
+  spring-datasource-tomcat-max-active: "4"
   server-tomcat-max-threads: "20"
 
 mdms-v2:
@@ -332,7 +332,7 @@ egov-enc-service:
   memory_requests: 384Mi
   cpu_limits: 300m
   memory_limits: 768Mi
-  spring-datasource-tomcat-max-active: "20"
+  spring-datasource-tomcat-max-active: "2"
   server-tomcat-max-threads: "30"
 
 boundary-service:
@@ -483,6 +483,7 @@ egov-persister:
   memory_requests: 1.5Gi
   cpu_limits: 300m
   memory_limits: 2Gi
+  spring-datasource-tomcat-max-active: "4"
   persist-yml-path: "/work-dir/health-campaign-config/egov-persister/common,/work-dir/health-campaign-config/egov-persister/taraba,/work-dir/health-campaign-config/egov-persister/tarabauat"
   initContainers:
     gitSync:
@@ -1263,11 +1264,11 @@ beneficiary-idgen:
     repository: egovio/beneficiary-idgen
     tag: master-b91815e
   namespace: egov
-  heap: "-Xmx384m -Xms384m"
+  heap: "-Xmx512m -Xms384m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
