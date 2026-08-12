@@ -202,8 +202,8 @@ egov-idgen:
   autocreate-new-seq: "true"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   heap: "-Xmx768m -Xms256m"
   cpu_requests: 200m
   memory_requests: 768Mi
@@ -226,8 +226,8 @@ mdms-v2:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   ingress:
     replenishRate: "10"
     burstCapacity: "40"
@@ -438,8 +438,8 @@ egov-indexer:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1.5Gi
   cpu_limits: 400m
@@ -477,8 +477,8 @@ egov-persister:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1.5Gi
   cpu_limits: 300m
@@ -777,7 +777,7 @@ facility:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 3
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -855,8 +855,8 @@ egov-localization:
   heap: "-Xmx3072m -Xms1500m"
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 2.5Gi
   cpu_limits: 300m
@@ -878,7 +878,7 @@ individual:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 3
+    maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1Gi
   cpu_limits: 400m
@@ -927,7 +927,7 @@ stock:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 3
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 512Mi
   cpu_limits: 300m
@@ -950,7 +950,7 @@ household:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 3
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 768Mi
   cpu_limits: 300m
@@ -993,7 +993,7 @@ project:
   hpa:
     enabled: true
     minReplicas: 2
-    maxReplicas: 3
+    maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1Gi
   cpu_limits: 300m
@@ -1325,8 +1325,8 @@ gateway:
     tag: gombe-tenantId-fix-5cd3097
   hpa:
     enabled: true
-    minReplicas: 1
-    maxReplicas: 3
+    minReplicas: 2
+    maxReplicas: 5
   custom-filter-property: "false"
   central-instance-enabled: false
   cpu_requests: 200m
