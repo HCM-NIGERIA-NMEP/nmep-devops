@@ -119,7 +119,7 @@ env: |
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_SECONDS
     value: "3600"
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_OVERRIDES
-    value: '{"beneficiary_visit_list": "NEVER"}'
+    value: '{"beneficiary_visit_list": "NEVER","cohort_report": "NEVER"}'
   - name: RETURN_FAILED_REPORTS
     value: "false"
 
