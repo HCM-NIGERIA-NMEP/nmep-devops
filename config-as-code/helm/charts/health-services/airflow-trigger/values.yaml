@@ -24,7 +24,7 @@ ingress:
 initContainers:
   extraInitContainers: |
     - name: run-migration
-      image: bhanuprakashmegov/airflow-custom-trigger:trb-aug6-1
+      image: bhanuprakashmegov/airflow-custom-trigger:trb-aug14-1
       command: [ "python", "migrate.py" ]
       env:
         - name: DB_HOST
@@ -57,7 +57,7 @@ httpPort: 8000
 # Container Configs
 image:
   repository: "bhanuprakashmegov/airflow-custom-trigger"
-  tag: "trb-aug6-1"
+  tag: "trb-aug14-1"
 replicas: "1"
 healthChecks:
   enabled: true
@@ -116,6 +116,8 @@ env: |
         key: dashboard-analytics
   - name: LOG_LEVEL
     value: "INFO"
+  - name: REPORT_ESTIMATE_CHART_KEYS
+    value: '{"user_sync_status": "user_sync_status_estimate","spaq_approved_hf": "spaq_approved_hf_estimate","hf_stock_summary": "hf_stock_summary_estimate","smc_referral_report": "smc_referral_report_estimate","beneficiary_visit_list": "beneficiary_visit_list_estimate","daily_hf_summary_report": "daily_hf_summary_report_estimate","cumulative_daily_summary_form": "cumulative_daily_summary_form_estimate","cohort_report": "cohort_report_estimate"}'
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_SECONDS
     value: "3600"
   - name: CUSTOM_REPORT_RETRY_COOLDOWN_OVERRIDES
