@@ -162,10 +162,10 @@ egov-filestore:
     dbMigration:
       image:
         repository: "egov-filestore-db"
-        tag: master-filestore-fix-5e0acbc
+        tag: master-filestore-fix-87f681d
   image:
     repository: egovio/egov-filestore
-    tag: master-filestore-fix-5e0acbc
+    tag: master-filestore-fix-87f681d
   hpa:
     enabled: false
     minReplicas: 1
@@ -181,10 +181,10 @@ egov-filestore:
   filestore-url-validity: 3600
   fixed-bucketname: ng-nmep-central-prd-filestore  ## Add filestore bucket name
   fixed-bucket-region: af-south-1
-  heap: "-Xmx512m -Xms256m"
+  heap: "-Xmx768m -Xms256m"
   memory_requests: "512Mi"
   cpu_requests: "200m"
-  memory_limits: "768Mi"
+  memory_limits: "1Gi"
   cpu_limits: "500m"
 
 
