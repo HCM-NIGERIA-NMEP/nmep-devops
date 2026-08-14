@@ -162,10 +162,10 @@ egov-filestore:
     dbMigration:
       image:
         repository: "egov-filestore-db"
-        tag: master-filestore-fix-87f681d
+        tag: master-filestore-fix-5e0acbc
   image:
     repository: egovio/egov-filestore
-    tag: master-filestore-fix-87f681d
+    tag: master-filestore-fix-5e0acbc
   hpa:
     enabled: false
     minReplicas: 1
