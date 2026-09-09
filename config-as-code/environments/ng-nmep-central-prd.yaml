@@ -202,7 +202,7 @@ egov-idgen:
   autocreate-new-seq: "true"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   heap: "-Xmx768m -Xms256m"
   cpu_requests: 200m
@@ -226,7 +226,7 @@ mdms-v2:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   ingress:
     replenishRate: "10"
@@ -377,7 +377,7 @@ egov-user:
   replicas: 2
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 3
   cpu_requests: 500m
   memory_requests: 1Gi
@@ -438,7 +438,7 @@ egov-indexer:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1.5Gi
@@ -477,7 +477,7 @@ egov-persister:
   heap: "-Xmx1536m -Xms1024m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1.5Gi
@@ -776,7 +776,7 @@ facility:
   heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 512Mi
@@ -855,7 +855,7 @@ egov-localization:
   heap: "-Xmx3072m -Xms1500m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 2.5Gi
@@ -877,7 +877,7 @@ individual:
   heap: "-Xmx1g -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1Gi
@@ -903,7 +903,7 @@ individual-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 3
     maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1.5Gi
@@ -926,7 +926,7 @@ stock:
   heap: "-Xmx512m -Xms256m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 512Mi
@@ -949,7 +949,7 @@ household:
   heap: "-Xmx768m -Xms512m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 768Mi
@@ -971,7 +971,7 @@ household-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 3
     maxReplicas: 5
   cpu_requests: 300m
   memory_requests: 1.5Gi
@@ -992,7 +992,7 @@ project:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1Gi
@@ -1015,7 +1015,7 @@ project-referral:
   heap: "-Xmx1536m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 3
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1.5Gi
@@ -1159,7 +1159,7 @@ referralmanagement:
   heap: "-Xmx1024m -Xms768m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 3
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 1Gi
@@ -1267,7 +1267,7 @@ beneficiary-idgen:
   heap: "-Xmx512m -Xms384m"
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   cpu_requests: 200m
   memory_requests: 768Mi
@@ -1325,7 +1325,7 @@ gateway:
     tag: gombe-tenantId-fix-5cd3097
   hpa:
     enabled: true
-    minReplicas: 1
+    minReplicas: 2
     maxReplicas: 5
   custom-filter-property: "false"
   central-instance-enabled: false
