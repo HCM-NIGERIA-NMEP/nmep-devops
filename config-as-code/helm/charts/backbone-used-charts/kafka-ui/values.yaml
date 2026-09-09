@@ -38,7 +38,7 @@ yamlApplicationConfig:
   kafka:
     clusters:
       - name: kafka-clusters
-        bootstrapServers: b-1.ngnmepcentralprdmsk.09rvi3.c2.kafka.af-south-1.amazonaws.com:9092, b-2.ngnmepcentralprdmsk.09rvi3.c2.kafka.af-south-1.amazonaws.com:9092, b-3.ngnmepcentralprdmsk.09rvi3.c2.kafka.af-south-1.amazonaws.com:9092
+        bootstrapServers: b-1.ngnmepcentralprdmsk.4ijfr5.c2.kafka.af-south-1.amazonaws.com:9092,b-2.ngnmepcentralprdmsk.4ijfr5.c2.kafka.af-south-1.amazonaws.com:9092,b-3.ngnmepcentralprdmsk.4ijfr5.c2.kafka.af-south-1.amazonaws.com:9092
         readOnly: true
   # spring:
   #   security:
