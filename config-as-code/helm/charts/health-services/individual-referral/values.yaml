@@ -51,6 +51,13 @@ individual-beneficiary-id-update-enabled: "false"
 individual-beneficiary-id-length: "12"
 notification-sms-disabled-roles: "ORG_ADMIN"
 
+idgen-team-code-format: team.code
+individual-team-code-generate-max: 100
+individual-team-assign-batch-size: 100
+individual-producer-team-code-save-topic: save-individual-team-code-topic
+individual-producer-team-code-mapping-save-topic: save-individual-team-code-mapping-topic
+individual-producer-team-code-mapping-update-topic: update-individual-team-code-mapping-topic
+
 # Additional Container Envs
 env: |
   - name: SPRING_KAFKA_CONSUMER_GROUP_ID
@@ -204,3 +211,16 @@ env: |
     value: {{ index .Values "notification-sms-disabled-roles" | quote }}
   - name: EGOV_ENC_STATE_LEVEL_TENANT_IDS
     value: "ng"
+
+  - name: IDGEN_TEAM_CODE_FORMAT
+    value: {{ index .Values "idgen-team-code-format" | quote }}
+  - name: INDIVIDUAL_TEAM_CODE_GENERATE_MAX
+    value: {{ index .Values "individual-team-code-generate-max" | quote }}
+  - name: INDIVIDUAL_TEAM_ASSIGN_BATCH_SIZE
+    value: {{ index .Values "individual-team-assign-batch-size" | quote }}
+  - name: INDIVIDUAL_PRODUCER_TEAM_CODE_SAVE_TOPIC
+    value: {{ index .Values "individual-producer-team-code-save-topic" | quote }}
+  - name: INDIVIDUAL_PRODUCER_TEAM_CODE_MAPPING_SAVE_TOPIC
+    value: {{ index .Values "individual-producer-team-code-mapping-save-topic" | quote }}
+  - name: INDIVIDUAL_PRODUCER_TEAM_CODE_MAPPING_UPDATE_TOPIC
+    value: {{ index .Values "individual-producer-team-code-mapping-update-topic" | quote }}

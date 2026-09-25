@@ -868,10 +868,10 @@ individual:
     dbMigration:
       image:
         repository: "individual-db"
-        tag: taraba-teamlinkage-ind-updatefix-b9da61a
+        tag: taraba-teamlinkage-ind-updatefix-teamcode-31f1090
   image:
     repository: egovio/individual
-    tag: taraba-teamlinkage-ind-updatefix-b9da61a
+    tag: taraba-teamlinkage-ind-updatefix-teamcode-31f1090
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1g -Xms512m"
@@ -892,7 +892,7 @@ individual:
 individual-referral:
   image:
     repository: egovio/individual
-    tag: taraba-teamlinkage-ind-updatefix-b9da61a
+    tag: taraba-teamlinkage-ind-updatefix-teamcode-31f1090
   spring-datasource-tomcat-max-active: "30"
   server-tomcat-max-threads: "40"
   central-instance-build: true
@@ -983,10 +983,10 @@ project:
     dbMigration:
       image:
         repository: "project-db"
-        tag: customize-nigeria-go-deep-2-project-bb6bfd6
+        tag: taraba-project-teamcode-changes-55952d8
   image:
     repository: egovio/project
-    tag: customize-nigeria-go-deep-2-project-bb6bfd6
+    tag: taraba-project-teamcode-changes-55952d8
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms768m"
@@ -1003,7 +1003,7 @@ project:
 project-referral:
   image:
     repository: egovio/project
-    tag: customize-nigeria-go-deep-2-project-bb6bfd6
+    tag: taraba-project-teamcode-changes-55952d8
   spring-datasource-tomcat-max-active: "30"
   server-tomcat-max-threads: "40"
   central-instance-build: true

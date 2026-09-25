@@ -83,6 +83,12 @@ project-attendance-feature-enabled: "true"
 project-create-cache-key: "project-create-cache-"
 project-kafka-batch-size: "100"
 project-task-no-resource-validation-status: "ADMINISTRATION_FAILED,BENEFICIARY_REFUSED,CLOSED_HOUSEHOLD,NOT_ADMINISTERED,BENEFICIARY_REFERRED,BENEFICIARY_INELIGIBLE,INELIGIBLE"
+project-beneficiary-team-mapping-kafka-create-topic: save-project-beneficiary-team-mapping-topic
+project-beneficiary-team-search-batch-size: "1000"
+project-beneficiary-team-kafka-batch-size: "100"
+project-beneficiary-team-page-size: "1000"
+project-beneficiary-team-relocate-page-size: "1000"
+project-beneficiary-team-relocate-max-records: "100000"
 
 # Additional Container Envs
 env: |
@@ -334,3 +340,18 @@ env: |
     value: {{ index .Values "project-kafka-batch-size" | quote }}
   - name: TRACER_REQUESTLOGGINGENABLED
     value: {{ index .Values "tracer-request-logging-enabled" | quote }}
+  
+  - name: PROJECT_BENEFICIARY_TEAM_MAPPING_KAFKA_CREATE_TOPIC
+    value: {{ index .Values "project-beneficiary-team-mapping-kafka-create-topic" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_SEARCH_BATCH_SIZE
+    value: {{ index .Values "project-beneficiary-team-search-batch-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_KAFKA_BATCH_SIZE
+    value: {{ index .Values "project-beneficiary-team-kafka-batch-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_PAGE_SIZE
+    value: {{ index .Values "project-beneficiary-team-page-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_RELOCATE_PAGE_SIZE
+    value: {{ index .Values "project-beneficiary-team-relocate-page-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_RELOCATE_MAX_RECORDS
+    value: {{ index .Values "project-beneficiary-team-relocate-max-records" | quote }}
+  - name: EGOV_INDIVIDUAL_TEAM_SEARCH_URL
+    value: "/individual/team/v1/_search"

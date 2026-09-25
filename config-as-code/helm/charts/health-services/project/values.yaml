@@ -73,6 +73,12 @@ project-user-action-task-consumer-bulk-create-topic: save-user-action-project-ta
 project-user-action-task-consumer-bulk-update-topic: update-user-action-project-task-bulk-topic
 project-location-capture-kafka-create-topic: save-location-capture-project-topic
 project-location-capture-consumer-bulk-create-topic: save-location-capture-project-bulk-topic
+project-beneficiary-team-mapping-kafka-create-topic: save-project-beneficiary-team-mapping-topic
+project-beneficiary-team-search-batch-size: "1000"
+project-beneficiary-team-kafka-batch-size: "100"
+project-beneficiary-team-page-size: "1000"
+project-beneficiary-team-relocate-page-size: "1000"
+project-beneficiary-team-relocate-max-records: "100000"
 
 # Additional Container Envs
 env: |
@@ -322,3 +328,18 @@ env: |
     value: "100"
   - name: PROJECT_ATTENDANCE_FEATURE_ENABLED
     value: "true"
+
+  - name: PROJECT_BENEFICIARY_TEAM_MAPPING_KAFKA_CREATE_TOPIC
+    value: {{ index .Values "project-beneficiary-team-mapping-kafka-create-topic" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_SEARCH_BATCH_SIZE
+    value: {{ index .Values "project-beneficiary-team-search-batch-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_KAFKA_BATCH_SIZE
+    value: {{ index .Values "project-beneficiary-team-kafka-batch-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_PAGE_SIZE
+    value: {{ index .Values "project-beneficiary-team-page-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_RELOCATE_PAGE_SIZE
+    value: {{ index .Values "project-beneficiary-team-relocate-page-size" | quote }}
+  - name: PROJECT_BENEFICIARY_TEAM_RELOCATE_MAX_RECORDS
+    value: {{ index .Values "project-beneficiary-team-relocate-max-records" | quote }}
+  - name: EGOV_INDIVIDUAL_TEAM_SEARCH_URL
+    value: "/individual/team/v1/_search"
