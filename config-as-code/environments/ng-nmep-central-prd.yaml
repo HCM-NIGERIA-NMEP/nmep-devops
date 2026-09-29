@@ -983,10 +983,10 @@ project:
     dbMigration:
       image:
         repository: "project-db"
-        tag: taraba-project-teamcode-changes-55952d8
+        tag: taraba-project-teamcode-changes-714623e
   image:
     repository: egovio/project
-    tag: taraba-project-teamcode-changes-55952d8
+    tag: taraba-project-teamcode-changes-714623e
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms768m"
@@ -1003,7 +1003,7 @@ project:
 project-referral:
   image:
     repository: egovio/project
-    tag: taraba-project-teamcode-changes-55952d8
+    tag: taraba-project-teamcode-changes-714623e
   spring-datasource-tomcat-max-active: "30"
   server-tomcat-max-threads: "40"
   central-instance-build: true
