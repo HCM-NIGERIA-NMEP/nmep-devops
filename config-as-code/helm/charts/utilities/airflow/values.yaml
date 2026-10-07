@@ -1,7 +1,7 @@
 # Airflow version and image
 airflowVersion: "3.0.2"
 defaultAirflowRepository: egovio/airflow
-defaultAirflowTag: "3.0.2-custom2"
+defaultAirflowTag: "3.0.2-custom3"
 
 # Image pull secrets for Docker Hub rate limits
 registry:
@@ -61,9 +61,9 @@ dags:
   gitSync:
     enabled: true
     repo: "https://github.com/egovernments/health-campaign-services.git"
-    branch: "airflow-taraba"
+    branch: "airflow-taraba-enhancements"
     rev: "HEAD"
-    ref: "airflow-taraba"
+    ref: "airflow-taraba-enhancements"
     depth: 1
     wait: 60
     period: "60s"
