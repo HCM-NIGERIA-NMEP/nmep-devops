@@ -282,7 +282,7 @@ egov-notification-push:
 egov-accesscontrol:
   image:
     repository: egovio/egov-accesscontrol
-    tag: master-1e8d2bb
+    tag: sqli-fix-egov-accesscontrol-master-1e8d2bb-0f5bc43
   heap: "-Xmx384m -Xms128m"
   hpa:
     enabled: true
@@ -364,10 +364,10 @@ egov-user:
     dbMigration:
       image:
         repository: "egov-user-db"
-        tag: central-instance-switch-device-changes-7eec928
+        tag: sqli-fix-egov-user-central-instance-switch-device-changes-7eec928-fa76a33
   image:
     repository: egovio/egov-user
-    tag: central-instance-switch-device-changes-7eec928
+    tag: sqli-fix-egov-user-central-instance-switch-device-changes-7eec928-fa76a33
   central-instance-build: true
   central-instance-enabled: true
   heap: "-Xmx1024m -Xms512m"
